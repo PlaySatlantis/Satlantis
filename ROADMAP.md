@@ -1,31 +1,38 @@
 ### Roadmap
 #### Prototype
-The concept should work.
-* Use MTG base for now
-* Simple spawn hub
-  * Simple market interface
-  * Simple joule trade interface
-  * Simple travel to planets
-* 1 resource planet (mining)
-* Simple skyship
-* Simple ASIC
-* Basic quests
-* Basic land claim
+Concept should be promising.
+Timeframe: 1 week
+* Spawn location
+* Space station location
+* Mining location
+* Single quest
 
-#### MVP
-Server could technically go live at this point.
-* Extract MTG materials
-* Introduce missing Minecraft materials
-* A handful of interesting resource planets
-* Nether planet (no boss)
-* Imported/adjusted spawn hub
-* Completed ship travel
-* Complete functioning ZBD integration
-* Battlepass system
+#### Alpha
+Server could be tested at this point.
+Timeframe: 1-4 weeks
+* MTG content + MC content
+* Joule trade interface
+* Imported spawn hub
+* Proper mining locale
+* Space station purchase
+* Handful of quests
+* Economy/ZBD
+* Handful of simple minigames (chess, go, build battle, maybe a racing game)
+
+#### Beta
+This is a more complete product.
+Timeframe: 2-4 weeks
+* Mobs
+* In-game ASICs
+* Land claim
+* A couple more resource planets
+* Battlepass
 * Import player data
+* Nether realm
 
 #### V1
 This is what the game should look like.
+Timeframe: 4-6 weeks
 * Polished locales
 * Add aether system with fast-travel
 * Nether boss
