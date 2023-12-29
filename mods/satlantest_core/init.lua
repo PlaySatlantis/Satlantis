@@ -1,3 +1,5 @@
+assert(not minetest.is_singleplayer(), "\n____________________\n\nMULTIPLAYER ONLY\n____________________\n")
+
 satlantis = {}
 
 satlantis._PATH = minetest.get_worldpath() .. "/satlantis" -- Satlantis data directory
@@ -10,10 +12,9 @@ local metatable_JSONConfig = {
     set = function(self, key, value)
         assert(type(key) == "string" or (type(key) == "number" and key > 0))
         rawget(self, "_data")[key] = value
-        minetest.safe_file_write(self._path, minetest.write_json(self._data, true))
+        return minetest.safe_file_write(self._path, minetest.write_json(self._data, true))
     end,
     get = function(self, key)
-        print(key)
         return rawget(self, "_data")[key]
     end,
 }
