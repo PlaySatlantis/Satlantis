@@ -42,3 +42,5 @@ satlantis.JSONConfig = function(name)
 end
 
 satlantis.config = satlantis.JSONConfig("config.json")
+
+minetest.get_server_status = function() end

@@ -1,7 +1,6 @@
 read_globals = {
     "DIR_DELIM", "INIT",
 
-    "minetest", "core",
     "dump", "dump2",
 
     "Raycast",
@@ -45,5 +44,6 @@ read_globals = {
 }
 
 globals = {
+    "minetest", "core",
     "satlantis",
 }
