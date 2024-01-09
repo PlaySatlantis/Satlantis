@@ -1,3 +1,4 @@
+-- Callbacks for entities
 satlantis.entity_callbacks = {
     on_death = {},
     on_punch = {},

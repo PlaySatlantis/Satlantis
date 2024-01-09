@@ -56,7 +56,7 @@ satlantis.register_entity("satlantest_quests:test", {
     },
 })
 
-minetest.register_node("satlantest_quests:test", {
+satlantis.register_block("satlantest_quests:test", {
     tiles = {"ignore.png^[invert:rgb"},
     groups = {breakable = 1},
     tool_capabilities = {

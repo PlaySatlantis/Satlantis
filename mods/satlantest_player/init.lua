@@ -2,7 +2,7 @@ local light_level = satlantis.config:get("light_level") or 0.8
 
 local setup_player = function(player)
     player:hud_set_flags({
-        basic_debug = false,
+        -- basic_debug = false,
     })
     player:set_minimap_modes({{type = "off", label = " "}}, 0)
 

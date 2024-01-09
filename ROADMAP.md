@@ -1,4 +1,6 @@
 ### Roadmap
+This roadmap is a **suggestion**. It does not necessarily reflect the current state or goals of Satlantest.
+
 #### Prototype
 Concept should be promising.
 Timeframe: 1 week

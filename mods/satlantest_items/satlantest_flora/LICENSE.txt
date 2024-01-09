@@ -1,0 +1,15 @@
+License of schematics
+---------------------
+
+paramat (CC BY-SA 3.0):
+ tree_acacia.mts
+ tree_aspen.mts
+ tree_jungle_emergent.mts
+ tree_jungle.mts
+ tree_oak.mts
+ tree_spruce_small_snowy.mts
+ tree_spruce_small.mts
+ tree_spruce_snowy.mts
+ tree_spruce.mts
+
+https://creativecommons.org/licenses/by/3.0/

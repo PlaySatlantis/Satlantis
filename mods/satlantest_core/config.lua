@@ -1,6 +1,7 @@
 satlantis._CONFIG_PATH = satlantis._PATH .. "/config" -- Satlantis configuration files
 minetest.mkdir(satlantis._CONFIG_PATH)
 
+-- JSON-based Settings
 local metatable_JSONConfig = {
     set = function(self, key, value)
         assert(type(key) == "string" or (type(key) == "number" and key > 0))

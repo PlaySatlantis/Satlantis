@@ -1,0 +1,6 @@
+satlantis.require("minerals/coal.lua")
+satlantis.require("minerals/copper.lua")
+satlantis.require("minerals/diamond.lua")
+satlantis.require("minerals/gold.lua")
+satlantis.require("minerals/iron.lua")
+satlantis.require("minerals/quartz.lua")

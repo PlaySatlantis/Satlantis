@@ -1,7 +1,7 @@
-# Satlantis Design Draft
-This design draft outlines the purpose, general structure, and implementation goals for the Satlantis Minetest game and migration. It covers gameplay elements, server infrastructure, design requirements, and more.
+# Satlantest Design Draft
+This design draft outlines the initial purposes, general structure, and implementation goals for the Satlantis Minetest game and migration. It covers gameplay elements, server infrastructure, design requirements, and more. **This document does not necessarily represent the current state or goals of Satlantest.**  
 
-- [Satlantis Design Draft](#satlantis-design-draft)
+- [Satlantest Design Draft](#satlantis-design-draft)
   - [Satlantis Minecraft](#satlantis-minecraft)
     - [Purpose](#purpose)
     - [Economic Model](#economic-model)
