@@ -3,8 +3,8 @@ All textures used in mods/satlantest_items/:
  See mods/satlantest_items/LICENSE.txt
 
 mods/satlantest_items/satlantest_doors/sounds/:
- door_open.ogg: Copyright (c) CGEffex CC-BY 3.0, modified by BlockMen
- door_close.ogg: Copyright (c) bennstir CC-BY 3.0
+ door_open.ogg: Copyright (c) CGEffex CC BY 3.0, modified by BlockMen
+ door_close.ogg: Copyright (c) bennstir CC BY 3.0
 
 mods/satlantest_items/satlantest_fauna/schematics/trees/:
  Copyright (c) paramat (CC BY-SA 3.0):

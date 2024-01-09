@@ -1,5 +1,5 @@
 License of mods/satlantest_items/satlantest_doors/sounds/:
- door_open.ogg: Copyright (c) CGEffex CC-BY 3.0, modified by BlockMen
- door_close.ogg: Copyright (c) bennstir CC-BY 3.0
+ door_open.ogg: Copyright (c) CGEffex CC BY 3.0, modified by BlockMen
+ door_close.ogg: Copyright (c) bennstir CC BY 3.0
 
 https://creativecommons.org/licenses/by/3.0/
