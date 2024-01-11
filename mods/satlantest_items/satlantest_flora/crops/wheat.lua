@@ -42,7 +42,7 @@ for i = 1, stages do
         crop = {
             next_stage = "flora:wheat_stage" .. i + 1,
             min_light = crop_def.min_light,
-            variance = stages - i, -- more consistent as it grows
+            variance = (stages - i) * 8, -- more consistent as it grows
             growth_rate = crop_def.growth_rate
         }
     end
