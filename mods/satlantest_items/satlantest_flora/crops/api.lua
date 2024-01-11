@@ -14,22 +14,28 @@ satlantis.register_block("geo:dirt_loose_wet", {
 
 local WATER_SATURATION_RADIUS = 3
 
--- Very naive farmland
 minetest.register_abm({
-    label = "wet dirt",
+    label = "farmland dirt",
     nodenames = {"group:farmland"},
     interval = 15,
     chance = 3,
     action = function(pos, node)
-        if minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"group:water"}) then
-            if minetest.get_item_group(node.name, "wet") == 0 then
+        local above = minetest.get_node(vector.new(pos.x, pos.y + 1, pos.z)).name
+        local plant_above = minetest.get_item_group(above, "plant") > 0
+        local compressed = minetest.registered_nodes[above].walkable and not plant_above
+        local dry = minetest.get_item_group(node.name, "wet") == 0
+
+        if compressed then
+            minetest.set_node(pos, {name = "geo:dirt"})
+        elseif minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"group:water"}) then
+            if dry then
                 minetest.set_node(pos, {name = "geo:dirt_loose_wet"})
             end
-        else
-            if not minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"ignore"}) then
-                if minetest.get_item_group(node.name, "wet") ~= 0 then
-                    minetest.set_node(pos, {name = "geo:dirt_loose"})
-                end
+        elseif not minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"ignore"}) then
+            if not dry then
+                minetest.set_node(pos, {name = "geo:dirt_loose"})
+            elseif not plant_above then
+                minetest.set_node(pos, {name = "geo:dirt"})
             end
         end
     end,
@@ -84,11 +90,24 @@ satlantis.crops.on_timer = function(pos)
     local node = minetest.get_node(pos)
     local crop_def = minetest.registered_nodes[node.name].crop or {}
 
+    if crop_def.can_grow then
+        if not crop_def.can_grow(pos, node) then
+            satlantis.crops.start_timer(pos)
+            return
+        end
+    end
+
     if crop_def.next_stage then
         local next_stage = minetest.registered_nodes[crop_def.next_stage]
 
         if next_stage then
-            minetest.swap_node(pos, {name = crop_def.next_stage, param2 = next_stage.place_param2})
+            if crop_def.on_grow then
+                if crop_def.on_grow(pos, node) then -- callback will handle the rest
+                    return
+                end
+            end
+
+            minetest.set_node(pos, {name = crop_def.next_stage, param2 = next_stage.place_param2})
 
             if next_stage.crop then
                 satlantis.crops.start_timer(pos)
@@ -114,7 +133,12 @@ satlantis.crops.seed_on_place = function(stack, placer, pointed)
     if minetest.get_node_group(node.name, "soil") == 0 then return end -- must be soil
     if pointed.above.y ~= pointed.under.y + 1 then return end -- must be top of node
 
-    minetest.set_node(pointed.above, {name = def.crop.next_stage, param2 = next_stage.place_param2})
+    local param2 = next_stage.place_param2
+    if next_stage.random_param2 then
+        param2 = math.random(next_stage.random_param2[1], next_stage.random_param2[2])
+    end
+
+    minetest.set_node(pointed.above, {name = def.crop.next_stage, param2 = param2})
     satlantis.crops.start_timer(pointed.above)
 
     if not minetest.is_creative_enabled(placer:get_player_name()) then

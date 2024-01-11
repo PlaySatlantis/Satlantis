@@ -14,7 +14,7 @@ satlantis.register_item("flora:wheat", {
 
 local crop_def = {
     desired_light = 13, -- ideal light level of 13
-    growth_rate = 20, -- every 20 seconds
+    growth_rate = 240, -- every 240 seconds
 }
 
 local stages = 8

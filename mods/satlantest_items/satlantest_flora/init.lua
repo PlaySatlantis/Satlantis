@@ -8,4 +8,5 @@ satlantis.require("trees.lua")
 
 satlantis.crops = {}
 satlantis.require("crops/api.lua")
+satlantis.require("crops/melon.lua")
 satlantis.require("crops/wheat.lua")
