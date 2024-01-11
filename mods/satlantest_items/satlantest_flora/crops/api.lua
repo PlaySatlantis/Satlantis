@@ -60,15 +60,15 @@ satlantis.crops.calculate_growth_rate = function(pos, name)
     rate = rate * (1 / soil_quality)
     rate = rate * (1 / light_quality)
 
-    minetest.chat_send_all(table.concat({
-        "br" .. crop_def.growth_rate,
-        "ml" .. min_light,
-        "ll" .. light_level,
-        "lq" .. light_quality,
-        "ms" .. min_soil,
-        "sq" .. soil_quality,
-        "ar" .. rate,
-    }, ", "))
+    -- minetest.chat_send_all(table.concat({
+    --     "br" .. crop_def.growth_rate,
+    --     "ml" .. min_light,
+    --     "ll" .. light_level,
+    --     "lq" .. light_quality,
+    --     "ms" .. min_soil,
+    --     "sq" .. soil_quality,
+    --     "ar" .. rate,
+    -- }, ", "))
 
     return rate, crop_def.variance or 0
 end
