@@ -1,41 +1,60 @@
-satlantis.register_item("flora:potato", {
-    description = "Potato",
-    inventory_image = "potato.png",
+satlantis.register_item("flora:corn_seeds", {
+    description = "Corn Seeds",
+    inventory_image = "corn_seeds.png",
     crop = {
-        next_stage = "flora:potato_crop_stage1",
+        next_stage = "flora:corn_crop_stage1",
     },
     on_place = satlantis.crops.seed_on_place,
 })
 
+satlantis.register_item("flora:corn", {
+    description = "Corn",
+    inventory_image = "corn.png",
+})
+
 local crop_def = {
-    desired_light = 11,
-    growth_rate = 140,
-    variance = 10,
+    desired_light = 13,
+    growth_rate = 160,
+    variance = 30,
 }
 
-local stages = 7
+local stages = 8
 for i = 1, stages do
     local drop = ""
     local crop = nil
+    local scale = 1
 
     if i == 7 then
         drop = {
             items = {
                 {
-                    items = {"flora:potato 3"},
+                    items = {"flora:corn"},
+                    rarity = 4,
+                },
+                {
+                    items = {"flora:corn"},
+                    rarity = 6,
+                },
+            }
+        }
+    elseif i == 8 then
+        drop = {
+            items = {
+                {
+                    items = {"flora:corn 4"},
                     rarity = 1,
                 },
                 {
-                    items = {"flora:potato"},
+                    items = {"flora:corn 2"},
                     rarity = 2,
                 },
                 {
-                    items = {"flora:potato"},
-                    rarity = 2,
+                    items = {"flora:corn"},
+                    rarity = 4,
                 },
                 {
-                    items = {"flora:potato"},
-                    rarity = 5,
+                    items = {"flora:corn"},
+                    rarity = 4,
                 },
             }
         }
@@ -43,16 +62,21 @@ for i = 1, stages do
 
     if i ~= stages then
         crop = {
-            next_stage = "flora:potato_crop_stage" .. i + 1,
+            next_stage = "flora:corn_crop_stage" .. i + 1,
             min_light = crop_def.min_light,
             growth_rate = crop_def.growth_rate
         }
     end
 
-    satlantis.register_block("flora:potato_crop_stage" .. i, {
+    if i > 3 then
+        scale = 2
+    end
+
+    satlantis.register_block("flora:corn_crop_stage" .. i, {
         drawtype = "plantlike",
         waving = 1,
-        tiles = {"potato_crop_stage" .. math.ceil(i * 0.5) .. ".png"},
+        visual_scale = scale,
+        tiles = {"corn_crop_stage" .. i .. ".png"},
         paramtype = "light",
         paramtype2 = "meshoptions",
         place_param2 = 3,

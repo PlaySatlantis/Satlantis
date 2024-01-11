@@ -1,3 +1,5 @@
+License of textures/crops/corn*: MIT Copyright (c) 2022 Zheng Syameimaru (https://github.com/0999312/Corn-Delight)
+
 License of schematics
 ---------------------
 

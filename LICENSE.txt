@@ -6,7 +6,7 @@ mods/satlantest_items/satlantest_doors/sounds/:
  door_open.ogg: Copyright (c) CGEffex CC BY 3.0, modified by BlockMen
  door_close.ogg: Copyright (c) bennstir CC BY 3.0
 
-mods/satlantest_items/satlantest_fauna/schematics/trees/:
+mods/satlantest_items/satlantest_flora/schematics/trees/:
  Copyright (c) paramat (CC BY-SA 3.0):
   tree_acacia.mts
   tree_aspen.mts
@@ -17,6 +17,9 @@ mods/satlantest_items/satlantest_fauna/schematics/trees/:
   tree_spruce_small.mts
   tree_spruce_snowy.mts
   tree_spruce.mts
+
+mods/satlantest_items/satlantest_flora/textures/crops/corn*:
+ Copyright (c) Zheng Syameimaru (https://github.com/0999312/Corn-Delight) MIT
 
 License of all other source code, media, and files:
 ---------------------------------------------------

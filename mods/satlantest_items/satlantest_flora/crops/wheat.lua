@@ -2,7 +2,7 @@ satlantis.register_item("flora:wheat_seeds", {
     description = "Wheat Seeds",
     inventory_image = "wheat_seeds.png",
     crop = {
-        next_stage = "flora:wheat_stage1",
+        next_stage = "flora:wheat_crop_stage1",
     },
     on_place = satlantis.crops.seed_on_place,
 })
@@ -34,13 +34,17 @@ for i = 1, stages do
                     items = {"flora:wheat"},
                     rarity = (stages - i) * 2,
                 },
+                {
+                    items = {"flora:wheat"},
+                    rarity = (stages - i) + 3,
+                },
             }
         }
     end
 
     if i ~= stages then
         crop = {
-            next_stage = "flora:wheat_stage" .. i + 1,
+            next_stage = "flora:wheat_crop_stage" .. i + 1,
             min_light = crop_def.min_light,
             variance = (stages - i) * 8, -- more consistent as it grows
             growth_rate = crop_def.growth_rate
@@ -51,11 +55,11 @@ for i = 1, stages do
         scale = 2
     end
 
-    satlantis.register_block("flora:wheat_stage" .. i, {
+    satlantis.register_block("flora:wheat_crop_stage" .. i, {
         drawtype = "plantlike",
         waving = 1,
         visual_scale = scale,
-        tiles = {"wheat_stage" .. i .. ".png"},
+        tiles = {"wheat_crop_stage" .. i .. ".png"},
         paramtype = "light",
         paramtype2 = "meshoptions",
         place_param2 = 3,
