@@ -14,7 +14,7 @@ satlantis.register_item("flora:melon_slice", {
 
 satlantis.register_block("flora:melon", {
     description = "Melon",
-    tiles = {"melon_top.png", "melon_top.png", "melon_side.png"},
+    tiles = {"melon_top.png", "melon_bottom.png", "melon_side.png"},
     paramtype2 = "facedir",
     groups = {choppy = 2, oddly_breakable_by_hand = 1, plant = 1},
 })
