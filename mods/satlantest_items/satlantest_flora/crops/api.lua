@@ -1,14 +1,14 @@
 satlantis.register_block("geo:dirt_loose", {
     description = "Loose Soil",
-	tiles = {"dirt_loose.png", "dirt.png"},
-	groups = {crumbly = 3, soil = 2, farmland = 1, oddly_breakable_by_hand = 1},
+    tiles = {"dirt_loose.png", "dirt.png"},
+    groups = {crumbly = 3, soil = 2, farmland = 1, oddly_breakable_by_hand = 1},
     drop = "geo:dirt",
 })
 
 satlantis.register_block("geo:dirt_loose_wet", {
     description = "Wet Loose Soil",
-	tiles = {"dirt_loose_wet.png", "dirt.png"},
-	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 3, wet = 1, farmland = 1, oddly_breakable_by_hand = 1},
+    tiles = {"dirt_loose_wet.png", "dirt.png"},
+    groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 3, wet = 1, farmland = 1, oddly_breakable_by_hand = 1},
     drop = "geo:dirt",
 })
 
@@ -16,23 +16,23 @@ local WATER_SATURATION_RADIUS = 3
 
 -- Very naive farmland
 minetest.register_abm({
-	label = "wet dirt",
-	nodenames = {"group:farmland"},
-	interval = 15,
-	chance = 3,
-	action = function(pos, node)
-		if minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"group:water"}) then
-			if minetest.get_item_group(node.name, "wet") == 0 then
-				minetest.set_node(pos, {name = "geo:dirt_loose_wet"})
-			end
-		else
-			if not minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"ignore"}) then
+    label = "wet dirt",
+    nodenames = {"group:farmland"},
+    interval = 15,
+    chance = 3,
+    action = function(pos, node)
+        if minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"group:water"}) then
+            if minetest.get_item_group(node.name, "wet") == 0 then
+                minetest.set_node(pos, {name = "geo:dirt_loose_wet"})
+            end
+        else
+            if not minetest.find_node_near(pos, WATER_SATURATION_RADIUS, {"ignore"}) then
                 if minetest.get_item_group(node.name, "wet") ~= 0 then
                     minetest.set_node(pos, {name = "geo:dirt_loose"})
                 end
-			end
-		end
-	end,
+            end
+        end
+    end,
 })
 
 satlantis.crops.calculate_growth_rate = function(pos, name)
@@ -96,7 +96,7 @@ satlantis.crops.on_timer = function(pos)
         end
     end
 
-	return
+    return
 end
 
 satlantis.crops.seed_on_place = function(stack, placer, pointed)
@@ -117,11 +117,11 @@ satlantis.crops.seed_on_place = function(stack, placer, pointed)
     minetest.set_node(pointed.above, {name = def.crop.next_stage, param2 = next_stage.place_param2})
     satlantis.crops.start_timer(pointed.above)
 
-	if not minetest.is_creative_enabled(placer:get_player_name()) then
-		stack:take_item()
-	end
+    if not minetest.is_creative_enabled(placer:get_player_name()) then
+        stack:take_item()
+    end
 
-	return stack
+    return stack
 end
 
 minetest.register_lbm({
