@@ -1,7 +1,7 @@
 satlantis.register_block("geo:dirt", {
 	description = "Dirt",
 	tiles = {"dirt.png"},
-	groups = {crumbly = 3, soil = 1},
+	groups = {crumbly = 3, soil = 1, oddly_breakable_by_hand = 1},
 })
 
 satlantis.register_block("geo:dirt_grassy", {
