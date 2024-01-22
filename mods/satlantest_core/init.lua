@@ -15,4 +15,14 @@ satlantis.require("config.lua")
 satlantis.require("items.lua")
 satlantis.require("entity.lua")
 
-minetest.get_server_status = function() end
+satlantis.get_connected_names = function()
+    local names = {}
+    for i, player in ipairs(minetest.get_connected_players()) do
+        names[i] = player:get_player_name()
+    end
+    return names
+end
+
+minetest.get_server_status = function()
+    return "Connected players: " .. table.concat(satlantis.get_connected_names())
+end
