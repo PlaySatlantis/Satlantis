@@ -40,7 +40,7 @@ local function change_beacon_color(pos, direction)
     local current_color = meta:get_string("beam_color")
 
     for _, o in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-        if o:get_luaentity().name == "tools:beacon" then
+        if not o:is_player() and o:get_luaentity().name == "tools:beacon" then
             local color = (tonumber(current_color) + direction) % (#colors + 1)
             o:get_luaentity():_set_color(color)
             meta:set_string("beam_color", color)
@@ -62,7 +62,7 @@ satlantis.register_block("tools:beacon", {
     end,
     after_dig_node = function(pos)
         for _, o in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-            if o:get_luaentity().name == "tools:beacon" then
+            if not o:is_player() and o:get_luaentity().name == "tools:beacon" then
                 o:remove()
             end
         end
