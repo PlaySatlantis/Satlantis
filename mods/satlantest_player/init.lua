@@ -22,6 +22,7 @@ local setup_player = function(player)
             "skybox_left.png",
         },
         clouds = false,
+        base_color = "#0c495e",
     })
 
     player:set_stars({
