@@ -1,3 +1,4 @@
+satlantis.require("beacon.lua")
 satlantis.require("tools.lua")
 
 satlantis.register_block("tool:torch", {

@@ -34,5 +34,5 @@ satlantis.register_entity = function(name, definition)
     definition.on_activate = wrap_callback(definition.on_activate, do_callbacks("on_activate"))
     definition.on_deactivate = wrap_callback(definition.on_deactivate, do_callbacks("on_deactivate"))
 
-    return minetest.register_entity(name, definition)
+    return minetest.register_entity(":" .. name, definition)
 end
