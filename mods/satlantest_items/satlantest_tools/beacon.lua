@@ -35,6 +35,23 @@ satlantis.register_entity("tools:beacon", {
     end,
 })
 
+local function change_beacon_color(pos, direction)
+    local meta = minetest.get_meta(pos)
+    local current_color = meta:get_string("beam_color")
+
+    for _, o in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+        if o:get_luaentity().name == "tools:beacon" then
+            local color = (tonumber(current_color) + direction) % (#colors + 1)
+            o:get_luaentity():_set_color(color)
+            meta:set_string("beam_color", color)
+
+            return
+        end
+    end
+
+    minetest.add_entity(vector.new(pos.x, pos.y + 0.5, pos.z), "tools:beacon", current_color)
+end
+
 satlantis.register_block("tools:beacon", {
     description = "Beacon",
     tiles = {"blank.png^[invert:rgba^[colorize:aqua:255"},
@@ -51,19 +68,9 @@ satlantis.register_block("tools:beacon", {
         end
     end,
     on_punch = function(pos)
-        local meta = minetest.get_meta(pos)
-        local current_color = meta:get_string("beam_color")
-
-        for _, o in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-            if o:get_luaentity().name == "tools:beacon" then
-                local color = (tonumber(current_color) + 1) % (#colors + 1)
-                o:get_luaentity():_set_color(color)
-                meta:set_string("beam_color", color)
-
-                return
-            end
-        end
-
-        minetest.add_entity(vector.new(pos.x, pos.y + 0.5, pos.z), "tools:beacon", current_color)
-    end
+        change_beacon_color(pos, 1)
+    end,
+    on_rightclick = function(pos)
+        change_beacon_color(pos, -1)
+    end,
 })
