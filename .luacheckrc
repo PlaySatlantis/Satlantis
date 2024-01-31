@@ -46,4 +46,5 @@ read_globals = {
 
 globals = {
     "satlantis",
+    "skyblock",
 }
