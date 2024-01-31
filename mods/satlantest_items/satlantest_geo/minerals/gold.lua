@@ -2,7 +2,7 @@ satlantis.register_block("geo:gold_ore", {
 	description = "Gold Ore",
 	tiles = {"stone.png^gold_ore.png"},
 	groups = {cracky = 2},
-	drop = "geo:gold_lump",
+	-- drop = "geo:gold_lump",
 })
 
 satlantis.register_item("geo:gold_lump", {

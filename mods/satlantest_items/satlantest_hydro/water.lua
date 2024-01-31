@@ -1,4 +1,4 @@
-satlantis.register_block("water:source", {
+satlantis.register_block("hydro:water_source", {
 	description = "Water",
 	drawtype = "liquid",
 	waving = 3,
@@ -34,14 +34,14 @@ satlantis.register_block("water:source", {
 	drop = "",
 	drowning = 1,
 	liquidtype = "source",
-	liquid_alternative_flowing = "water:flowing",
-	liquid_alternative_source = "water:source",
+	liquid_alternative_flowing = "hydro:water_flowing",
+	liquid_alternative_source = "hydro:water_source",
 	liquid_viscosity = 1,
 	post_effect_color = {a = 103, r = 30, g = 60, b = 90},
 	groups = {water = 3, liquid = 3, cools_lava = 1},
 })
 
-satlantis.register_block("water:flowing", {
+satlantis.register_block("hydro:water_flowing", {
 	description = "Flowing Water",
 	drawtype = "flowingliquid",
 	waving = 3,
@@ -79,8 +79,8 @@ satlantis.register_block("water:flowing", {
 	drop = "",
 	drowning = 1,
 	liquidtype = "flowing",
-	liquid_alternative_flowing = "water:flowing",
-	liquid_alternative_source = "water:source",
+	liquid_alternative_flowing = "hydro:water_flowing",
+	liquid_alternative_source = "hydro:water_source",
 	liquid_viscosity = 1,
 	post_effect_color = {a = 103, r = 30, g = 60, b = 90},
 	groups = {water = 3, liquid = 3, not_in_creative_inventory = 1, cools_lava = 1},

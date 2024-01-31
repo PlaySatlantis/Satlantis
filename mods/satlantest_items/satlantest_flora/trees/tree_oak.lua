@@ -1,5 +1,7 @@
 local LEAFDECAY_RADIUS = 3
 
+satlantis.flora.tree_schematics.oak = satlantis.flora.MODPATH .. "/schematics/trees/tree_oak.mts"
+
 satlantis.register_block("flora:oak_log", {
     description = "Oak Log",
     tiles = {"oak_log_top.png", "oak_log_top.png", "oak_log_side.png"},
@@ -65,7 +67,7 @@ satlantis.register_block("flora:oak_sapling", {
     grow = function(pos)
         minetest.place_schematic(
             vector.add(pos, vector.new(-3, -1, -3)),
-            satlantis.flora.MODPATH .. "/schematics/trees/tree_oak.mts",
+            satlantis.flora.tree_schematics.oak,
             "random", nil, false
         )
     end,

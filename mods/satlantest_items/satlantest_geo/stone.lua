@@ -1,5 +1,5 @@
-satlantis.require("stone/andesite.lua")
-satlantis.require("stone/basalt.lua") -- "regular" stone
+satlantis.require("stone/andesite.lua") -- "regular" stone
+satlantis.require("stone/basalt.lua")
 satlantis.require("stone/diorite.lua")
 satlantis.require("stone/granite.lua")
 satlantis.require("stone/obsidian.lua")

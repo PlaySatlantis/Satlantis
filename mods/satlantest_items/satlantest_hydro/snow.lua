@@ -1,4 +1,4 @@
-satlantis.register_block("geo:snow", {
+satlantis.register_block("hydro:snow", {
 	description = "Snow",
 	tiles = {"snow.png"},
 	inventory_image = "snow_ball.png",
@@ -28,7 +28,7 @@ satlantis.register_block("geo:snow", {
 	end,
 })
 
-satlantis.register_block("geo:snow_block", {
+satlantis.register_block("hydro:snow_block", {
 	description = "Snow Block",
 	tiles = {"snow.png"},
 	groups = {crumbly = 3, cools_lava = 1, snowy = 1},
@@ -40,10 +40,19 @@ satlantis.register_block("geo:snow_block", {
 	end,
 })
 
-satlantis.register_block("geo:ice", {
+satlantis.register_block("hydro:ice", {
 	description = "Ice",
 	tiles = {"ice.png"},
 	is_ground_content = false,
 	paramtype = "light",
+	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+})
+
+satlantis.register_block("hydro:cave_ice", {
+	description = "Ice",
+	tiles = {"ice.png"},
+	is_ground_content = true,
+	paramtype = "light",
+    drop = "hydro:ice",
 	groups = {cracky = 3, cools_lava = 1, slippery = 3},
 })

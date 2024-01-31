@@ -1,5 +1,10 @@
 local LEAFDECAY_RADIUS = 3
 
+satlantis.flora.tree_schematics.spruce = satlantis.flora.MODPATH .. "/schematics/trees/tree_spruce.mts"
+satlantis.flora.tree_schematics.spruce_small = satlantis.flora.MODPATH .. "/schematics/trees/tree_spruce_small.mts"
+satlantis.flora.tree_schematics.spruce_snowy = satlantis.flora.MODPATH .. "/schematics/trees/tree_spruce_snowy.mts"
+satlantis.flora.tree_schematics.spruce_small_snowy = satlantis.flora.MODPATH .. "/schematics/trees/tree_spruce_small_snowy.mts"
+
 satlantis.register_block("flora:spruce_log", {
     description = "Spruce Log",
     tiles = {"spruce_log_top.png", "spruce_log_top.png", "spruce_log_side.png"},
@@ -64,7 +69,7 @@ satlantis.register_block("flora:spruce_sapling", {
     on_timer = satlantis.flora.sapling_on_timer("flora:spruce_sapling", "soil", 13),
     grow = function(pos)
 	    local snowy = minetest.find_node_near(pos, 1, {"group:snowy"})
-        local name = "tree_spruce"
+        local name = "spruce"
 
         if math.random() > 0.5 then
             name = name .. "_small"
@@ -76,7 +81,7 @@ satlantis.register_block("flora:spruce_sapling", {
 
         minetest.place_schematic(
             vector.add(pos, vector.new(-2, -1, -2)),
-            satlantis.flora.MODPATH .. "/schematics/trees/" .. name .. ".mts",
+            satlantis.flora.tree_schematics["spruce_" .. name],
             snowy and "random" or "0", nil, false
         )
     end,

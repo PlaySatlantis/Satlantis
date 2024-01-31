@@ -4,6 +4,8 @@ satlantis.map.config = {
     spawn = satlantis.config:get("spawn") or vector.new(0, 0, 0)
 }
 
+satlantis.require("mapgen.lua")
+
 minetest.register_chatcommand("setspawn", {
     privs = {
         server = true,

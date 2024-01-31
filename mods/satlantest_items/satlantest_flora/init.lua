@@ -5,6 +5,7 @@ satlantis.flora.MODPATH = minetest.get_modpath(minetest.get_current_modname())
 -- satlantis.require("cotton.lua")
 
 satlantis.require("trees.lua")
+satlantis.require("flowers.lua")
 
 satlantis.crops = {}
 satlantis.require("crops/api.lua")

@@ -3,6 +3,8 @@ minetest.register_alias("default:aspen_leaves", "flora:aspen_leaves")
 
 local LEAFDECAY_RADIUS = 3
 
+satlantis.flora.tree_schematics.aspen = satlantis.flora.MODPATH .. "/schematics/trees/tree_aspen.mts"
+
 satlantis.register_block("flora:aspen_log", {
     description = "Aspen Log",
     tiles = {"aspen_log_top.png", "aspen_log_top.png", "aspen_log_side.png"},
@@ -68,7 +70,7 @@ satlantis.register_block("flora:aspen_sapling", {
     grow = function(pos)
         minetest.place_schematic(
             vector.add(pos, vector.new(-2, -1, -2)),
-            satlantis.flora.MODPATH .. "/schematics/trees/tree_aspen.mts",
+            satlantis.flora.tree_schematics.aspen,
             "0", nil, false
         )
     end,

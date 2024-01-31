@@ -1,5 +1,8 @@
 local LEAFDECAY_RADIUS = 2
 
+satlantis.flora.tree_schematics.jungle = satlantis.flora.MODPATH .. "/schematics/trees/tree_jungle.mts"
+satlantis.flora.tree_schematics.jungle_emergent = satlantis.flora.MODPATH .. "/schematics/trees/tree_jungle_emergent.mts"
+
 satlantis.register_block("flora:jungle_log", {
     description = "Jungle Log",
     tiles = {"jungle_log_top.png", "jungle_log_top.png", "jungle_log_side.png"},
@@ -90,13 +93,13 @@ satlantis.register_block("flora:jungle_sapling", {
         if emergent_offset then
             minetest.place_schematic(
                 pos + emergent_offset + vector.new(-3, -5, -3),
-                satlantis.flora.MODPATH .. "/schematics/trees/tree_jungle_emergent.mts",
+                satlantis.flora.tree_schematics.jungle_emergent,
                 "random", nil, false
             )
         else
             minetest.place_schematic(
                 pos + vector.new(-2, -1, -2),
-                satlantis.flora.MODPATH .. "/schematics/trees/tree_jungle.mts",
+                satlantis.flora.tree_schematics.jungle,
                 "random", nil, false
             )
         end

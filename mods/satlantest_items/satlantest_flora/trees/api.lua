@@ -1,3 +1,5 @@
+satlantis.flora.tree_schematics = {}
+
 -- Sapling growth
 satlantis.flora.tree_can_grow = function(pos, soil_group, min_light_level, other_conditions)
     local node_under = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z})

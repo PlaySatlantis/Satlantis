@@ -1,5 +1,7 @@
 local LEAFDECAY_RADIUS = 2
 
+satlantis.flora.tree_schematics.acaica = satlantis.flora.MODPATH .. "/schematics/trees/tree_acacia.mts"
+
 satlantis.register_block("flora:acacia_log", {
     description = "Acacia Log",
     tiles = {"acacia_log_top.png", "acacia_log_top.png", "acacia_log_side.png"},
@@ -65,7 +67,7 @@ satlantis.register_block("flora:acacia_sapling", {
     grow = function(pos)
         minetest.place_schematic(
             vector.add(pos, vector.new(-4, -1, -4)),
-            satlantis.flora.MODPATH .. "/schematics/trees/tree_acacia.mts",
+            satlantis.flora.tree_schematics.acacia,
             "random", nil, false
         )
     end,
