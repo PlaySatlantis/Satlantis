@@ -1,6 +1,4 @@
-# ![Satlantis](https://framerusercontent.com/images/m2O7ebDIaB99immMk2a5ptW7zPE.svg)
-
-The game that shares its profits with players. https://satlantis.net/  
+Failed implementation. Might revisit later.
 
 **THIS GAME IS CURRENTLY IN EARLY DEVELOPMENT AND MAY NOT BE COMPLETELY FUNCTIONAL**
 
