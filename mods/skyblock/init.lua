@@ -57,12 +57,13 @@ local function generate_cuboid(pos1, pos2, content_id, vm)
     vm:set_data(data)
 
     collectgarbage("collect")
+    return vm
 end
 
 local function async_generate_cuboid(pos1, pos2, content_id, callback)
     local vmanip = minetest.get_voxel_manip(pos1, pos2)
-    minetest.handle_async(generate_cuboid, function()
-        vmanip:write_to_map(true)
+    minetest.handle_async(generate_cuboid, function(vm)
+        vm:write_to_map(true)
         collectgarbage("collect")
         callback()
     end, pos1, pos2, content_id, vmanip)
@@ -206,5 +207,40 @@ minetest.register_chatcommand("genskyblock", {
         end)
 
         return true, "Generating skyblock..."
-    end
+    end,
 })
+
+minetest.register_chatcommand("exitskyblock", {
+    privs = {server = true},
+    func = function(name, param)
+        skyblock.exit_cel(name, minetest.string_to_pos(param))
+    end,
+})
+
+minetest.register_chatcommand("skyblock", {
+    func = function(name, param)
+        if param == "set" then
+            if skyblock.current_players[name] then
+                local player = minetest.get_player_by_name(name)
+                local pos = player:get_pos()
+                skyblock.set_home(player, pos)
+                return true, "Set skyblock origin to " .. minetest.pos_to_string(pos, 2)
+            else
+                return false, "Can only set home origin within skyblock area."
+            end
+        else
+            if skyblock.get_player_cel(name) then
+                skyblock.enter_cel(name)
+                return true, "Transported to skyblock."
+            else
+                skyblock.allocate_cel(name, function()
+                    skyblock.enter_cel(name)
+                    minetest.chat_send_player(name, "Transported to skyblock.")
+                end)
+                return true, "Generating new skyblock..."
+            end
+        end
+    end,
+})
+
+minetest.registered_chatcommands["home"] = minetest.registered_chatcommands["skyblock"]
