@@ -46,44 +46,56 @@ skyblock.get_cel = function(id)
     }
 end
 
-local function generate_cuboid(pos1, pos2, buffer, content_id)
-    local vm = minetest.get_voxel_manip(pos1, pos2)
-    local emin, emax = vm:get_emerged_area()
-    vm:get_data(buffer)
+local function generate_cuboid(pos1, pos2, content_id, vm)
+    local data = vm:get_data()
 
-    local va = VoxelArea(emin, emax)
+    local va = VoxelArea(vm:get_emerged_area())
     for idx in va:iterp(pos1, pos2) do
-        buffer[idx] = content_id
+        data[idx] = content_id
     end
 
-    vm:set_data(buffer)
-    vm:write_to_map(true)
+    vm:set_data(data)
+
+    collectgarbage("collect")
 end
 
-local function generate_wall(pos1, pos2, buffer)
-    generate_cuboid(pos1, pos2, buffer, CID_WALL)
+local function async_generate_cuboid(pos1, pos2, content_id, callback)
+    local vmanip = minetest.get_voxel_manip(pos1, pos2)
+    minetest.handle_async(generate_cuboid, function()
+        vmanip:write_to_map(true)
+        collectgarbage("collect")
+        callback()
+    end, pos1, pos2, content_id, vmanip)
 end
 
-skyblock.generate_cel = function(id)
+skyblock.generate_cel = function(id, callback)
     local cel = skyblock.get_cel(id)
-    local buffer = {}
 
     local min = cel.bounds.min - vector.new(1, 1, 1)
     local max = cel.bounds.max + vector.new(1, 1, 1)
     local width = CEL_SIZE + 1
 
-    generate_wall(min, min + vector.new(width, width, 0), buffer)
-    generate_wall(min, min + vector.new(0, width, width), buffer)
-    generate_wall(min + vector.new(width, 0, 0), max, buffer)
-    generate_wall(min + vector.new(0, width, 0), max, buffer)
-    generate_wall(min + vector.new(0, 0, width), max, buffer)
-
     local plat_min = cel.center - vector.new(PLATFORM_RADIUS - 1, 0, PLATFORM_RADIUS - 1)
     local plat_max = cel.center + vector.new(PLATFORM_RADIUS, 0, PLATFORM_RADIUS)
 
-    generate_cuboid(plat_min, plat_max, buffer, CID_PLATFORM)
+    local steps = {
+        {min, min + vector.new(width, width, 0), CID_WALL},
+        {min, min + vector.new(0, width, width), CID_WALL},
+        {min + vector.new(0, 0, width), max, CID_WALL},
+        {min + vector.new(0, width, 0), max, CID_WALL},
+        {min + vector.new(width, 0, 0), max, CID_WALL},
+        {plat_min, plat_max, CID_PLATFORM},
+    }
 
-    return cel
+    local progress = #steps
+    for _, step in pairs(steps) do
+        async_generate_cuboid(step[1], step[2], step[3], function()
+            progress = progress - 1
+            if progress == 0 then
+                callback(cel)
+            end
+        end)
+    end
 end
 
 skyblock.get_player_cel = function(name)
@@ -102,7 +114,7 @@ skyblock.get_home = function(player)
     return minetest.string_to_pos(home)
 end
 
-skyblock.allocate_cel = function(name)
+skyblock.allocate_cel = function(name, callback)
     local player = minetest.get_player_by_name(name)
     if not player then return end
 
@@ -112,14 +124,14 @@ skyblock.allocate_cel = function(name)
     local id = storage:get_int("next_cel")
     storage:set_int("next_cel", id + 1)
 
-    local cel = skyblock.generate_cel(id)
+    skyblock.generate_cel(id, function(cel)
+        storage:set_string(name, tostring(id))
+        storage:set_string(tostring(id), name)
 
-    storage:set_string(name, tostring(id))
-    storage:set_string(tostring(id), name)
+        skyblock.set_home(player, cel.center + vector.new(0.5, 1, 0.5))
 
-    skyblock.set_home(player, cel.center + vector.new(0.5, 1, 0.5))
-
-    return cel
+        callback(cel)
+    end)
 end
 
 skyblock.current_players = {}
@@ -184,3 +196,15 @@ end)
 minetest.register_on_leaveplayer(function(player)
     skyblock.current_players[player:get_player_name()].current_players = nil
 end)
+
+minetest.register_chatcommand("genskyblock", {
+    privs = {server = true},
+    func = function(name, param)
+        local now = minetest.get_us_time()
+        skyblock.generate_cel(tonumber(param), function()
+            minetest.chat_send_player(name, "Generated skyblock (" .. ((minetest.get_us_time() - now) / 1000000) .. "s)")
+        end)
+
+        return true, "Generating skyblock..."
+    end
+})
