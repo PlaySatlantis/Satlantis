@@ -137,6 +137,10 @@ end
 
 skyblock.current_players = {}
 
+skyblock.is_in_skyblock = function(name)
+    return skyblock.current_players[name]
+end
+
 skyblock.enter_cel = function(name)
     local player = minetest.get_player_by_name(name)
     if player and skyblock.get_player_cel(name) then
@@ -148,7 +152,7 @@ end
 
 skyblock.exit_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
-    if player  then
+    if player then
         player:get_meta():set_int("skyblock:in_skyblock", 0)
         player:set_pos(pos)
     end
