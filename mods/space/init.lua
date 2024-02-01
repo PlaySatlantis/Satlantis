@@ -21,9 +21,8 @@ local SPACE_STARS = {
 }
 
 local SPACE_PHYSICS = {
-    gravity = 5,
-    jump = 1.1,
-    acceleration_air = 0.5,
+    gravity = 0.5,
+    acceleration_air = 0.33,
 }
 
 local DEFAULT_PHYSICS = {
