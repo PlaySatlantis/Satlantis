@@ -59,3 +59,9 @@ minetest.is_protected = function(pos, name)
 
     return old_is_protected(pos, name)
 end
+
+minetest.register_on_joinplayer(function(player, last_login)
+    if not last_login then
+        player:set_pos(lobby_pos)
+    end
+end)
