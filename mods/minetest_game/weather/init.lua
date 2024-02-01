@@ -95,26 +95,28 @@ local function update_clouds()
 	local n_speedz = nobj_speedz:get_2d({x = time, y = 0}) -- -1 to 1
 
 	for _, player in ipairs(minetest.get_connected_players()) do
-		-- Fallback to mid-value 50 for very old worlds
-		local humid = minetest.get_humidity(player:get_pos()) or 50
-		-- Default and classic density value is 0.4, make this happen
-		-- at humidity midvalue 50 when n_density is at midvalue 0.5.
-		-- density_max = 0.25 at humid = 0.
-		-- density_max = 0.8 at humid = 50.
-		-- density_max = 1.35 at humid = 100.
-		local density_max = 0.8 + ((humid - 50) / 50) * 0.55
-		local density = rangelim(density_max, 0.2, 1.0) * n_density
-		player:set_clouds({
-			-- Range limit density_max to always have occasional
-			-- small scattered clouds at extreme low humidity.
-			density = density,
-			thickness = math.max(math.floor(
-				rangelim(32 * humid / 100, 8, 32) * n_thickness
-				), 2),
-			speed = {x = n_speedx * 4, z = n_speedz * 4},
-		})
-		-- now adjust the shadow intensity
-		player:set_lighting({ shadows = { intensity = 0.7 * (1 - density) } })
+        if player:get_pos().y < 20000 then -- hardcode space height
+            -- Fallback to mid-value 50 for very old worlds
+            local humid = minetest.get_humidity(player:get_pos()) or 50
+            -- Default and classic density value is 0.4, make this happen
+            -- at humidity midvalue 50 when n_density is at midvalue 0.5.
+            -- density_max = 0.25 at humid = 0.
+            -- density_max = 0.8 at humid = 50.
+            -- density_max = 1.35 at humid = 100.
+            local density_max = 0.8 + ((humid - 50) / 50) * 0.55
+            local density = rangelim(density_max, 0.2, 1.0) * n_density
+            player:set_clouds({
+                -- Range limit density_max to always have occasional
+                -- small scattered clouds at extreme low humidity.
+                density = density,
+                thickness = math.max(math.floor(
+                    rangelim(32 * humid / 100, 8, 32) * n_thickness
+                    ), 2),
+                speed = {x = n_speedx * 4, z = n_speedz * 4},
+            })
+            -- now adjust the shadow intensity
+            player:set_lighting({ shadows = { intensity = 0.7 * (1 - density) } })
+        end
 	end
 end
 
