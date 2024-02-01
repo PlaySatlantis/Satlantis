@@ -27,9 +27,9 @@ local SPACE_PHYSICS = {
 }
 
 local DEFAULT_PHYSICS = {
-    gravity = 9.81,
-    jump = 6.5,
-    acceleration_air = 2,
+    gravity = 1,
+    jump = 1,
+    acceleration_air = 1,
 }
 
 local SPACE_LIGHT = 0.8
@@ -93,7 +93,5 @@ end)
 minetest.register_on_joinplayer(function(player)
     if player:get_meta():get_int("space:in_space") > 0 then
         set_player_location_space(player)
-    else
-        set_player_location_default(player)
     end
 end)
