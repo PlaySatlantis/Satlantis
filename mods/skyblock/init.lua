@@ -99,9 +99,17 @@ skyblock.generate_cel = function(id, callback)
     end
 end
 
+local cel_cache = {}
+
 skyblock.get_player_cel = function(name)
-    local id = tonumber(storage:get_string(name))
-    if id then return skyblock.get_cel(id) end
+    if not cel_cache[name] then
+        local id = tonumber(storage:get_string(name))
+        if id then
+            cel_cache[name] = skyblock.get_cel(id)
+        end
+    end
+
+    return cel_cache[name]
 end
 
 skyblock.set_home = function(player, pos)
@@ -160,18 +168,40 @@ skyblock.exit_cel = function(name, pos)
     skyblock.current_players[name] = nil
 end
 
-skyblock.handle_bounds = function(player, pos)
-    local cel = skyblock.get_player_cel(player:get_player_name())
-    if not cel then return end
-
+skyblock.pos_in_cel = function(pos, cel)
     local bounds = cel.bounds
 
     if pos.x < bounds.min.x - 1   or pos.x > bounds.max.x + 1   or
        pos.y < bounds.min.y - 1.5 or pos.y > bounds.max.y - 0.5 or
        pos.z < bounds.min.z - 1   or pos.z > bounds.max.z + 1   then
+        return false
+    end
 
+    return true
+end
+
+skyblock.handle_bounds = function(player, pos)
+    local cel = skyblock.get_player_cel(player:get_player_name())
+    if not cel then return end
+
+    if not skyblock.pos_in_cel(pos, cel) then
         player:set_pos(skyblock.get_home(player))
     end
+end
+
+local old_is_protected = minetest.is_protected
+
+minetest.is_protected = function(pos, name)
+    if pos.y >= MIN_POS.y then
+        if not minetest.get_player_privs(name).protection_bypass then
+            local cel = skyblock.get_player_cel(name)
+            if cel and not skyblock.pos_in_cel(pos, cel) then
+                return true
+            end
+        end
+    end
+
+    return old_is_protected(pos, name)
 end
 
 local interval = 0.5
@@ -199,7 +229,10 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
-    skyblock.current_players[player:get_player_name()] = nil
+    local name = player:get_player_name()
+
+    skyblock.current_players[name] = nil
+    cel_cache[name] = nil
 end)
 
 -- Player commands
