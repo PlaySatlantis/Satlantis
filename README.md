@@ -6,12 +6,6 @@ The game that shares its profits with players. https://satlantis.net/
 
 ----------
 
-_Satlantest_ is the Minetest implementation of the _Satlantis_ Minecraft server. Satlantest aims to replicate the core features of the original Satlantis server, develop a more cohesive theme and environment, and reach more players than ever before.
-
-"Satlantis" is still the proper title, unless referring specifically to the Minetest implementation of Satlantis.
-
-----------
-
 Currently based on [Minetest Game](https://github.com/minetest/minetest_game) (LGPL-2.1). See [MTG license](mods/minetest_game/LICENSE.txt) and individual mods for license information.  
 Most textures have been replaced with [PixelPerfection](https://github.com/minetest-texture-packs/Pixel-Perfection) (CC BY-SA 4.0) textures by Hugh "XSSheep" Rutland, Toby109tt, tacotexmex, and devurandom.
 
