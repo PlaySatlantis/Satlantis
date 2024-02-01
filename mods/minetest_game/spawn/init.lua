@@ -138,9 +138,9 @@ local function on_spawn(player)
 	return success
 end
 
-minetest.register_on_newplayer(function(player)
-	on_spawn(player)
-end)
+-- minetest.register_on_newplayer(function(player)
+-- 	on_spawn(player)
+-- end)
 
 local enable_bed_respawn = minetest.settings:get_bool("enable_bed_respawn")
 if enable_bed_respawn == nil then
