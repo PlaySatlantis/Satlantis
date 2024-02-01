@@ -47,3 +47,15 @@ minetest.register_chatcommand("lobby", {
 })
 
 minetest.registered_chatcommands["spawn"] = minetest.registered_chatcommands["lobby"]
+
+local old_is_protected = minetest.is_protected
+
+minetest.is_protected = function(pos, name)
+    if pos.y >= 20000 and pos.y <= 25000 then
+        if not minetest.get_player_privs(name).protection_bypass then
+            return true
+        end
+    end
+
+    return old_is_protected(pos, name)
+end
