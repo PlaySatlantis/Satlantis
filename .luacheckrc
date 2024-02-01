@@ -47,4 +47,5 @@ globals = {
     "minetest", "core",
     "satlantis",
     "skyblock",
+    "beacon",
 }
