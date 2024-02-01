@@ -198,15 +198,46 @@ minetest.register_on_leaveplayer(function(player)
     skyblock.current_players[player:get_player_name()].current_players = nil
 end)
 
+-- Player commands
+minetest.register_chatcommand("skyblock", {
+    func = function(name, param)
+        if param == "set" then
+            if skyblock.current_players[name] then
+                local player = minetest.get_player_by_name(name)
+                local pos = player:get_pos()
+                skyblock.set_home(player, pos)
+                return true, "Set orbiter origin to " .. minetest.pos_to_string(pos, 2)
+            else
+                return false, "Can only set home origin within orbiter area."
+            end
+        else
+            if skyblock.get_player_cel(name) then
+                skyblock.enter_cel(name)
+                return true, "Transported to orbiter."
+            else
+                skyblock.allocate_cel(name, function()
+                    skyblock.enter_cel(name)
+                    minetest.chat_send_player(name, "Transported to orbiter.")
+                end)
+                return true, "Generating new orbiter..."
+            end
+        end
+    end,
+})
+
+minetest.registered_chatcommands["home"] = minetest.registered_chatcommands["skyblock"]
+minetest.registered_chatcommands["orbiter"] = minetest.registered_chatcommands["skyblock"]
+
+-- Dev/admin commands
 minetest.register_chatcommand("genskyblock", {
     privs = {server = true},
     func = function(name, param)
         local now = minetest.get_us_time()
         skyblock.generate_cel(tonumber(param), function()
-            minetest.chat_send_player(name, "Generated skyblock (" .. ((minetest.get_us_time() - now) / 1000000) .. "s)")
+            minetest.chat_send_player(name, "Generated orbiter (" .. ((minetest.get_us_time() - now) / 1000000) .. "s)")
         end)
 
-        return true, "Generating skyblock..."
+        return true, "Generating orbiter..."
     end,
 })
 
@@ -216,31 +247,3 @@ minetest.register_chatcommand("exitskyblock", {
         skyblock.exit_cel(name, minetest.string_to_pos(param))
     end,
 })
-
-minetest.register_chatcommand("skyblock", {
-    func = function(name, param)
-        if param == "set" then
-            if skyblock.current_players[name] then
-                local player = minetest.get_player_by_name(name)
-                local pos = player:get_pos()
-                skyblock.set_home(player, pos)
-                return true, "Set skyblock origin to " .. minetest.pos_to_string(pos, 2)
-            else
-                return false, "Can only set home origin within skyblock area."
-            end
-        else
-            if skyblock.get_player_cel(name) then
-                skyblock.enter_cel(name)
-                return true, "Transported to skyblock."
-            else
-                skyblock.allocate_cel(name, function()
-                    skyblock.enter_cel(name)
-                    minetest.chat_send_player(name, "Transported to skyblock.")
-                end)
-                return true, "Generating new skyblock..."
-            end
-        end
-    end,
-})
-
-minetest.registered_chatcommands["home"] = minetest.registered_chatcommands["skyblock"]
