@@ -199,7 +199,7 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
-    skyblock.current_players[player:get_player_name()].current_players = nil
+    skyblock.current_players[player:get_player_name()] = nil
 end)
 
 -- Player commands
