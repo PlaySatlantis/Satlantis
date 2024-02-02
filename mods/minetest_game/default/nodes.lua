@@ -1173,7 +1173,29 @@ minetest.register_node("default:aspen_sapling", {
 -- Ores
 --
 
-minetest.register_node("default:stone_with_coal", {
+local function register_ore(name, def)
+    local item = def.drop
+    def.drop = {
+        items = {
+            {
+                rarity = 1,
+                items = {item},
+            },
+            {
+                rarity = 1.5,
+                items = {item},
+            },
+            {
+                rarity = 2,
+                items = {item},
+            },
+        }
+    }
+
+    minetest.register_node(name, def)
+end
+
+register_ore("default:stone_with_coal", {
 	description = S("Coal Ore"),
 	tiles = {"default_stone.png^default_mineral_coal.png"},
 	groups = {cracky = 3},
@@ -1190,7 +1212,7 @@ minetest.register_node("default:coalblock", {
 })
 
 
-minetest.register_node("default:stone_with_iron", {
+register_ore("default:stone_with_iron", {
 	description = S("Iron Ore"),
 	tiles = {"default_stone.png^default_mineral_iron.png"},
 	groups = {cracky = 2},
@@ -1207,7 +1229,7 @@ minetest.register_node("default:steelblock", {
 })
 
 
-minetest.register_node("default:stone_with_copper", {
+register_ore("default:stone_with_copper", {
 	description = S("Copper Ore"),
 	tiles = {"default_stone.png^default_mineral_copper.png"},
 	groups = {cracky = 2},
@@ -1224,7 +1246,7 @@ minetest.register_node("default:copperblock", {
 })
 
 
-minetest.register_node("default:stone_with_tin", {
+register_ore("default:stone_with_tin", {
 	description = S("Tin Ore"),
 	tiles = {"default_stone.png^default_mineral_tin.png"},
 	groups = {cracky = 2},
@@ -1249,7 +1271,7 @@ minetest.register_node("default:bronzeblock", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-minetest.register_node("default:stone_with_gold", {
+register_ore("default:stone_with_gold", {
 	description = S("Gold Ore"),
 	tiles = {"default_stone.png^default_mineral_gold.png"},
 	groups = {cracky = 2},
@@ -1266,7 +1288,7 @@ minetest.register_node("default:goldblock", {
 })
 
 
-minetest.register_node("default:stone_with_diamond", {
+register_ore("default:stone_with_diamond", {
 	description = S("Diamond Ore"),
 	tiles = {"default_stone.png^default_mineral_diamond.png"},
 	groups = {cracky = 1},
