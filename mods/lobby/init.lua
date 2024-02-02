@@ -93,16 +93,42 @@ minetest.register_chatcommand("overworld", {
         local player = minetest.get_player_by_name(name)
         local pos = player:get_pos()
 
-        if pos.y > 20000 and pos.y < 250000 then -- Likely in lobby
-            player:set_pos(get_overworld_pos())
-            return true, "Transporting to overworld..."
-        elseif minetest.global_exists("skyblock") then
+        if minetest.global_exists("skyblock") then
             if skyblock.is_in_skyblock(name) then
                 skyblock.exit_cel(name, get_overworld_pos())
                 return true, "Transporting to overworld..."
             end
+        elseif pos.y > 20000 and pos.y < 250000 then -- Likely in lobby
+            player:set_pos(get_overworld_pos())
+            return true, "Transporting to overworld..."
         end
 
         return false, "You can only transport to the overworld from the main ship or orbiter!"
     end
 })
+
+local enable_bed_respawn = minetest.settings:get_bool("enable_bed_respawn")
+if enable_bed_respawn == nil then
+	enable_bed_respawn = true
+end
+
+minetest.register_on_respawnplayer(function(player)
+    local name = player:get_player_name()
+    local cel = skyblock.get_player_cel(name)
+
+	if beds and enable_bed_respawn and beds.spawn[name] then
+        local pos = beds.spawn[name]
+        if cel and skyblock.pos_in_bounds(pos, cel.bounds.min, cel.bounds.max) then
+            skyblock.enter_cel(name, pos)
+        else
+            player:set_pos(pos)
+        end
+	elseif cel then
+        skyblock.enter_cel(name)
+        return true
+    else
+        player:set_pos(lobby_pos)
+    end
+
+    return true
+end)

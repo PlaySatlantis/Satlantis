@@ -159,11 +159,11 @@ skyblock.is_in_skyblock = function(name)
     return skyblock.current_players[name]
 end
 
-skyblock.enter_cel = function(name)
+skyblock.enter_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
     if player and skyblock.get_player_cel(name) then
         player:get_meta():set_int("skyblock:in_skyblock", 1)
-        player:set_pos(skyblock.get_home(player))
+        player:set_pos(pos or skyblock.get_home(player))
         skyblock.current_players[name] = true
     end
 end
