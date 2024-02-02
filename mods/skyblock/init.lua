@@ -116,9 +116,17 @@ skyblock.set_home = function(player, pos)
     player:get_meta():set_string("skyblock:home", minetest.pos_to_string(pos, 2))
 end
 
+skyblock.set_default_home = function(player)
+    skyblock.set_home(player, skyblock.get_player_cel(player:get_player_name()).center + vector.new(0.5, 1, 0.5))
+end
+
 skyblock.get_home = function(player)
-    local home = player:get_meta():get_string("skyblock:home")
-    if home == "" then return end
+    local meta = player:get_meta()
+    local home = meta:get_string("skyblock:home")
+    if home == "" then
+        skyblock.set_default_home(player)
+        home = meta:get_string("skyblock:home")
+    end
 
     return minetest.string_to_pos(home)
 end
@@ -139,7 +147,7 @@ skyblock.allocate_cel = function(name, callback)
         storage:set_string(name, tostring(id))
         storage:set_string(tostring(id), name)
 
-        skyblock.set_home(player, cel.center + vector.new(0.5, 1, 0.5))
+        skyblock.set_default_home(player)
 
         callback(cel)
     end)
