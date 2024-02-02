@@ -126,9 +126,6 @@ default:bronzeblock
 default:stone_with_gold
 default:goldblock
 
-default:stone_with_mese
-default:mese
-
 default:stone_with_diamond
 default:diamondblock
 
@@ -227,13 +224,6 @@ default:glass
 default:obsidian_glass
 
 default:brick
-
-default:meselamp
-default:mese_post_light
-default:mese_post_light_acacia_wood
-default:mese_post_light_junglewood
-default:mese_post_light_pine_wood
-default:mese_post_light_aspen_wood
 
 Misc
 ----
@@ -1258,25 +1248,6 @@ minetest.register_node("default:bronzeblock", {
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
-
-
-minetest.register_node("default:stone_with_mese", {
-	description = S("Mese Ore"),
-	tiles = {"default_stone.png^default_mineral_mese.png"},
-	groups = {cracky = 1},
-	drop = "default:mese_crystal",
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("default:mese", {
-	description = S("Mese Block"),
-	tiles = {"default_mese_block.png"},
-	paramtype = "light",
-	groups = {cracky = 1, level = 2},
-	sounds = default.node_sound_stone_defaults(),
-	light_source = 3,
-})
-
 
 minetest.register_node("default:stone_with_gold", {
 	description = S("Gold Ore"),
@@ -2828,48 +2799,6 @@ minetest.register_node("default:brick", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-
-minetest.register_node("default:meselamp", {
-	description = S("Mese Lamp"),
-	drawtype = "glasslike",
-	tiles = {"default_meselamp.png"},
-	paramtype = "light",
-	sunlight_propagates = true,
-	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
-	sounds = default.node_sound_glass_defaults(),
-	light_source = default.LIGHT_MAX,
-})
-
-default.register_mesepost("default:mese_post_light", {
-	description = S("Apple Wood Mese Post Light"),
-	texture = "default_fence_wood.png",
-	material = "default:wood",
-})
-
-default.register_mesepost("default:mese_post_light_acacia_wood", {
-	description = S("Acacia Wood Mese Post Light"),
-	texture = "default_fence_acacia_wood.png",
-	material = "default:acacia_wood",
-})
-
-default.register_mesepost("default:mese_post_light_junglewood", {
-	description = S("Jungle Wood Mese Post Light"),
-	texture = "default_fence_junglewood.png",
-	material = "default:junglewood",
-})
-
-default.register_mesepost("default:mese_post_light_pine_wood", {
-	description = S("Pine Wood Mese Post Light"),
-	texture = "default_fence_pine_wood.png",
-	material = "default:pine_wood",
-})
-
-default.register_mesepost("default:mese_post_light_aspen_wood", {
-	description = S("Aspen Wood Mese Post Light"),
-	texture = "default_fence_aspen_wood.png",
-	material = "default:aspen_wood",
-})
 
 --
 -- Misc

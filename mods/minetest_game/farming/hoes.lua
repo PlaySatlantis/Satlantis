@@ -39,13 +39,6 @@ farming.register_hoe(":farming:hoe_bronze", {
 	groups = {hoe = 1, not_in_creative_inventory = 1},
 })
 
-farming.register_hoe(":farming:hoe_mese", {
-	description = S("Mese Hoe"),
-	inventory_image = "farming_tool_mesehoe.png",
-	max_uses = 350,
-	groups = {hoe = 1, not_in_creative_inventory = 1},
-})
-
 farming.register_hoe(":farming:hoe_diamond", {
 	description = S("Diamond Hoe"),
 	inventory_image = "farming_tool_diamondhoe.png",

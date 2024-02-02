@@ -284,23 +284,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "default:mese",
-	recipe = {
-		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"},
-		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"},
-		{"default:mese_crystal", "default:mese_crystal", "default:mese_crystal"},
-	}
-})
-
-minetest.register_craft({
-	output = "default:meselamp",
-	recipe = {
-		{"default:glass"},
-		{"default:mese_crystal"},
-	}
-})
-
-minetest.register_craft({
 	output = "default:obsidian",
 	recipe = {
 		{"default:obsidian_shard", "default:obsidian_shard", "default:obsidian_shard"},

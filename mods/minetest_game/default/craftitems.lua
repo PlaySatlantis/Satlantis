@@ -305,16 +305,6 @@ minetest.register_craftitem("default:iron_lump", {
 	inventory_image = "default_iron_lump.png"
 })
 
-minetest.register_craftitem("default:mese_crystal", {
-	description = S("Mese Crystal"),
-	inventory_image = "default_mese_crystal.png",
-})
-
-minetest.register_craftitem("default:mese_crystal_fragment", {
-	description = S("Mese Crystal Fragment"),
-	inventory_image = "default_mese_crystal_fragment.png",
-})
-
 minetest.register_craftitem("default:obsidian_shard", {
 	description = S("Obsidian Shard"),
 	inventory_image = "default_obsidian_shard.png",
@@ -410,29 +400,6 @@ minetest.register_craft({
 	output = "default:gold_ingot 9",
 	recipe = {
 		{"default:goldblock"},
-	}
-})
-
-minetest.register_craft({
-	output = "default:mese_crystal",
-	recipe = {
-		{"default:mese_crystal_fragment", "default:mese_crystal_fragment", "default:mese_crystal_fragment"},
-		{"default:mese_crystal_fragment", "default:mese_crystal_fragment", "default:mese_crystal_fragment"},
-		{"default:mese_crystal_fragment", "default:mese_crystal_fragment", "default:mese_crystal_fragment"},
-	}
-})
-
-minetest.register_craft({
-	output = "default:mese_crystal 9",
-	recipe = {
-		{"default:mese"},
-	}
-})
-
-minetest.register_craft({
-	output = "default:mese_crystal_fragment 9",
-	recipe = {
-		{"default:mese_crystal"},
 	}
 })
 

@@ -83,21 +83,6 @@ minetest.register_tool("default:pick_steel", {
 	groups = {pickaxe = 1}
 })
 
-minetest.register_tool("default:pick_mese", {
-	description = S("Mese Pickaxe"),
-	inventory_image = "default_tool_mesepick.png",
-	tool_capabilities = {
-		full_punch_interval = 0.9,
-		max_drop_level=3,
-		groupcaps={
-			cracky = {times={[1]=2.4, [2]=1.2, [3]=0.60}, uses=20, maxlevel=3},
-		},
-		damage_groups = {fleshy=5},
-	},
-	sound = {breaks = "default_tool_breaks"},
-	groups = {pickaxe = 1}
-})
-
 minetest.register_tool("default:pick_diamond", {
 	description = S("Diamond Pickaxe"),
 	inventory_image = "default_tool_diamondpick.png",
@@ -176,22 +161,6 @@ minetest.register_tool("default:shovel_steel", {
 			crumbly = {times={[1]=1.50, [2]=0.90, [3]=0.40}, uses=30, maxlevel=2},
 		},
 		damage_groups = {fleshy=3},
-	},
-	sound = {breaks = "default_tool_breaks"},
-	groups = {shovel = 1}
-})
-
-minetest.register_tool("default:shovel_mese", {
-	description = S("Mese Shovel"),
-	inventory_image = "default_tool_meseshovel.png",
-	wield_image = "default_tool_meseshovel.png^[transformR90",
-	tool_capabilities = {
-		full_punch_interval = 1.0,
-		max_drop_level=3,
-		groupcaps={
-			crumbly = {times={[1]=1.20, [2]=0.60, [3]=0.30}, uses=20, maxlevel=3},
-		},
-		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
 	groups = {shovel = 1}
@@ -277,21 +246,6 @@ minetest.register_tool("default:axe_steel", {
 	groups = {axe = 1}
 })
 
-minetest.register_tool("default:axe_mese", {
-	description = S("Mese Axe"),
-	inventory_image = "default_tool_meseaxe.png",
-	tool_capabilities = {
-		full_punch_interval = 0.9,
-		max_drop_level=1,
-		groupcaps={
-			choppy={times={[1]=2.20, [2]=1.00, [3]=0.60}, uses=20, maxlevel=3},
-		},
-		damage_groups = {fleshy=6},
-	},
-	sound = {breaks = "default_tool_breaks"},
-	groups = {axe = 1}
-})
-
 minetest.register_tool("default:axe_diamond", {
 	description = S("Diamond Axe"),
 	inventory_image = "default_tool_diamondaxe.png",
@@ -371,21 +325,6 @@ minetest.register_tool("default:sword_steel", {
 	groups = {sword = 1}
 })
 
-minetest.register_tool("default:sword_mese", {
-	description = S("Mese Sword"),
-	inventory_image = "default_tool_mesesword.png",
-	tool_capabilities = {
-		full_punch_interval = 0.7,
-		max_drop_level=1,
-		groupcaps={
-			snappy={times={[1]=2.0, [2]=1.00, [3]=0.35}, uses=30, maxlevel=3},
-		},
-		damage_groups = {fleshy=7},
-	},
-	sound = {breaks = "default_tool_breaks"},
-	groups = {sword = 1}
-})
-
 minetest.register_tool("default:sword_diamond", {
 	description = S("Diamond Sword"),
 	inventory_image = "default_tool_diamondsword.png",
@@ -410,7 +349,6 @@ local craft_ingreds = {
 	stone = "group:stone",
 	steel = "default:steel_ingot",
 	bronze = "default:bronze_ingot",
-	mese = "default:mese_crystal",
 	diamond = "default:diamond"
 }
 
