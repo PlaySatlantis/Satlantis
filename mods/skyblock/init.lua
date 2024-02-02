@@ -33,7 +33,7 @@ skyblock.get_cel = function(id)
     local grid_z = math.floor(id / GRID_WIDTH)
 
     local cel_pos = vector.new(grid_x * CEL_TOTAL_SIZE, 0, grid_z * CEL_TOTAL_SIZE)
-    local cel_center = vector.new(CEL_TOTAL_SIZE / 2, CEL_TOTAL_SIZE / 2, CEL_TOTAL_SIZE / 2):floor()
+    local cel_center = cel_pos + vector.new(CEL_TOTAL_SIZE / 2, CEL_TOTAL_SIZE / 2, CEL_TOTAL_SIZE / 2):floor()
     local cel_padded = cel_pos + vector.new(CEL_PADDING / 2, CEL_PADDING / 2, CEL_PADDING / 2)
 
     return {
@@ -133,6 +133,8 @@ skyblock.allocate_cel = function(name, callback)
     local id = storage:get_int("next_cel")
     storage:set_int("next_cel", id + 1)
 
+    print(id)
+
     skyblock.generate_cel(id, function(cel)
         storage:set_string(name, tostring(id))
         storage:set_string(tostring(id), name)
@@ -168,23 +170,24 @@ skyblock.exit_cel = function(name, pos)
     skyblock.current_players[name] = nil
 end
 
-skyblock.pos_in_cel = function(pos, cel)
-    local bounds = cel.bounds
-
-    if pos.x < bounds.min.x - 1   or pos.x > bounds.max.x + 1   or
-       pos.y < bounds.min.y - 1.5 or pos.y > bounds.max.y - 0.5 or
-       pos.z < bounds.min.z - 1   or pos.z > bounds.max.z + 1   then
+skyblock.pos_in_bounds = function(pos, min, max)
+    if pos.x < min.x or pos.x > max.x or
+       pos.y < min.y or pos.y > max.y or
+       pos.z < min.z or pos.z > max.z then
         return false
     end
 
     return true
 end
 
-skyblock.handle_bounds = function(player, pos)
+skyblock.handle_bounds = function(player)
     local cel = skyblock.get_player_cel(player:get_player_name())
     if not cel then return end
 
-    if not skyblock.pos_in_cel(pos, cel) then
+    local min = cel.bounds.min - vector.new(1, 1.5, 1)
+    local max = cel.bounds.max + vector.new(1, -0.5, 1)
+
+    if not skyblock.pos_in_bounds(player:get_pos(), min, max) then
         player:set_pos(skyblock.get_home(player))
     end
 end
@@ -195,7 +198,7 @@ minetest.is_protected = function(pos, name)
     if pos.y >= MIN_POS.y then
         if not minetest.get_player_privs(name).protection_bypass then
             local cel = skyblock.get_player_cel(name)
-            if cel and not skyblock.pos_in_cel(pos, cel) then
+            if cel and not skyblock.pos_in_bounds(pos, cel.bounds.min, cel.bounds.max) then
                 return true
             end
         end
@@ -215,9 +218,7 @@ minetest.register_globalstep(function(dtime)
 
         for name in pairs(skyblock.current_players) do
             local player = minetest.get_player_by_name(name)
-            local pos = player:get_pos()
-
-            skyblock.handle_bounds(player, pos)
+            skyblock.handle_bounds(player)
         end
     end
 end)
