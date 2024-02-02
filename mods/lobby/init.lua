@@ -66,7 +66,7 @@ end)
 
 local MIN_RADIUS = 500
 local MAX_RADIUS = 1500
-local TRIES = 10
+local TRIES = 20
 
 local function get_random_pos()
     local dist, angle = math.random(MIN_RADIUS, MAX_RADIUS), math.random() * math.pi * 2
