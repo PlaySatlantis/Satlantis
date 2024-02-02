@@ -93,11 +93,9 @@ minetest.register_chatcommand("overworld", {
         local player = minetest.get_player_by_name(name)
         local pos = player:get_pos()
 
-        if minetest.global_exists("skyblock") then
-            if skyblock.is_in_skyblock(name) then
-                skyblock.exit_cel(name, get_overworld_pos())
-                return true, "Transporting to overworld..."
-            end
+        if minetest.global_exists("skyblock") and skyblock.is_in_skyblock(name) then
+            skyblock.exit_cel(name, get_overworld_pos())
+            return true, "Transporting to overworld..."
         elseif pos.y > 20000 and pos.y < 250000 then -- Likely in lobby
             player:set_pos(get_overworld_pos())
             return true, "Transporting to overworld..."
