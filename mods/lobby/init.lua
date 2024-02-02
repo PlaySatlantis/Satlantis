@@ -63,3 +63,46 @@ end
 minetest.register_on_newplayer(function(player)
     player:set_pos(lobby_pos)
 end)
+
+local MIN_RADIUS = 500
+local MAX_RADIUS = 1500
+local TRIES = 10
+
+local function get_random_pos()
+    local dist, angle = math.random(MIN_RADIUS, MAX_RADIUS), math.random() * math.pi * 2
+    local x, z =  math.cos(angle) * dist, math.sin(angle) * dist
+    local y = minetest.get_spawn_level(x, z)
+
+    if not y then return end -- No available position
+    return vector.new(x, y, z)
+end
+
+local function get_overworld_pos()
+    for _ = 1, TRIES do
+        local pos = get_random_pos()
+        if pos then
+            return pos
+        end
+    end
+
+    return vector.new(0, minetest.get_spawn_level(0, 0) or 0, 0)
+end
+
+minetest.register_chatcommand("overworld", {
+    func = function(name)
+        local player = minetest.get_player_by_name(name)
+        local pos = player:get_pos()
+
+        if pos.y > 20000 and pos.y < 250000 then -- Likely in lobby
+            player:set_pos(get_overworld_pos())
+            return true, "Transporting to overworld..."
+        elseif minetest.global_exists("skyblock") then
+            if skyblock.is_in_skyblock(name) then
+                skyblock.exit_cel(name, get_overworld_pos())
+                return true, "Transporting to overworld..."
+            end
+        end
+
+        return false, "You can only transport to the overworld from the main ship or orbiter!"
+    end
+})
