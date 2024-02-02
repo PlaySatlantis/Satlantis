@@ -3,7 +3,6 @@
 
 The game that shares its profits with players. https://satlantis.net/  
 
-
 **THIS GAME IS CURRENTLY IN EARLY DEVELOPMENT AND MAY NOT BE COMPLETELY FUNCTIONAL**
 
 ----------
@@ -16,6 +15,6 @@ Review terms of service here: https://satlantis.net/blog/terms
 
 ----------
 
-**License**
+**License:** [MIT](https://choosealicense.com/licenses/mit/) ([LICENSE.txt](LICENSE.txt))  
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Contributions to Satlantis must be licensable as MIT.
