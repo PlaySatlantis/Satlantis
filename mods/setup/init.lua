@@ -4,7 +4,7 @@ minetest.get_server_status = function()
         table.insert(connected, player:get_player_name())
     end
 
-    return "Welcome to Satlantis! | Server ver. 5.8.0 | Connected players: " .. table.concat(connected, ", ")
+    return "Welcome to Satlantis! | Server ver. 5.8.0 | " .. #connected .. " players: " .. table.concat(connected, ", ")
 end
 
 minetest.register_on_joinplayer(function(player)
