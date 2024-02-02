@@ -17,9 +17,9 @@ end)
 
 
 minetest.send_join_message = function(name)
-    minetest.chat_send_all("> " .. name .. " joined.")
+    minetest.chat_send_all(">>> " .. name .. " joined.")
 end
 
 minetest.send_leave_message = function(name, timed_out)
-    minetest.chat_send_all("< " .. name .. " left" .. (timed_out and " (timed out)." or "."))
+    minetest.chat_send_all("<<< " .. name .. " left" .. (timed_out and " (timed out)." or "."))
 end
