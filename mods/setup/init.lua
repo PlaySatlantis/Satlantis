@@ -23,3 +23,20 @@ end
 minetest.send_leave_message = function(name, timed_out)
     minetest.chat_send_all("<<< " .. name .. " left" .. (timed_out and " (timed out)." or "."))
 end
+
+minetest.register_on_newplayer(function(player)
+    local inv = player:get_inventory()
+
+    for _, item in ipairs({
+        "farming:bread 20",
+        "default:pick_steel",
+        "default:sword_steel",
+        "default:axe_steel",
+        "default:shovel_steel",
+        "3d_armor:chestplate_steel",
+        "3d_armor:leggings_steel",
+        "3d_armor:boots_steel",
+    }) do
+        inv:add_item("main", item)
+    end
+end)

@@ -62,16 +62,4 @@ end
 
 minetest.register_on_newplayer(function(player)
     player:set_pos(lobby_pos)
-
-    local inv = player:get_inventory()
-
-    for _, item in ipairs({
-        "farming:bread 20",
-        "default:pick_steel",
-        "default:sword_steel",
-        "default:axe_steel",
-        "default:shovel_steel",
-    }) do
-        inv:add_item("main", item)
-    end
 end)
