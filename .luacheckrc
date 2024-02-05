@@ -48,4 +48,5 @@ globals = {
     "satlantis",
     "skyblock",
     "beacon",
+    "space",
 }

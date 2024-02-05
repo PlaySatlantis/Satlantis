@@ -27,7 +27,6 @@ local SPACE_PHYSICS = {
 
 local DEFAULT_PHYSICS = {
     gravity = 1,
-    jump = 1,
     acceleration_air = 1,
 }
 
@@ -61,6 +60,9 @@ local function set_player_location_default(player)
     player:override_day_night_ratio()
 end
 
+space = {}
+space.in_space = {}
+
 local interval = 0.2
 local timer = 0
 minetest.register_globalstep(function(dtime)
@@ -71,18 +73,18 @@ minetest.register_globalstep(function(dtime)
         end
 
         for _, player in pairs(minetest.get_connected_players()) do
-            local meta = player:get_meta()
-            local in_space = meta:get_int("space:in_space") > 0
+            local name = player:get_player_name()
+            local in_space = space.in_space[name]
 
             if player:get_pos().y >= SPACE_Y then
                 if not in_space then
                     set_player_location_space(player)
-                    meta:set_int("space:in_space", 1)
+                    space.in_space[name] = true
                 end
             else
                 if in_space then
                     set_player_location_default(player)
-                    meta:set_int("space:in_space", 0)
+                    space.in_space[name] = nil
                 end
             end
         end
@@ -90,7 +92,11 @@ minetest.register_globalstep(function(dtime)
 end)
 
 minetest.register_on_joinplayer(function(player)
-    if player:get_meta():get_int("space:in_space") > 0 then
+    -- Handle 3d_armor
+    player:get_meta():set_int("player_physics_locked", 1)
+
+    if player:get_pos().y >= SPACE_Y then
         set_player_location_space(player)
+        space.in_space[player:get_player_name()] = true
     end
 end)
