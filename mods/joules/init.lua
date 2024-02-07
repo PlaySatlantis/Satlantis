@@ -140,6 +140,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
                 jinv:remove_item("holding", ItemStack(itemname .. " " .. remove_count))
                 total_joules = total_joules + (remove_count * ratio)
+
+                minetest.log("action", ("[JOULES]: %s exchanges %d %s for %dJ."):format(name, remove_count, itemname, remove_count * ratio))
             end
 
             storage:set_int(name, total_joules)
