@@ -35,7 +35,7 @@ minetest.register_node("default:torch", {
 	sunlight_propagates = true,
 	walkable = false,
 	liquids_pointable = false,
-	light_source = 12,
+	light_source = 13,
 	groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1},
 	drop = "default:torch",
 	selection_box = {
