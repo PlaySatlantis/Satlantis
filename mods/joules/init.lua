@@ -64,7 +64,7 @@ local joule_form = [[
     button_exit[15,0.5;0.5,0.5;exit;X]
 
     label[1.1,2;Your joules: %dJ]
-    label[6,0.75;-- JOULE CONVERSION --]
+    label[6,0.75;-- JOULE EXCHANGE --]
     label[4,1.2;This interface may change in the future. Please report any issues.]
 
     label[7.35,2;Estimated joules: +%dJ]
