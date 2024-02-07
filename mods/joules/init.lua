@@ -33,12 +33,12 @@ joules.get_config = function()
     local convertable = {}
     for itemname, def in pairs(minetest.registered_items) do
         if items[itemname] then
-            table.insert(convertable, def.description)
+            table.insert(convertable, {def.description, items[itemname]})
             joule_ratios[itemname] = items[itemname]
         else -- Check if matches any groups
             for group, ratio in pairs(groups) do
                 if minetest.get_item_group(itemname, group) > 0 then
-                    table.insert(convertable, def.description)
+                    table.insert(convertable, {def.description, ratio})
                     joule_ratios[itemname] = ratio
                     break
                 end
@@ -46,7 +46,13 @@ joules.get_config = function()
         end
     end
 
-    convertible_list = table.concat(convertable, "\n")
+    local str = ""
+    table.sort(convertable, function(a, b) return a[2] > b[2] end)
+    for _, item in pairs(convertable) do
+        str = str .. item[1] .. "\n"
+    end
+
+    convertible_list = str
 end
 
 local joule_form = [[
