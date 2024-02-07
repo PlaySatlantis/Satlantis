@@ -49,4 +49,5 @@ globals = {
     "skyblock",
     "beacon",
     "space",
+    "joules",
 }
