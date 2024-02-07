@@ -46,10 +46,9 @@ joules.get_config = function()
         end
     end
 
-    convertible_list = table.concat(convertable, ",")
+    convertible_list = table.concat(convertable, "\n")
 end
 
--- FIXME: Cant split stacks due to textlist??
 local joule_form = [[
     size[16,12]
     no_prepend[]
@@ -63,15 +62,21 @@ local joule_form = [[
     label[4,1.2;This interface may change in the future. Please report any issues.]
 
     label[7.35,2;Estimated joules: +%dJ]
-    button[7.35,2.25;3.5,0.75;convert;Convert to Joules]
+    button[7.35,2.25;3.5,0.75;convert;Exchange for Joules]
 
     list[detached:joules:%s;holding;1.1,3.25;8,2;]
     list[current_player;main;1.1,6.5;8,4;]
     listring[current_player;main]
     listring[detached:joules:%s;holding]
 
-    label[11.5,2.75;Convertable Items]
-    textlist[11.5,3.25;3.5,8;convertable;%s]
+    label[11.5,2.75;Exchangable Items]
+    box[11.5,3.25;3.5,8;#000000]
+
+    scrollbaroptions[max=20;thumbsize=5]
+    scrollbar[15,3.25;0.25,8;vertical;scroll;]
+    scroll_container[11.5,3.25;3.5,8;scroll;vertical]
+    label[0.25,0.3;%s]
+    scroll_container_end[]
 ]]
 
 local function show_joule_form(name)
