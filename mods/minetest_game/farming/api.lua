@@ -231,6 +231,10 @@ farming.grow_plant = function(pos, elapsed)
 
 	-- check light
 	local light = minetest.get_node_light(pos)
+    if pos.y >= 20000 then
+        light = 12
+    end
+
 	if not light or light < def.minlight or light > def.maxlight then
 		tick_again(pos)
 		return
