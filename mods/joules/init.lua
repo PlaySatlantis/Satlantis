@@ -62,7 +62,7 @@ local joule_form = [[
     label[6,0.75;-- JOULE CONVERSION --]
     label[4,1.2;This interface may change in the future. Please report any issues.]
 
-    label[7.35,2;Estimated joules: %dJ]
+    label[7.35,2;Estimated joules: +%dJ]
     button[7.35,2.25;3.5,0.75;convert;Convert to Joules]
 
     list[detached:joules:%s;holding;1.1,3.25;8,2;]
@@ -83,7 +83,7 @@ local function show_joule_form(name)
         local ratio = joule_ratios[itemname]
 
         if ratio then
-            estimate = estimate + (ratio * stack:get_count())
+            estimate = estimate + math.floor(ratio * stack:get_count())
         end
     end
 
