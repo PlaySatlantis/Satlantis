@@ -134,3 +134,41 @@ minetest.register_on_newplayer(function(player)
         inv:add_item("main", item)
     end
 end)
+
+minetest.register_on_leaveplayer(function(player)
+    player:get_meta():set_string("logout:velocity", minetest.pos_to_string(player:get_velocity(), 2))
+end)
+
+minetest.register_on_joinplayer(function(player)
+    local saved_vel = player:get_meta():get("logout:velocity")
+    if saved_vel then
+        local velocity = minetest.string_to_pos(saved_vel)
+        if velocity.y < -0.2 then
+            local overrides = player:get_physics_override()
+
+            local hud_img = player:hud_add({
+                hud_elem_type = "image",
+                position = {x = 0, y = 0},
+                alignment = {x = 1, y = 1},
+                text = "blank.png^[invert:a",
+                scale = {x = -100, y = -100},
+            })
+            local hud_text = player:hud_add({
+                hud_elem_type = "text",
+                position = {x = 0.5, y = 0.5},
+                text = "Loading ...",
+                number = 0xFFFFFF,
+            })
+
+            player:set_physics_override({gravity = 0, speed = 0})
+
+            -- Wait for blocks to load :(
+            minetest.after(3, function()
+                player:set_physics_override(overrides)
+                player:hud_remove(hud_text)
+                player:hud_remove(hud_img)
+                player:add_velocity(velocity)
+            end)
+        end
+    end
+end)
