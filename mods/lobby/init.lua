@@ -84,8 +84,6 @@ local function get_overworld_pos()
             return pos
         end
     end
-
-    return vector.new(0, minetest.get_spawn_level(0, 0) or 0, 0)
 end
 
 local invincible = {}
@@ -117,6 +115,10 @@ minetest.register_chatcommand("overworld", {
             player:add_player_velocity(-player:get_velocity())
 
             local opos = get_overworld_pos()
+            if not opos then
+                return false, "Couldn't find suitable position. Please try again."
+            end
+
             if in_skyblock then
                 skyblock.exit_cel(name, opos)
             else
