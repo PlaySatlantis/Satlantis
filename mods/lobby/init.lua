@@ -88,6 +88,16 @@ local function get_overworld_pos()
     return vector.new(0, minetest.get_spawn_level(0, 0) or 0, 0)
 end
 
+local invincible = {}
+
+minetest.register_on_player_hpchange(function(player, hp_change)
+    if invincible[player:get_player_name()] then
+        return 0
+    end
+
+    return hp_change
+end, true)
+
 minetest.register_chatcommand("overworld", {
     func = function(name)
         local player = minetest.get_player_by_name(name)
@@ -101,8 +111,7 @@ minetest.register_chatcommand("overworld", {
                 space.set_player_space(name, false)
             end
 
-            local gravity = player:get_physics_override().gravity
-            player:set_physics_override({gravity = 0.2})
+            invincible[name] = true
 
             -- Try to set player velocity to zero
             player:add_player_velocity(-player:get_velocity())
@@ -115,9 +124,7 @@ minetest.register_chatcommand("overworld", {
             end
 
             minetest.after(3, function()
-                if minetest.get_player_by_name(name) then
-                    player:set_physics_override({gravity = gravity})
-                end
+                invincible[name] = false
             end)
 
             return true, "Transporting to overworld..."
