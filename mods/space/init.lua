@@ -63,6 +63,21 @@ end
 space = {}
 space.in_space = {}
 
+function space.set_player_space(name, in_space)
+    local player = minetest.get_player_by_name(name)
+    if not player then return false end
+
+    if in_space then
+        set_player_location_space(player)
+        space.in_space[name] = true
+    else
+        set_player_location_default(player)
+        space.in_space[name] = nil
+    end
+
+    return true
+end
+
 local interval = 0.2
 local timer = 0
 minetest.register_globalstep(function(dtime)
@@ -78,13 +93,11 @@ minetest.register_globalstep(function(dtime)
 
             if player:get_pos().y >= SPACE_Y then
                 if not in_space then
-                    set_player_location_space(player)
-                    space.in_space[name] = true
+                    space.set_player_space(name, true)
                 end
             else
                 if in_space then
-                    set_player_location_default(player)
-                    space.in_space[name] = nil
+                    space.set_player_space(name, false)
                 end
             end
         end

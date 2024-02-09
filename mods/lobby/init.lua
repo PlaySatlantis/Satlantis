@@ -93,11 +93,33 @@ minetest.register_chatcommand("overworld", {
         local player = minetest.get_player_by_name(name)
         local pos = player:get_pos()
 
-        if minetest.global_exists("skyblock") and skyblock.is_in_skyblock(name) then
-            skyblock.exit_cel(name, get_overworld_pos())
-            return true, "Transporting to overworld..."
-        elseif pos.y > 20000 and pos.y < 250000 then -- Likely in lobby
-            player:set_pos(get_overworld_pos())
+        local in_skyblock = minetest.global_exists("skyblock") and skyblock.is_in_skyblock(name)
+        local in_lobby = pos.y > 20000 and pos.y < 250000
+
+        if in_skyblock or in_lobby then
+            if space then
+                space.set_player_space(name, false)
+            end
+
+            local gravity = player:get_physics_override().gravity
+            player:set_physics_override({gravity = 0.2})
+
+            -- Try to set player velocity to zero
+            player:add_player_velocity(-player:get_velocity())
+
+            local opos = get_overworld_pos()
+            if in_skyblock then
+                skyblock.exit_cel(name, opos)
+            else
+                player:set_pos(opos)
+            end
+
+            minetest.after(3, function()
+                if minetest.get_player_by_name(name) then
+                    player:set_physics_override({gravity = gravity})
+                end
+            end)
+
             return true, "Transporting to overworld..."
         end
 
