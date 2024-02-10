@@ -179,6 +179,11 @@ minetest.register_node(":satlantis:header", {
     paramtype2 = "facedir",
     paramtype = "light",
     sunlight_propagates = true,
+    walkable = false,
+    selection_box = {
+        type = "fixed",
+        fixed = {0.4, -0.5, -0.5, 0.5, 0.5, 0.5}
+    },
     light_source = 2,
     groups = {oddly_breakable_by_hand = 1},
 })
