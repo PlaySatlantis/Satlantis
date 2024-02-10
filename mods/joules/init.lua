@@ -7,6 +7,10 @@ joules.config = {
     ratios = {},
 }
 
+joules.get_joules = function(name)
+    return storage:get_int(name)
+end
+
 local convertible_list = ""
 local joule_ratios = {}
 
