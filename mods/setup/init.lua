@@ -15,7 +15,6 @@ minetest.register_on_joinplayer(function(player)
     player:set_minimap_modes({{type = "off", label = " "}}, 0)
 end)
 
-
 minetest.send_join_message = function(name)
     minetest.chat_send_all(">>> " .. name .. " joined.")
 end
@@ -23,7 +22,6 @@ end
 minetest.send_leave_message = function(name, timed_out)
     minetest.chat_send_all("<<< " .. name .. " left" .. (timed_out and " (timed out)." or "."))
 end
-
 
 local rules_form = [[
     formspec_version[7]
@@ -172,3 +170,15 @@ minetest.register_on_joinplayer(function(player)
         end
     end
 end)
+
+minetest.register_node(":satlantis:header", {
+    description = "Header",
+    drawtype = "mesh",
+    mesh = "satlantis_header.obj",
+    tiles = {{name = "satlantis_header.png", backface_culling = false}},
+    paramtype2 = "facedir",
+    paramtype = "light",
+    sunlight_propagates = true,
+    light_source = 2,
+    groups = {oddly_breakable_by_hand = 1},
+})
