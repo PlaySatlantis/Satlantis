@@ -1,4 +1,5 @@
-skyblock = {}
+satlantis.skyblock = {}
+local skyblock = satlantis.skyblock
 
 local storage = minetest.get_mod_storage()
 
@@ -12,7 +13,7 @@ local GRID_VOLUME = GRID_WIDTH * GRID_WIDTH
 
 local MIN_POS = vector.new(-30000, 30000 - CEL_TOTAL_SIZE, -30000)
 
-minetest.register_node("skyblock:wall", {
+minetest.register_node(":skyblock:wall", {
     drawtype = "airlike",
     -- tiles = {"blank.png^[invert:rgba"},
     pointable = false,

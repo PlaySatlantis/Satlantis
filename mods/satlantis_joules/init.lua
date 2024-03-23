@@ -1,4 +1,5 @@
-joules = {}
+satlantis.joules = {}
+local joules = satlantis.joules
 
 local WORLDPATH = minetest.get_worldpath()
 local storage = minetest.get_mod_storage()

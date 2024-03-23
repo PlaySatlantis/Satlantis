@@ -1,4 +1,5 @@
-beacon = {}
+satlantis.beacon = {}
+local beacon = satlantis.beacon
 
 beacon.colors = {
     "red", "darkorange", "yellow", "lime", "green",
@@ -6,7 +7,7 @@ beacon.colors = {
     "saddlebrown", "gray", "darkgray", "#222222",
 }
 
-minetest.register_entity("beacon:beam", {
+minetest.register_entity(":beacon:beam", {
     initial_properties = {
         visual = "mesh",
         mesh = "beacon_beam.obj",
@@ -55,7 +56,7 @@ function beacon.rotate_beacon_color(pos, direction)
     beacon.set_beacon_color(pos, (current_color + direction) % (#beacon.colors + 1))
 end
 
-minetest.register_node("beacon:beacon", {
+minetest.register_node(":beacon:beacon", {
     description = "Beacon",
     tiles = {"blank.png^[invert:rgba^[colorize:aqua:255"},
     groups = {cracky = 1, oddly_breakable_by_hand = 1},
@@ -80,7 +81,7 @@ minetest.register_node("beacon:beacon", {
 
 minetest.register_lbm({
     label = "star beacons",
-    name = "beacon:beam",
+    name = ":beacon:beam",
     run_at_every_load = true,
     nodenames = {"beacon:beacon"},
     action = function(pos)

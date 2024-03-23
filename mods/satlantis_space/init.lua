@@ -3,12 +3,12 @@ local SPACE_Y = 20000
 local SPACE_SKY = {
     type = "skybox",
     textures = {
-        "skybox_top.png",
-        "skybox_bot.png",
-        "skybox_front.png",
-        "skybox_back.png",
-        "skybox_right.png",
-        "skybox_left.png",
+        "satlantis_space_skybox_top.png",
+        "satlantis_space_skybox_bot.png",
+        "satlantis_space_skybox_front.png",
+        "satlantis_space_skybox_back.png",
+        "satlantis_space_skybox_right.png",
+        "satlantis_space_skybox_left.png",
     },
     clouds = false,
     base_color = "#0c495e",
@@ -60,7 +60,8 @@ local function set_player_location_default(player)
     player:override_day_night_ratio()
 end
 
-space = {}
+satlantis.space = {}
+local space = satlantis.space
 space.in_space = {}
 
 function space.set_player_space(name, in_space)

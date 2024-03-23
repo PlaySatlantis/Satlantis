@@ -1,3 +1,5 @@
+satlantis = {}
+
 minetest.get_server_status = function()
     local connected = {}
     for _, player in pairs(minetest.get_connected_players()) do

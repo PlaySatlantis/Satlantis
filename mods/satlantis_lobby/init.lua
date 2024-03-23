@@ -1,5 +1,6 @@
 local storage = minetest.get_mod_storage()
 local lobby_pos = minetest.string_to_pos(storage:get("lobby_pos") or "0,0,0")
+local skyblock, space = satlantis.skyblock, satlantis.space
 
 minetest.register_chatcommand("lobby", {
     func = function(name, param)

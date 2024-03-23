@@ -46,8 +46,4 @@ read_globals = {
 globals = {
     "minetest", "core",
     "satlantis",
-    "skyblock",
-    "beacon",
-    "space",
-    "joules",
 }
