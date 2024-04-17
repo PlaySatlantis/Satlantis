@@ -1,5 +1,54 @@
 satlantis = {}
 
+local MODPATH = minetest.get_modpath(minetest.get_current_modname())
+
+local config_file = io.open(MODPATH .. "/config.json", "r")
+local config = minetest.parse_json(config_file:read("*a"))
+config_file:close()
+
+local api_file = io.open(MODPATH .. "/api.json", "r")
+local backend_api = minetest.parse_json(api_file:read("*a"))
+api_file:close()
+
+local http_api = minetest.request_http_api();
+
+if not http_api then
+    core.log("error", "HTTP access hasn't been granted to Satlantis. Cannot start")
+    return
+end
+
+minetest.register_chatcommand("link", {
+    description = "Confirm your Discord account by entering token",
+    func = function(name, param)
+        local payload = "{ \"token\":\"" .. tostring(param) .. "\", \"username\": \"" .. tostring(name) .. "\"}"
+        local request = {
+            url = backend_api.link,
+            timeout = 4,
+            method = "POST",
+            post_data = payload,
+            extra_headers = {
+                "Accept-Charset: utf-8",
+                "Content-Type: application/json",
+                "API-KEY: " .. config.API_KEY
+            },
+        }
+        http_api.fetch(request, function(response)
+            if response.succeeded and response.code == 200 then
+                minetest.chat_send_player(name, "Discord account successfully linked!")
+            elseif response.timeout then
+                minetest.chat_send_player(name, "Link failed due to timeout")
+            else
+                local response_json = core.parse_json(response.data or "")
+                local reason = "Unknown"
+                if response_json and response_json.status then
+                    reason = tostring(response_json.status)
+                end
+                minetest.chat_send_player(name, "Link failed. " .. reason )
+            end
+        end)
+    end
+})
+
 minetest.get_server_status = function()
     local connected = {}
     for _, player in pairs(minetest.get_connected_players()) do
