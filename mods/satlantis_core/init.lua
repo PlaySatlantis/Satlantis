@@ -58,12 +58,100 @@ minetest.get_server_status = function()
     return "Welcome to Satlantis! | Server ver. 5.8.0 | " .. #connected .. " players: " .. table.concat(connected, ", ")
 end
 
-minetest.register_on_joinplayer(function(player)
+minetest.register_on_joinplayer(function(player, last_joined)
+
     player:hud_set_flags({
         basic_debug = false,
     })
 
     player:set_minimap_modes({{type = "off", label = " "}}, 0)
+
+    local player_name = player:get_player_name()
+    if not player_name then
+        core.log("error", "Player name is nil")
+        return
+    end
+
+    -- The player is joining for the first time. We need to create a record
+    -- for them in the backend
+    if not last_joined then
+        core.log("info", "Creating record in backend for " .. player_name)
+        local request = {
+            url = backend_api.get_user .. player_name,
+            method = "GET",
+            extra_headers = {
+                "Accept-Charset: utf-8",
+                "Content-Type: application/json",
+                "API-KEY: " .. config.API_KEY
+            },
+        }
+        -- First, check to see whether a record already exists for this user
+        -- Since this user just joined the server, we're expecting that one should *NOT* exist
+        http_api.fetch(request, function(response)
+            if response.succeeded and response.code == 200 then
+                core.log("error", "Record in backend already exists for " .. player_name)
+            elseif response.code == 400 then
+                --
+                -- No record found for this user, this is what we want. Next we'll
+                -- go ahead and create a new one
+                --
+                local inner_request = {
+                    url = backend_api.create_user .. player_name,
+                    method = "POST",
+                    extra_headers = {
+                        "Accept-Charset: utf-8",
+                        "API-KEY: " .. config.API_KEY
+                    },
+                }
+                http_api.fetch(inner_request, function(inner_response)
+                    if inner_response.succeeded and inner_response.code == 200 then
+                        core.log("info", "Record in backend successfully created for: " .. player_name)
+                        --
+                        -- Success: New player got created in the backend
+                        --
+                    else
+                        core.log("error", "Failed to create user " .. player_name .. " in the backend. Response: " .. inner_response.data)
+                    end
+                end)
+            elseif response.timeout then
+                core.log("error", "Failed to create record for \"" .. player_name .. "\" due to timeout")
+            else
+                local response_json = core.parse_json(response.data or "")
+                local reason = "Unknown"
+                if response_json and response_json.status then
+                    reason = tostring(response_json.status)
+                end
+                minetest.chat_send_player(name, "Failed to create record for \"" .. player_name .. "\". Reason: " .. reason)
+            end
+        end)
+    else
+        --
+        -- Player already exists on the server, in this case we expect to find a record
+        -- for them in the backend
+        --
+        local request = {
+            url = backend_api.get_user .. player_name,
+            method = "GET",
+            extra_headers = {
+                "Accept-Charset: utf-8",
+                "Content-Type: application/json",
+                "API-KEY: " .. config.API_KEY
+            },
+        }
+        http_api.fetch(request, function(response)
+            if response.succeeded and response.code == 200 then
+                --
+                -- Success: Record for existing player found in backend
+                --
+            elseif response.code == 400 then
+                core.log("error", "Record doesn't exist in backend for exising user: " .. player_name)
+            elseif response.timeout then
+                core.log("error", "Failed to validate record in backend due to timeout. Username: " .. player_name)
+            else
+                core.log("error", "Failed to validate record in backend due to unknown error. Username: " .. player_name)
+            end
+        end)
+    end
 end)
 
 minetest.send_join_message = function(name)
