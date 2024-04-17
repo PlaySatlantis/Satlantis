@@ -1,44 +1,5 @@
 satlantis = {}
 
-local http_api = minetest.request_http_api();
-
-if not http_api then
-    core.log("error", "HTTP access hasn't been granted to Satlantis. Cannot start")
-    return
-end
-
-minetest.register_chatcommand("link", {
-    description = "Confirm your Discord account by entering token",
-    func = function(name, param)
-        local payload = "{ \"token\":\"" .. tostring(param) .. "\", \"username\": \"" .. tostring(name) .. "\"}"
-        local request = {
-            url = "https://testapi.satlantis.place/api/v1/minetest/link",
-            timeout = 4,
-            method = "POST",
-            post_data = payload,
-            extra_headers = {
-                "Accept-Charset: utf-8",
-                "Content-Type: application/json",
-                "API-KEY: uEOanpbJEPUhip7Jn5LUV8xSsp8LOe4d9DzruVKz3KOghH31DLGJ1SqNHtW0ASxy"
-            },
-        }
-        http_api.fetch(request, function(response)
-            if response.succeeded and response.code == 200 then
-                minetest.chat_send_player(name, "Discord account successfully linked!")
-            elseif response.timeout then
-                minetest.chat_send_player(name, "Link failed due to timeout")
-            else
-                local response_json = core.parse_json(response.data or "")
-                local reason = "Unknown"
-                if response_json and response_json.status then
-                    reason = tostring(response_json.status)
-                end
-                minetest.chat_send_player(name, "Link failed. " .. reason )
-            end
-        end)
-    end
-})
-
 minetest.get_server_status = function()
     local connected = {}
     for _, player in pairs(minetest.get_connected_players()) do
