@@ -17,6 +17,35 @@ if not http_api then
     return
 end
 
+function satlantis.give_player_joules(player, amount, callback)
+    local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
+    local request = {
+        url = backend_api.add_joules,
+        timeout = 4,
+        method = "PUT",
+        post_data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            callback(true, "Success")
+        elseif response.timeout then
+            callback(false, "Timed out")
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason)
+        end
+    end)
+end
+
 minetest.register_chatcommand("link", {
     description = "Confirm your Discord account by entering token",
     func = function(name, param)
@@ -72,6 +101,24 @@ local function parse_args(params)
     end
     return arg_list
 end
+
+--
+-- Can be used to test `satlantis.give_player_joules`
+--
+
+-- minetest.register_chatcommand("add_joules", {
+--     description = "Add Joules",
+--     func = function(name, params)
+--         local amount = 44
+--         satlantis.give_player_joules(name, amount, function(succeeded, message)
+--             if succeeded then
+--                 core.log("error", "Successfully added joules to user")
+--             else
+--                 core.log("error", "Failed to add joules to user. Reason: " .. tostring(message))
+--             end
+--         end)
+--     end
+-- })
 
 minetest.register_chatcommand("set_email", {
     description = "Set email for account. This will cause a confirmation email to get sent",
