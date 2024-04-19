@@ -49,6 +49,68 @@ minetest.register_chatcommand("link", {
     end
 })
 
+-- Splits a string based on space
+local function parse_args(params)
+    local arg_list = {}
+    local arg_count = 0
+    local start_index = 1
+    local sep = string.byte(" ")
+    local len = params:len()
+    local i = 1
+    while i <= len do
+        if params:byte(i) == sep or i == len then
+            local param = params:sub(start_index, i)
+            arg_count = arg_count + 1
+            arg_list[arg_count] = param
+            -- Skip white space
+            while i <= len and params:byte(i) == sep do
+                i = i + 1
+            end
+            start_index = i
+        end
+        i = i + 1
+    end
+    return arg_list
+end
+
+minetest.register_chatcommand("set_email", {
+    description = "Set email for account. This will cause a confirmation email to get sent",
+    func = function(name, param)
+        local args = parse_args(param)
+        if #args == 1 then
+            local email = args[1]
+            local payload = "{ \"user\":\"" .. tostring(name) .. "\", \"email\": \"" .. tostring(email) .. "\"}"
+            local request = {
+                url = backend_api.send_email_confirmation,
+                timeout = 10,
+                method = "POST",
+                post_data = payload,
+                extra_headers = {
+                    "Accept-Charset: utf-8",
+                    "Content-Type: application/json",
+                    "API-KEY: " .. config.API_KEY
+                },
+            }
+            http_api.fetch(request, function(response)
+                if response.succeeded and response.code == 200 then
+                    minetest.chat_send_player(name, "Success. Check your email inbox for the confirmation email")
+                elseif response.timeout then
+                    minetest.chat_send_player(name, "Couldn't send email confirmation due to timeout. Please try again")
+                else
+                    local response_json = core.parse_json(response.data or "")
+                    local reason = "Unknown"
+                    if response_json and response_json.status then
+                        reason = tostring(response_json.status)
+                    end
+                    minetest.chat_send_player(name, "Failed to send email comfirmation. " .. reason )
+                end
+            end)
+        else
+            minetest.chat_send_player(name, "set_email command only takes a single argument. Found " .. tostring(#args))
+        end
+    end
+})
+
 minetest.get_server_status = function()
     local connected = {}
     for _, player in pairs(minetest.get_connected_players()) do
@@ -60,6 +122,7 @@ end
 
 minetest.register_on_joinplayer(function(player, last_joined)
 
+    core.log("error", "register_on_joinplayer")
     player:hud_set_flags({
         basic_debug = false,
     })
