@@ -23,7 +23,7 @@ function satlantis.give_player_joules(player, amount, callback)
         url = backend_api.add_joules,
         timeout = 4,
         method = "PUT",
-        post_data = payload,
+        data = payload,
         extra_headers = {
             "Accept-Charset: utf-8",
             "Content-Type: application/json",
@@ -46,6 +46,40 @@ function satlantis.give_player_joules(player, amount, callback)
     end)
 end
 
+function satlantis.add_balance(player, amount, callback)
+    local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
+    local request = {
+        url = backend_api.change_balance,
+        timeout = 4,
+        method = "PUT",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_data = core.parse_json(response.data or "")
+            local user_balance = {
+                previous = response_data.data.balance_before,
+                current = response_data.data.balance_after
+            }
+            callback(true, "Success", user_balance)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
 minetest.register_chatcommand("link", {
     description = "Confirm your Discord account by entering token",
     func = function(name, param)
@@ -54,7 +88,7 @@ minetest.register_chatcommand("link", {
             url = backend_api.link,
             timeout = 4,
             method = "POST",
-            post_data = payload,
+            data = payload,
             extra_headers = {
                 "Accept-Charset: utf-8",
                 "Content-Type: application/json",
@@ -120,6 +154,33 @@ end
 --     end
 -- })
 
+--
+-- Can be used to test `satlantis.add_balance`
+--
+
+-- minetest.register_chatcommand("add_balance", {
+--     description = "Add balance",
+--     func = function(name, params)
+--         local args = parse_args(params)
+--         if #args == 1 then
+--             local amount = tonumber(args[1])
+--             if amount then
+--                 satlantis.add_balance(name, amount, function(succeeded, message, user_balance)
+--                     if succeeded then
+--                         minetest.chat_send_player(name, "Successfully added " .. tostring(amount) .. " to account. Current balance: " .. tostring(user_balance.current))
+--                     else
+--                         minetest.chat_send_player(name, "Failed add balance. Reason: " .. tostring(message))
+--                     end
+--                 end)
+--             else
+--                 minetest.chat_send_player(name, "Invalid amount. Please enter a valid numeric value")
+--             end
+--         else
+--             minetest.chat_send_player(name, "add_balance expects 1 argument. Found " .. tostring(#args))
+--         end
+--     end
+-- })
+
 minetest.register_chatcommand("set_email", {
     description = "Set email for account. This will cause a confirmation email to get sent",
     func = function(name, param)
@@ -131,7 +192,7 @@ minetest.register_chatcommand("set_email", {
                 url = backend_api.send_email_confirmation,
                 timeout = 10,
                 method = "POST",
-                post_data = payload,
+                data = payload,
                 extra_headers = {
                     "Accept-Charset: utf-8",
                     "Content-Type: application/json",
@@ -169,7 +230,7 @@ minetest.register_chatcommand("verify_code", {
                 url = backend_api.verify_code,
                 timeout = 4,
                 method = "POST",
-                post_data = payload,
+                data = payload,
                 extra_headers = {
                     "Accept-Charset: utf-8",
                     "Content-Type: application/json",
