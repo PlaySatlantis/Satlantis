@@ -111,6 +111,44 @@ minetest.register_chatcommand("set_email", {
     end
 })
 
+minetest.register_chatcommand("verify_code", {
+    description = "Verify code previously sent to email address",
+    func = function(name, param)
+        local args = parse_args(param)
+        if #args == 1 then
+            local code = args[1]
+            local payload = "{ \"user\":\"" .. tostring(name) .. "\", \"code\": \"" .. tostring(code) .. "\"}"
+            local request = {
+                url = backend_api.verify_code,
+                timeout = 4,
+                method = "POST",
+                post_data = payload,
+                extra_headers = {
+                    "Accept-Charset: utf-8",
+                    "Content-Type: application/json",
+                    "API-KEY: " .. config.API_KEY
+                },
+            }
+            http_api.fetch(request, function(response)
+                if response.succeeded and response.code == 200 then
+                    minetest.chat_send_player(name, "Email successfully verified!")
+                elseif response.timeout then
+                    minetest.chat_send_player(name, "Couldn't verify code due to timeout. Please try again")
+                else
+                    local response_json = core.parse_json(response.data or "")
+                    local reason = "Unknown"
+                    if response_json and response_json.status then
+                        reason = tostring(response_json.status)
+                    end
+                    minetest.chat_send_player(name, "Failed to verify email with code. " .. reason )
+                end
+            end)
+        else
+            minetest.chat_send_player(name, "verify_code command only takes a single argument. Found " .. tostring(#args))
+        end
+    end
+})
+
 minetest.get_server_status = function()
     local connected = {}
     for _, player in pairs(minetest.get_connected_players()) do
