@@ -25,6 +25,10 @@ if not http_api then
     return
 end
 
+local function sleep(seconds)
+    ie.os.execute("sleep " .. tostring(seconds))
+end
+
 function satlantis.give_player_joules(player, amount, callback)
     local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
     local request = {
@@ -115,6 +119,84 @@ minetest.register_chatcommand("link", {
                     reason = tostring(response_json.status)
                 end
                 minetest.chat_send_player(name, "Link failed. " .. reason )
+            end
+        end)
+    end
+})
+
+local deposit_qr_formspec = [[
+    formspec_version[7]
+    size[16,10]
+    no_prepend[]
+    bgcolor[#002b3d]
+    style_type[label;font_size=*2.2]
+    label[2,0.8;Use the following QR code to make a deposit]
+    image[5,1.5;6,6;%s]
+    style_type[label;font_size=*2]
+    textarea[1,8.0;14,2;;%s;]
+    button_exit[14,9;1.5,0.8;;Close]
+]]
+
+minetest.register_chatcommand("deposit", {
+    description = "Request QR link for making deposit",
+    func = function(name, param)
+        local payload = "{\"user\":\"" .. tostring(name) .. "\"}"
+        local request = {
+            url = backend_api.deposit,
+            timeout = 4,
+            method = "POST",
+            data = payload,
+            extra_headers = {
+                "Accept-Charset: utf-8",
+                "Content-Type: application/json",
+                "API-KEY: " .. config.API_KEY
+            },
+        }
+        http_api.fetch(request, function(response)
+            if response.succeeded and response.code == 200 then
+                local response_json = core.parse_json(response.data or "")
+                if response_json and response_json.status then
+                    if response_json.status == "success" then
+                        local request_code = response_json.data.request
+                        local qr_image = response_json.data.qr_image
+                        if request_code and qr_image then
+                            local inner_request = {
+                                url = qr_image,
+                                timeout = 4,
+                                method = "GET",
+                                extra_headers = {
+                                    "Accept-Charset: utf-8",
+                                    "Content-Type: image/png",
+                                    "API-KEY: " .. config.API_KEY
+                                },
+                            }
+                            http_api.fetch(inner_request, function(inner_response)
+                                if inner_response.succeeded then
+                                    local qr_image_file_path = MODPATH .. "/textures/qr_image.png"
+                                    local qr_image_file = ie.io.open(qr_image_file_path, "w")
+                                    qr_image_file:write(inner_response.data)
+                                    qr_image_file:close()
+                                    -- Seems like there's a race condition here, where the formspec fails to load the
+                                    -- image without this delay
+                                    sleep(0.1)
+                                    local formspec = deposit_qr_formspec:format("qr_image.png", request_code);
+                                    minetest.show_formspec(name, "Deposit", formspec)
+                                end
+                            end)
+                        end
+                    else
+                        minetest.chat_send_player(name, "Error: " .. tostring(response_json.status))
+                    end
+                end
+            elseif response.timeout then
+                minetest.chat_send_player(name, "Failed to generate deposit details due to timeout. Please try again")
+            else
+                local response_json = core.parse_json(response.data or "")
+                local reason = "Unknown"
+                if response_json and response_json.status then
+                    reason = tostring(response_json.status)
+                end
+                minetest.chat_send_player(name, "Failed to generate deposit details. Reason: " .. reason )
             end
         end)
     end
