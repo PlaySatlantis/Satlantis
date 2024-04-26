@@ -58,6 +58,92 @@ function satlantis.give_player_joules(player, amount, callback)
     end)
 end
 
+function satlantis.create_asic(player, hashrate, kind, callback)
+    if kind == nil then
+        kind = "REGULAR"
+    end
+    local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"hashrate\": \"" .. tostring(hashrate) .. "\", \"type\": \"" .. tostring(kind) .. "\"}"
+    local request = {
+        url = backend_api.create_asic,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
+function satlantis.get_user_data(player, callback)
+    local request = {
+        url = backend_api.get_user .. player,
+        method = "GET",
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
+function satlantis.get_asics(player, callback)
+    local request = {
+        url = backend_api.get_asics .. player,
+        method = "GET",
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
 function satlantis.add_balance(player, amount, callback)
     local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
     local request = {
@@ -225,51 +311,6 @@ local function parse_args(params)
     end
     return arg_list
 end
-
---
--- Can be used to test `satlantis.give_player_joules`
---
-
--- minetest.register_chatcommand("add_joules", {
---     description = "Add Joules",
---     func = function(name, params)
---         local amount = 44
---         satlantis.give_player_joules(name, amount, function(succeeded, message)
---             if succeeded then
---                 core.log("error", "Successfully added joules to user")
---             else
---                 core.log("error", "Failed to add joules to user. Reason: " .. tostring(message))
---             end
---         end)
---     end
--- })
-
---
--- Can be used to test `satlantis.add_balance`
---
-
--- minetest.register_chatcommand("add_balance", {
---     description = "Add balance",
---     func = function(name, params)
---         local args = parse_args(params)
---         if #args == 1 then
---             local amount = tonumber(args[1])
---             if amount then
---                 satlantis.add_balance(name, amount, function(succeeded, message, user_balance)
---                     if succeeded then
---                         minetest.chat_send_player(name, "Successfully added " .. tostring(amount) .. " to account. Current balance: " .. tostring(user_balance.current))
---                     else
---                         minetest.chat_send_player(name, "Failed add balance. Reason: " .. tostring(message))
---                     end
---                 end)
---             else
---                 minetest.chat_send_player(name, "Invalid amount. Please enter a valid numeric value")
---             end
---         else
---             minetest.chat_send_player(name, "add_balance expects 1 argument. Found " .. tostring(#args))
---         end
---     end
--- })
 
 minetest.register_chatcommand("set_email", {
     description = "Set email for account. This will cause a confirmation email to get sent",
@@ -647,3 +688,107 @@ minetest.register_node(":satlantis:header", {
     light_source = 2,
     groups = {oddly_breakable_by_hand = 1},
 })
+
+--
+-- Below are definitions for chat_commands that can be used to test the API
+--
+
+--
+-- Can be used to test `satlantis.get_user_data`
+--
+
+-- minetest.register_chatcommand("get_user", {
+--     description = "Get account information for user",
+--     func = function(name, params)
+--         satlantis.get_user_data(name, function(succeeded, message, json_data)
+--             if succeeded then
+--                 core.log("error", "User data: " .. dump(json_data))
+--             else
+--                 core.log("error", "Failed to get user data for user. Reason: " .. tostring(message))
+--             end
+--         end)
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.get_asics`
+--
+
+-- minetest.register_chatcommand("get_asics", {
+--     description = "Get ASICs for user",
+--     func = function(name, params)
+--         satlantis.get_asics(name, function(succeeded, message, json_data)
+--             if succeeded then
+--                 core.log("error", "ASICs: " .. dump(json_data))
+--             else
+--                 core.log("error", "Failed to create ASIC for user. Reason: " .. tostring(message))
+--             end
+--         end)
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.create_asic`
+--
+
+-- minetest.register_chatcommand("create_asic", {
+--     description = "Add ASIC",
+--     func = function(name, params)
+--         local args = parse_args(params)
+--         local hashrate = args[1]
+--         local kind = #args >= 2 and args[2] or nil
+--         satlantis.create_asic(name, hashrate, kind, function(succeeded, message, json_data)
+--             if succeeded then
+--                 core.log("error", "Successfully created ASIC for user")
+--                 core.log("error", "Json: " .. dump(json_data))
+--             else
+--                 core.log("error", "Failed to create ASiC for user. Reason: " .. tostring(message))
+--             end
+--         end)
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.give_player_joules`
+--
+
+-- minetest.register_chatcommand("add_joules", {
+--     description = "Add Joules",
+--     func = function(name, params)
+--         local amount = 44
+--         satlantis.give_player_joules(name, amount, function(succeeded, message)
+--             if succeeded then
+--                 core.log("error", "Successfully added joules to user")
+--             else
+--                 core.log("error", "Failed to add joules to user. Reason: " .. tostring(message))
+--             end
+--         end)
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.add_balance`
+--
+
+-- minetest.register_chatcommand("add_balance", {
+--     description = "Add balance",
+--     func = function(name, params)
+--         local args = parse_args(params)
+--         if #args == 1 then
+--             local amount = tonumber(args[1])
+--             if amount then
+--                 satlantis.add_balance(name, amount, function(succeeded, message, user_balance)
+--                     if succeeded then
+--                         minetest.chat_send_player(name, "Successfully added " .. tostring(amount) .. " to account. Current balance: " .. tostring(user_balance.current))
+--                     else
+--                         minetest.chat_send_player(name, "Failed add balance. Reason: " .. tostring(message))
+--                     end
+--                 end)
+--             else
+--                 minetest.chat_send_player(name, "Invalid amount. Please enter a valid numeric value")
+--             end
+--         else
+--             minetest.chat_send_player(name, "add_balance expects 1 argument. Found " .. tostring(#args))
+--         end
+--     end
+-- })
