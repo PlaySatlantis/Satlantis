@@ -1,5 +1,13 @@
 satlantis = {}
 
+local ie = minetest.request_insecure_environment()
+
+if not ie or not ie.require then
+    core.log("error", "satlantis_core hasn't been given access to insecure environment. "
+                   .. "Please add it to `secure.trusted_mods` in minetest.conf")
+    return
+end
+
 local MODPATH = minetest.get_modpath(minetest.get_current_modname())
 
 local config_file = io.open(MODPATH .. "/config.json", "r")
@@ -268,7 +276,6 @@ end
 
 minetest.register_on_joinplayer(function(player, last_joined)
 
-    core.log("error", "register_on_joinplayer")
     player:hud_set_flags({
         basic_debug = false,
     })
@@ -349,11 +356,34 @@ minetest.register_on_joinplayer(function(player, last_joined)
         }
         http_api.fetch(request, function(response)
             if response.succeeded and response.code == 200 then
-                --
-                -- Success: Record for existing player found in backend
-                --
+            --
+            -- Success: Record for existing player found in backend
+            --
             elseif response.code == 400 then
-                core.log("error", "Record doesn't exist in backend for exising user: " .. player_name)
+                core.log("warn", "Record doesn't exist in backend for exising user: " .. player_name)
+                local inner_request = {
+                    url = backend_api.create_user .. player_name,
+                    method = "POST",
+                    -- Without this dummy post data, request will get permentently stuck in queue
+                    -- (On Ubuntu)
+                    data = " ",
+                    timeout = 10,
+                    extra_headers = {
+                        "Accept-Charset: utf-8",
+                        "Content-Type: application/json",
+                        "API-KEY: " .. config.API_KEY
+                    },
+                }
+                http_api.fetch(inner_request, function(inner_response)
+                    if inner_response.succeeded and inner_response.code == 200 then
+                        core.log("info", "Record in backend successfully created for: " .. player_name)
+                        --
+                        -- Success: New player got created in the backend
+                        --
+                    else
+                        core.log("error", "Failed to create user " .. player_name .. " in the backend. Response: " .. inner_response.data)
+                    end
+                end)
             elseif response.timeout then
                 core.log("error", "Failed to validate record in backend due to timeout. Username: " .. player_name)
             else
