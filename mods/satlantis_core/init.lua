@@ -388,6 +388,118 @@ minetest.register_chatcommand("verify_code", {
     end
 })
 
+local function user_is_connected(username)
+    for _, connected_player in pairs(minetest.get_connected_players()) do
+        if connected_player:get_player_name() == username then
+            return true
+        end
+    end
+    return false
+end
+
+local time_since_update = 0
+local update_table = {}
+local update_table_next_free = nil
+
+minetest.register_globalstep(function(dtime)
+    time_since_update = time_since_update + dtime
+    local update_interval = 2
+    if time_since_update >= update_interval then
+        time_since_update = 0
+        update_table_next_free = nil
+        --
+        -- First let's process what's in `update_table`
+        --
+        for i, update in ipairs(update_table) do
+            if update.processed == false then
+                if item.type and item.type == "USER_DEPOSIT_SUCCESS" then
+                    local user = item.user
+                    local amount = item.amount
+                    if user and amount then
+                        if user_is_connected(user) then
+                            minetest.chat_send_player(username, "Deposit of " .. tostring(amount) .. " sats was successful")
+                            update.processed = true
+                        end
+                    else
+                        core.log("error", "Corrupted USER_DEPOSIT_SUCCESS found in `update_table`")
+                    end
+                else
+                    core.log("error", "Update with invalid type " .. tostring(item.type) .. " found in `update_table`")
+                end
+            else
+                if not update_table_next_free then
+                    -- Keep track of the first entry in the table that is free
+                    -- to be overwritten so we don't have to shift around elements
+                    update_table_next_free = i
+                end
+            end
+        end
+        --
+        -- Next we load updates from the backend. Some will be processed straight away, while
+        -- those that can't will be put into `update_table` for later on
+        --
+        local request = {
+            url = backend_api.get_updates,
+            method = "GET",
+            extra_headers = {
+                "Accept-Charset: utf-8",
+                "Content-Type: application/json",
+                "API-KEY: " .. config.API_KEY
+            },
+        }
+        http_api.fetch(request, function(response)
+            if response.succeeded and response.code == 200 then
+                local response_json = core.parse_json(response.data or "")
+                for i, item in ipairs(response_json) do
+                    if item.type and item.type == "USER_DEPOSIT_SUCCESS" then
+                        if item.data then
+                            local username = item.data.user
+                            local amount = item.data.amount
+                            if username and amount then
+                                if user_is_connected(username) then
+                                    minetest.chat_send_player(username, "Deposit of " .. tostring(amount) .. " sats was successful")
+                                else
+                                    -- We have an update for a user that isn't connected to the server atm
+                                    -- Store it in `update_table`
+                                    local table_record = {
+                                        kind = "USER_DEPOSIT_SUCCESS",
+                                        user = username,
+                                        amount = amount,
+                                        created_ts = ie.os.time(),
+                                        processed = false
+                                    }
+                                    if update_table_next_free then
+                                        assert(update_table[update_table_next_free].processed)
+                                        update_table[update_table_next_free] = table_record
+                                    else
+                                        table.insert(update_table, table_record)
+                                    end
+                                    -- core.log("info", "Added entry to `update_table`. " .. dump(table_record))
+                                end
+                            else
+                                core.log("error", "Invalid payload from backend for `USER_DEPOSIT_SUCCESS`. `user` and/or `player` field null")
+                            end
+                        else
+                            core.log("error", "Invalid payload from backend for `USER_DEPOSIT_SUCCESS`. No data found")
+                        end
+                    else
+                        core.log("warn", "Update with invalid type " .. tostring(item.type) .. " will be ignored")
+                    end
+                end
+            elseif response.timeout then
+                core.log("warn", "Update request to backend timed out.")
+            else
+                local response_json = core.parse_json(response.data or "")
+                local reason = "Unknown"
+                if response_json and response_json.status then
+                    reason = tostring(response_json.status)
+                end
+                core.log("warn", "Update request to backend failed. Reason: " .. reason)
+            end
+        end)
+    end
+end)
+
 minetest.get_server_status = function()
     local connected = {}
     for _, player in pairs(minetest.get_connected_players()) do
