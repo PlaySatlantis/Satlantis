@@ -148,7 +148,6 @@ function satlantis.add_balance(player, amount, callback)
     local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
     local request = {
         url = backend_api.change_balance,
-        timeout = 4,
         method = "PUT",
         data = payload,
         extra_headers = {
@@ -165,6 +164,41 @@ function satlantis.add_balance(player, amount, callback)
                 current = response_data.data.balance_after
             }
             callback(true, "Success", user_balance)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
+function satlantis.make_purchase(player, amount, callback)
+    local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
+    local request = {
+        url = backend_api.make_purchase,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_data = core.parse_json(response.data or "")
+            local updated_record = {
+                amount = response_data.data.amount,
+                added_to_prize_pool = response_data.data.added_to_prize_pool,
+                new_balance = response_data.data.new_balance,
+                old_balance = response_data.data.old_balance
+            }
+            callback(true, "Success", updated_record)
         elseif response.timeout then
             callback(false, "Timed out", nil)
         else
@@ -449,7 +483,10 @@ minetest.register_globalstep(function(dtime)
         }
         http_api.fetch(request, function(response)
             if response.succeeded and response.code == 200 then
-                local response_json = core.parse_json(response.data or "")
+                local response_json = {}
+                if response.data then
+                    response_json = core.parse_json(response.data)
+                end
                 for i, item in ipairs(response_json) do
                     if item.type and item.type == "USER_DEPOSIT_SUCCESS" then
                         if item.data then
@@ -483,18 +520,21 @@ minetest.register_globalstep(function(dtime)
                             core.log("error", "Invalid payload from backend for `USER_DEPOSIT_SUCCESS`. No data found")
                         end
                     else
-                        core.log("warn", "Update with invalid type " .. tostring(item.type) .. " will be ignored")
+                        core.log("warning", "Update with invalid type " .. tostring(item.type) .. " will be ignored")
                     end
                 end
             elseif response.timeout then
-                core.log("warn", "Update request to backend timed out.")
+                core.log("warning", "Update request to backend timed out.")
             else
-                local response_json = core.parse_json(response.data or "")
+                local response_json = nil
+                if response.data and #response.data > 2 then
+                    response_json = core.parse_json(response.data)
+                end
                 local reason = "Unknown"
                 if response_json and response_json.status then
                     reason = tostring(response_json.status)
                 end
-                core.log("warn", "Update request to backend failed. Reason: " .. reason)
+                core.log("warning", "Update request to backend failed. Reason: " .. reason)
             end
         end)
     end
@@ -595,7 +635,7 @@ minetest.register_on_joinplayer(function(player, last_joined)
             -- Success: Record for existing player found in backend
             --
             elseif response.code == 400 then
-                core.log("warn", "Record doesn't exist in backend for exising user: " .. player_name)
+                core.log("warning", "Record doesn't exist in backend for exising user: " .. player_name)
                 local inner_request = {
                     url = backend_api.create_user .. player_name,
                     method = "POST",
@@ -901,6 +941,34 @@ minetest.register_node(":satlantis:header", {
 --             end
 --         else
 --             minetest.chat_send_player(name, "add_balance expects 1 argument. Found " .. tostring(#args))
+--         end
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.make_purchase`
+--
+
+-- minetest.register_chatcommand("make_purchase", {
+--     description = "Make a purchase",
+--     func = function(name, params)
+--         local args = parse_args(params)
+--         if #args == 1 then
+--             local amount = tonumber(args[1])
+--             if amount then
+--                 satlantis.make_purchase(name, amount, function(succeeded, message, updated_record)
+--                     if succeeded then
+--                         minetest.chat_send_player(name, "Successfully made purchase of " .. tostring(updated_record.amount) .. ". Current balance: " .. tostring(updated_record.new_balance))
+--                         minetest.chat_send_player(name, tostring(updated_record.added_to_prize_pool) .. " was added to the prize pool")
+--                     else
+--                         minetest.chat_send_player(name, "Failed to make purchase. Reason: " .. tostring(message))
+--                     end
+--                 end)
+--             else
+--                 minetest.chat_send_player(name, "Invalid amount. Please enter a valid numeric value")
+--             end
+--         else
+--             minetest.chat_send_player(name, "make_purchase expects 1 argument. Found " .. tostring(#args))
 --         end
 --     end
 -- })
