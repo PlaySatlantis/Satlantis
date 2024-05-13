@@ -6,6 +6,17 @@ minetest.register_chatcommand("lobby", {
     func = function(name, param)
         local player = minetest.get_player_by_name(name)
 
+        -- disable while in arenas
+        if minetest.global_exists("arena_lib") then
+            if arena_lib.is_player_in_arena(name) then
+                return false, "Cannot teleport while inside arena!"
+            end
+            if arena_lib.is_player_in_queue(name) then
+                return false, "Cannot teleport while inside arena queue!"
+            end
+        end
+
+
         if param ~= "" and minetest.get_player_privs(name).server then
             if minetest.global_exists("skyblock") then
                 if skyblock.is_in_skyblock(name) then
@@ -103,7 +114,16 @@ minetest.register_chatcommand("overworld", {
         local pos = player:get_pos()
 
         local in_skyblock = minetest.global_exists("skyblock") and skyblock.is_in_skyblock(name)
-        local in_lobby = pos.y > 20000 and pos.y < 250000
+        local in_lobby = pos.y > 20000 and pos.y < 250000 
+
+        if in_lobby and minetest.global_exists("arena_lib") then
+            if arena_lib.is_player_in_arena(name) then
+                return false, "Cannot transport to overworld while in Minigame arena!"
+            end
+            if arena_lib.is_player_in_queue(name) then
+                return false, "Cannot transport to overworld while in Minigame queue!"
+            end
+        end
 
         if in_skyblock or in_lobby then
             if space then
@@ -133,9 +153,12 @@ minetest.register_chatcommand("overworld", {
             return true, "Transporting to overworld..."
         end
 
-        return false, "You can only transport to the overworld from the main ship or orbiter!"
+        return false, "You can only transport to the overworld from the lobby or orbiter!"
     end
 })
+
+minetest.registered_chatcommands["world"] = minetest.registered_chatcommands["overworld"]
+minetest.registered_chatcommands["resourceworld"] = minetest.registered_chatcommands["overworld"]
 
 local enable_bed_respawn = minetest.settings:get_bool("enable_bed_respawn")
 if enable_bed_respawn == nil then
