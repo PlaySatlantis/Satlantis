@@ -1,0 +1,88 @@
+The MIT License (MIT)
+
+Copyright (c) 2016 TenPlus1
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Textures created by wwar (CC0)
+  mobs_dungeon_master_nether.png
+  mobs_dungeon_master_netherdeep.png
+  mobs_stone_monster.png
+  mobs_dungeon_master2.png
+  mobs_land_guard.png
+  mobs_land_guard2.png
+  mobs_land_guard3.png
+
+Textures by AMMOnym (WTFPL)
+  mobs_stone_monster2.png
+
+Textures by TenPlus1 (MIT)
+  mobs_stone_monster3.png
+  mobs_fireball.png
+
+Textures by Sirrobzeroone (CC0 1.0 Universal)
+  mobs_stone_monster4.png
+  mobs_sand_monster.png
+
+Textures and Model created by SirrobZeroone (CC0)
+  mobs_mese_monster_red.png
+  mobs_mese_monster_blue.png
+  mobs_mese_monster_green.png
+  mobs_mese_monster_purple.png
+  mobs_mese_arrow.png
+  mobs_mese_monster.b3d
+
+Pavel_S and PilzAdam (WTFPL)
+  mobs_dirt_monster.png
+  mobs_dirt_monster2.png
+  mobs_dirt_monster3.png
+  mobs_dungeon_master.b3d
+  mobs_dungeon_master.png
+  mobs_dungeon_master.ogg
+  mobs_fireball.ogg
+  mobs_oerkki.b3d
+  mobs_oerkki.png
+  mobs_sand_monster.b3d [edited by SirrobZeroone]
+  mobs_sand_monster2.png
+  mobs_stone_monster.b3d [edited by SirrobZeroone]
+  mobs_tree_monster.b3d
+  mobs_tree_monster*.png (edited by TenPlus1)
+
+AspireMint (CC BY-SA 3.0)
+  mobs_spider.b3d
+  mobs_spider_mese.png
+  mobs_spider_orange.png
+  mobs_spider_snowy.png
+  mobs_spider_grey.png
+  mobs_spider_crystal.png
+
+Zeg9 (CC BY-SA 3.0)
+  zmobs_lava_flan.x
+  zmobs_lava_flan.png
+  zmobs_lava_orb.png
+
+Sounds by Cyberpangolin (WTFPL) https://forum.minetest.net/viewtopic.php?t=10798
+  mobs_dirtmonster.ogg
+  mobs_dungeonmaster.ogg
+  mobs_lavaflan.ogg
+  mobs_mesemonster.ogg
+  mobs_oerkki.ogg
+  mobs_sandmonster.ogg
+  mobs_stonemonster.ogg
+  mobs_treemonster.ogg

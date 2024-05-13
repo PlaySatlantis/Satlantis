@@ -29,6 +29,7 @@ local PLATFORM_RADIUS = 3
 
 skyblock.get_cel = function(id)
     if id >= GRID_VOLUME then return end
+    -- TODO introduce another layer of cells .. there's room for 6 layers
 
     local grid_x = id % GRID_WIDTH
     local grid_z = math.floor(id / GRID_WIDTH)

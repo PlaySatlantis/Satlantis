@@ -1,0 +1,511 @@
+# textdomain: arena_lib
+# author(s): Zughy
+# reviewer(s):
+
+##[ src/_load.lua ]##
+Notifications=Notifiche
+Countdown ticks=Colpo di conto alla rovescia
+Someone joins=Qualcunə entra
+Someone leaves=Qualcunə abbandona
+
+##[ src/_load.lua ]##
+##[ src/api/core.lua ]##
+-- missing description --=-- descrizione mancante --
+
+##[ src/admin_tools/entrances.lua ]##
+Entrance type - @1=Tipo d'entrata - @1
+Pressing 'overwrite' will try to disable the arena first=Premere 'sovrascrivi' proverà prima a disabilitare l'arena
+OVERWRITE ALL=SOVRASCRIVI TUTTO
+@1 - nothing to overwrite=@1 - niente da sovrascrivere
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+This minigame doesn't exist!=Questo minigioco non esiste!
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+##[ src/editor/editor_main.lua ]##
+You can't perform this action while in game!=Non puoi eseguire quest'azione mentre sei in partita!
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/editor/tools_settings.lua ]##
+Overwrite=Sovrascrivi
+
+##[ src/admin_tools/minigame_settings.lua ]##
+Minigame settings=Impostazioni minigioco
+
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+You can't perform this action while in queue!=Non puoi eseguire quest'azione mentre sei in coda!
+
+##[ src/api/core.lua ]##
+team=squadra
+@1 has been eliminated=@1 è statə eliminatə
+@1 has been eliminated by @2=@1 è statə eliminatə da @2
+You're the last player standing: you win!=Sei l'ultimə giocatorə rimastə in partita: hai vinto!
+There are no other teams left, you win!=Non ci sono altre squadre rimaste, hai vinto!
+@1 has quit the match=@1 ha abbandonatə la partita
+@1 wins the game=@1 ha vinto la partita
+Team @1 wins the game=La squadra @1 ha vinto la partita
+@1 win the game=@1 hanno vinto la partita
+Teams @1 win the game=Le squadre @1 hanno vinto la partita
+There are no winners=Non ci sono vincitorɜ
+Property type doesn't match, aborting!=Il tipo della proprietà non corrisponde, annullo!
+Parameter @1 successfully overwritten=Parametro @1 sovrascritto con successo
+This minigame needs at least @1 players!=Questo minigioco ha bisogno di almeno @1 giocatorɜ!
+In endless minigames, the minimum amount of players must always be 0!=Nei minigiochi infiniti, il numero minimo di giocatorɜ deve sempre essere 0!
+Arena @1 successfully created=Arena @1 creata con successo
+Arena @1 successfully removed=Arena @1 rimossa con successo
+Arena @1 successfully renamed in @2=Arena @1 rinominata con successo in @2
+@1's author successfully removed=Autorə dell'arena @1 rimosso con successo
+@1's author successfully changed to @2=Autorə dell'arena @1 cambiato con successo in @2
+@1's thumbnail successfully removed=Miniatura di @1 rimossa con successo
+@1's thumbnail successfully changed to @2=Miniatura di @1 cambiata con successo in @2
+Players amount successfully changed ( min @1 | max @2 )=Numero dellɜ giocatorɜ modificato con successo ( min @1 | max @2 )
+Nothing to do here!=È già tutto a posto qui!
+Teams amount successfully changed (@1)=Numero delle squadre modificato con successo (@1)
+Teams cannot be disabled in this minigame!=Le squadre non possono essere disabilitate in questo minigioco!
+Teams successfully enabled for the arena @1=Squadre abilitate con successo nell'arena @1
+Teams successfully disabled for the arena @1=Squadre disabilitate con successo nell'arena @1
+This team doesn't exist!=Questa squadra non esiste!
+A team ID must be specified!=È necessario specificare l'ID della squadra!
+There are no spawners to remove!=Non ci sono punti di rinascita da rimuovere!
+Spawn point #@1 successfully deleted=Punto di rinascita #@1 cancellato con successo
+All the spawn points belonging to team @1 have been removed=Tutti i punti di rinascita appartenenti alla squadra @1 sono stati rimossi
+All spawn points have been removed=Tutti i punti di rinascita sono stati rimossi
+There's already a spawn in this point!=C'è già un punto di rinascita in questo punto!
+Spawn point #@1 successfully set=Punto di rinascita #@1 impostato con successo
+There is no entrance type with this name!=Non c'è nessun tipo di entrata con questo nome!
+Entrance type of arena @1 successfully changed (@2)=Tipo d'entrata dell'arena @1 cambiato con successo (@2)
+There is already an entrance for this arena!=Esiste già un'entrata per quest'arena!
+Entrance of arena @1 successfully set=Entrata dell'arena @1 impostata con successo
+Entrance of arena @1 successfully removed=Entrata dell'arena @1 rimosso con successo
+Custom return point of arena @1 succesfully set=Punto di ritorno personalizzato dell'arena @1 impostato con successo
+Custom return point of arena @1 succesfully removed=Punto di ritorno personalizzato dell'arena @1 rimosso con successo
+Regions of different arenas can't overlap!=La regione non può intersecarsi con quella di altre arene!
+Region of arena @1 successfully overwritten=Regione dell'arena @1 sovrascritta con successo
+Lighting of arena @1 successfully overwritten=Illuminazione dell'arena @1 sovrascritta con successo
+(@1) Celestial vault of arena @2 successfully overwritten=(@1) Volta celeste dell'arena @2 sovrascritta con successo
+Weather condition of arena @1 successfully overwritten=Condizione meteo dell'arena @1 sovrascritta con successo
+parameter `@1` is mandatory!=Il parametro `@1` è obbligatorio!
+Background music of arena @1 successfully overwritten=Musica di sottofondo dell'arena @1 sovrascritta con successo
+Timers are not enabled in this mod!=I timer non sono abilitati in questa mod!
+Arena @1's timer is now @2 seconds=Il timer dell'arena @1 è ora @2 secondi
+Insufficient spawners, the arena can't be enabled!=Punti di rinascita insufficienti, l'arena non può essere abilitata!
+Entrance not set, the arena can't be enabled!=Entrata non dichiarata, l'arena non può essere abilitata!
+If the arena region is declared, all the existing spawn points must be placed inside it!=Se si dichiara la regione dell'arena, tutti i punti di rinascita presenti devono essere posizionati al suo interno!
+Arena @1 successfully enabled=Arena @1 abilitata con successo
+The arena is already disabled!=L'arena è già disabilitata!
+You can't disable an arena during an ongoing game!=Non puoi disabilitare un'arena mentre una partita è in corso!
+The arena you were queueing for has been disabled... :(=L'arena per la quale eri in coda è stata disabilitata... :(
+Arena @1 successfully disabled=Arena @1 disabilitata con successo
+Schematic of arena @1 deleted=Schematica dell'arena @1 cancellata
+An arena with that name exists already!=Esiste già un'arena con quel nome!
+The name contains unsupported characters!=Il nome contiene caratteri non supportati!
+
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+spectator=spettatorə
+
+##[ src/api/core.lua ]##
+##[ src/commands.lua ]##
+arena=arena
+Teams are not enabled!=Le squadre non sono abilitate!
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_customise_bgm.lua ]##
+File not found!=File non trovato!
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/signs/signs.lua ]##
+Parameters don't seem right!=I parametri hanno qualcosa che non va!
+
+##[ src/api/core.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+Region not declared!=Regione non dichiarata!
+
+##[ src/api/core.lua ]##
+##[ src/signs/signs_editor.lua ]##
+There is no entrance to remove assigned to @1!=Non c'è nessun'entrata da rimuovere assegnata a @1!
+
+##[ src/api/in_game.lua ]##
+No ongoing game!=Nessuna partita in corso!
+Spectate mode not supported!=Modalità assisti non supportata!
+There is nothing to spectate!=Non c'è niente a cui assistere!
+The arena is loading, try again in a few seconds!=L'arena è in caricamento, riprova tra qualche secondo!
+This minigame doesn't allow to join while in progress!=Questo minigioco non permette di entrare a partita iniziata!
+Players and spectators can now interact with each other=Giocatorɜ e spettatorɜ possono ora interagire tra di loro
+Can't force a game to start if the arena is not even in queue!=Non è possibile forzare l'avvio di una partita se l'arena non è almeno in coda!
+Game start in arena @1 successfully forced=Avvio della partita nell'arena @1 forzato con successo
+The arena has been forcibly terminated by @1=La conclusione della partita è stata forzata da @1
+Game in arena @1 successfully terminated=La partita nell'arena @1 è stata terminata con successo
+@1 has been kicked by @2=@1 è stato cacciatə da @2
+@1 has been kicked=@1 è stato cacciatə
+
+##[ src/api/in_game.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/debug.lua ]##
+##[ src/utils/macros.lua ]##
+This arena doesn't exist!=Quest'arena non esiste!
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+You can't perform this action during an ongoing game!=Non puoi eseguire quest'azione mentre c'è una partita in corso!
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/macros.lua ]##
+The arena is not enabled!=L'arena non è attiva!
+You must detach yourself from the entity you're attached to before entering!=Devi prima staccarti dall'entità alla quale sei agganciatə se vuoi entrare!
+
+##[ src/api/in_queue.lua ]##
+Game begins in @1!=La partita inizierà tra @1!
+Get ready!=Preparati!
+@1 seconds for the match to start=@1 secondi all'inizio
+You're already queuing for this arena!=Sei già in coda per quest'arena!
+You've been blocked from entering any queue for 10 seconds, due to joining and leaving repeatedly in a short amount of time!=Ti è stato interdetto l'accesso alle code per 10 secondi, causa ripetuto entrare e uscire in poco tempo!
+Waiting for more players...=In attesa di più giocatorɜ...
+Only the party leader can leave the queue!=Solo lə capə gruppo può abbandonare la coda!
+The queue has been cancelled due to not enough players=La coda è stata annullata per troppɜ pochɜ giocatorɜ
+You've joined team @1=Ti sei unitə alla squadra @1
+
+##[ src/api/in_queue.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+The map is resetting, try again in a few seconds!=La mappa si sta rigenerando, riprova tra qualche secondo!
+
+##[ src/api/map.lua ]##
+You can't modify the map whilst enabled!=Non puoi modificare la mappa mentre è abilitata!
+
+##[ src/commands.lua ]##
+There's a time and place for everything. But not now!=C'è tempo e luogo per ogni cosa. Ma non ora!
+There are more minigames having an arena called @1: please specify the name of the minigame before the name of the arena, separating them with a space=Ci sono più minigiochi contenenti un'arena chiamata @1: specifica il nome del minigioco prima del nome dell'arena, separandoli con uno spazio
+This player is not online!=Questə giocatorə non è connessə!
+The player must be in a game to perform this action!=Lə giocatorə deve essere in partita per eseguire questa azione!
+Player successfully kicked=Giocatorə cacciatə con successo
+COMMANDS=COMANDI
+check if there is any unused resource inside the arena_lib world folder (inside BGM and Thumbnails)=Controlla se ci sono file inutilizzati nella cartella del mondo di arena_lib (dentro a BGM e Thumbnails)
+minigame=minigioco
+creates an arena for the specified minigame=Crea un'arena per il minigioco specificato
+disables an arena=disabilita un'arena
+enters the arena editor=entra nell'editor dell'arena
+enables an arena=abilita un'arena
+changes the entrance types of the specified minigame=cambia i tipi d'entrata del minigioco specificato
+DEBUG ONLY - resets the properties of a bugged arena=SOLO DEBUG - ripristina le proprietà di un'arena rotta
+forcibly ends an ongoing game=forza la conclusione di una partita in corso
+forcibly loads (if in queue) or starts (if in the loading phase) a game=forza il caricamento (se in coda) o l'avvio (se nella fase di caricamento) di una partita
+lists all the installed minigames, alphabetically sorted=elenca tutti i minigiochi installati, in ordine alfabetico
+see @1=vedi @1
+prints all the arena's info=stampa a schermo tutte le informazioni dell'arena
+player=giocatorə
+kicks a player from an ongoing game. When kicked, they must wait 2 minutes before re-entering a match=caccia unə giocatorə da una partita in corso. Una volta cacciatə, dovrà aspettare 2 minuti prima di poter rientrare in una partita
+lists all the arenas of the specified minigame=elenca tutte le arene del minigioco specificato
+deletes an arena=cancella un'arena
+tweaks the minigame settings for the current server=modifica le impostazioni del minigioco per il server corrente
+UTILS=UTILITÀ
+Barrier node: use it to fence your arenas=Nodo barriera: usalo per recintare le tue arene
+Manage arena_lib arenas; it requires arenalib_admin=Gestisce le arene di arena_lib; richiede arenalib_admin
+Quits a queue or an ongoing game=Abbandona una coda o una partita in corso
+You must be in a game or in queue to perform this action!=Devi essere in partita o in coda per eseguire questa azione!
+You can't perform this action during the celebration phase!=Non puoi eseguire quest'azione durante la fase di celebrazione!
+message=messaggio
+Writes a message in the arena global chat while in a game=Scrive un messaggio nella chat globale dell'arena mentre si è in una partita
+You must be in a game to perform this action!=Devi essere in partita per eseguire questa azione!
+Writes a message in the arena team chat while in a game (if teams are enabled)=Scrive un messaggio nella chat di squadra dell'arena mentre si è in una partita (se le squadre sono abilitate)
+
+##[ src/deps/parties.lua ]##
+The party leader must not be in queue to perform this action!=Lə capə gruppo non deve essere in coda per eseguire quest'azione!
+The party leader must not be in game to perform this action!=Lə capə gruppo non deve essere in partita per eseguire quest'azione!
+
+##[ src/editor/editor_icons.lua ]##
+Players=Giocatorɜ
+Values are PER TEAM! Use item #4 to change value=I valori sono PER SQUADRA! Usa il 4° oggetto per cambiare valore
+Spawners=Punti di rinascita
+Map=Mappa
+Customise=Personalizza
+Settings=Impostazioni
+Info=Info
+Go back=Torna indietro
+Enable and leave=Abilita ed esci
+
+##[ src/editor/editor_icons.lua ]##
+##[ src/spectate/spectate_tools.lua ]##
+Leave=Esci
+
+##[ src/editor/editor_main.lua ]##
+Wooosh!=Wooosh!
+Players and teams=Giocatorɜ e squadre
+
+##[ src/editor/editor_main.lua ]##
+##[ src/utils/macros.lua ]##
+You must leave the editor first!=Devi prima uscire dall'editor!
+
+##[ src/editor/tools_customise_bgm.lua ]##
+Background music=Musica di sottofondo
+Audio file=File audio
+leave empty to remove the current track=lascia vuoto per rimuovere la traccia corrente
+Description=Descrizione
+used for accessibility purposes=usata per l'accessibilità
+Title=Titolo
+Author=Autorə
+Volume=Volume
+Pitch=Tono
+
+##[ src/editor/tools_customise_bgm.lua ]##
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Apply=Applica
+
+##[ src/editor/tools_customise_lighting.lua ]##
+Lighting=Illuminazione
+Global light=Luce globale
+Saturation=Saturazione
+
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Reset=Ripristina
+
+##[ src/editor/tools_customise_sky.lua ]##
+Celestial vault=Volta celeste
+Sky=Cielo
+Sun=Sole
+Moon=Luna
+Stars=Stelle
+Clouds=Nuvole
+Type=Tipo
+Day sky=Cielo diurno
+Dawn sky=Cielo alba
+Night sky=Cielo notturno
+Day horizon=Orizz. diurno
+Dawn horizon=Orizz. alba
+Night horizon=Orizz. notturno
+Indoors=Al chiuso
+Custom fog tint=Personalizza tinta nebbia
+Fog sun tint=Tinta nebbia sole
+Fog moon tint=Tinta nebbia luna
+Base colour=Colore base
+Top=Sopra
+Bottom=Sotto
+West=Ovest
+East=Est
+North=Nord
+South=Sud
+Fog=Nebbia
+Fog distance=Distanza nebbia
+Fog start=Inizio nebbia
+Visible sun=Sole visibile
+Visible sunrise=Alba visibile
+Texture=Texture
+Tonemap=Mappa tonale
+Size=Dimensione
+Sunrise texture=Texture alba
+Visible moon=Luna visibile
+Visible stars=Stelle visibili
+Count=Quantità
+Opacity=Opacità
+Clouds must be enabled first to change their parameters=Vanno prima abilitate le nuvole per poterne cambiare i parametri
+Ambient=Ambiente
+Density=Densità
+Thickness=Spessore
+Height=Altezza
+Speed=Velocità
+
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Colour=Colore
+
+##[ src/editor/tools_customise_weather.lua ]##
+Weather condition=Condizione meteo
+Rain=Pioggia
+Snow=Neve
+Dust=Pulviscolo
+
+##[ src/editor/tools_customise_weather.lua ]##
+##[ src/utils/debug.lua ]##
+Strength=Intensità
+
+##[ src/editor/tools_map.lua ]##
+Arena region (LMB pos1, RMB pos2, Q removes)=Regione dell'arena (sx pos1, dx pos2, Q rimuovi)
+Save a schematic of the map=Salva una schematica della mappa
+Load and paste the map schematic=Carica e incolla la schematica della mappa
+Are you sure you want to edit the region? The associated schematic will be deleted=Sei sicurə di voler modificare la regione dell'arena? La schematica associata verrà rimossa
+Are you sure you want to delete the region of the arena? It'll also delete the associated schematic, if any=Sei sicurə di voler eliminare la regione dell'arena? La schematica associata verrà rimossa, se ne esiste una
+
+##[ src/editor/tools_map.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/player_manager.lua ]##
+##[ src/signs/signs_editor.lua ]##
+Yes=Sì
+Cancel=Annulla
+
+##[ src/editor/tools_players.lua ]##
+Players required=Giocatorɜ minimɜ
+Players supported (right click to remove the limit)=Giocatorɜ massimɜ (tasto dx per rimuovere il limite)
+Players supported (click to set a limit)=Giocatorɜ massimɜ (premi per impostare un limite)
+Teams amount=Numero squadre
+Change value (LMB decreases, RMB increases)=Cambia valore (sx diminuisce, dx aumenta)
+Teams: on (click to toggle off)=Squadre: attive (premi per disattivare)
+Teams: off (click to toggle on)=Squadre: non attive (premi per attivare)
+
+##[ src/editor/tools_settings.lua ]##
+Custom return point (LMB sets, RMB removes)=Punto di ritorno personalizzato (sx imposta, dx rimuove)
+Arena name, author and thumbnail=Nome arena, autorə e miniatura
+Arena properties=Proprietà arena
+Timer: on=Timer: attivo
+Delete arena=Cancella arena
+Rename arena=Rinomina arena
+Set author=Imposta autorə
+Set thumbnail=Imposta miniatura
+Set timer=Imposta timer
+Are you sure you want to delete arena @1?=Sei sicurə di voler eliminare l'arena @1?
+
+##[ src/editor/tools_spawners.lua ]##
+Add spawner=Aggiungi punto di rinascita
+Remove the closest spawner=Rimuovi il punto di rinascita più vicino
+Add team spawner=Aggiungi punto di rinascita squadra
+Remove the closest spawner of the selected team=Rimuovi il punto di rinascita più vicino della squadra selezionata
+Switch team=Cambia squadra
+Selected team: @1=Squadra selezionata: @1
+Delete all spawners=Cancella tutti i punti di rinascita
+Delete all spawners of the team=Cancella tutti i punti di rinascita della squadra
+
+##[ src/hud/hud_waypoints.lua ]##
+Return point (custom)=Punto di ritorno (personalizzato)
+Return point=Punto di ritorno
+
+##[ src/map_reset/map_reset.lua ]##
+There is no schematic to paste!=Non c'è nessuna schematica da incollare!
+Schematic of arena @1 successfully pasted=Schematica dell'arena @1 incollata con successo
+
+##[ src/map_reset/map_saving.lua ]##
+Schematic of arena @1 successfully saved (pos1 and pos2 have been automatically sorted)=Schematica dell'arena @1 salvata con successo (pos1 e pos2 sono state ordinate automaticamente)
+
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/macros.lua ]##
+You must disable the arena first!=Devi prima disabilitare l'arena!
+
+##[ src/nodes.lua ]##
+Barrier=Barriera
+
+##[ src/player_manager.lua ]##
+The game you were in is still in progress: do you want to rejoin?=La partita in cui eri è ancora in corso: vuoi rientrare?
+The match has ended whilst you were deciding :c=La partita è finita mentre stavi decidendo :c
+
+##[ src/signs/signs.lua ]##
+Sign=Cartello
+Signs=Cartelli
+One sign per arena=Un cartello per arena
+Arena sign=Cartello dell'arena
+This minigame doesn't exist anymore!=Questo minigioco non esiste più!
+This arena doesn't exist anymore!=Quest'arena non esiste più!
+Uh-oh, it looks like this sign has been misplaced: well, fixed, hit it again!=Oh oh, sembra che questo cartello sia fuori posto: beh, sistemato, colpiscilo di nuovo!
+That's not an arena_lib sign!=Questo non è un cartello di arena_lib!
+No ongoing activity=Nessuna attività in corso
+The arena is not enabled=L'arena non è abilitata
+Leave the queue (you can also left-click the sign)=Abbandona la coda (puoi anche colpire il cartello con il sinistro)
+Full=Piena
+Play (you can also left-click the sign)=Gioca (puoi anche colpire il cartello con il sinistro)
+This minigame can't be joined whilst a game is in progress=Questo minigioco non permette di entrare durante una partita in corso
+Spectate mode not supported=Modalità assisti non supportata
+Spectate=Assisti
+Spectate (there must be a game in progress)=Assisti (ci deve essere una partita in corso)
+Edit=Modifica
+Force start=Forza avvio
+Now inside=Ora dentro
+Close=Chiudi
+
+##[ src/signs/signs_editor.lua ]##
+Add sign=Aggiungi cartello
+Remove sign=Rimuovi cartello
+Teleport onto the sign=Teletrasportati al cartello
+There is no entrance assigned to @1!=Non c'è nessun'entrata assegnata a @1!
+Return where you were=Torna dov'eri
+Are you sure you want to delete the sign from @1?=Sei sicurə di voler rimuovere il cartello di @1?
+
+##[ src/spectate/spectate_main.lua ]##
+Currently spectating: @1=Stai seguendo: @1
+
+##[ src/spectate/spectate_main.lua ]##
+##[ src/utils/debug.lua ]##
+Spectators inside: @1=Spettatorɜ attuali: @1
+
+##[ src/spectate/spectate_tools.lua ]##
+Change player=Cambia giocatorə
+Change team=Cambia squadra
+Change entity=Cambia entità
+Change area=Cambia area
+Enter the match=Entra in partita
+
+##[ src/utils/debug.lua ]##
+ID: @1, name: @2=ID: @1, nome: @2
+Total arenas: @1=Arene totali: @1
+Players required per team: @1=Giocatorɜ minimɜ per squadra: @1
+Players supported per team: @1=Giocatorɜ massimɜ per squadra: @1
+Players inside per team: @1=Giocatorɜ dentro per squadra: @1
+Spectators inside per team: @1=Spettatorɜ dentro per squadra: @1
+Current spectatable entities: @1=Entità attualmente seguibili: @1
+Current spectatable areas: @1=Aree attualmente seguibili: @1
+in queue=in coda
+loading=in caricamento
+in game=in partita
+celebrating=in celebrazione
+waiting=in attesa
+Is resetting: @1=In rigenerazione: @1
+Initial time: @1=Tempo iniziale: @1
+current: @1=corrente: @1
+rain=pioggia
+snow=neve
+dust=pulviscolo
+custom=personalizzato
+Spectator properties: @1=Proprietà spettatorɜ: @1
+Team properties: @1=Proprietà squadra: @1
+Name: @1=Nome: @1
+ID: @1=ID: @1
+Match ID: @1=ID partita: @1
+Author: @1=Autorə: @1
+Thumbnail: @1=Miniatura: @1
+BGM: @1=Musica di sottofondo: @1
+Teams: @1=Squadre: @1
+Players required: @1=Giocatorɜ minimɜ: @1
+Players supported: @1=Giocatorɜ massimɜ: @1
+Players inside: @1=Giocatorɜ attuali: @1
+Players and spectators inside: @1=Giocatorɜ e spettatorɜ attuali: @1
+Past and present players: @1=Giocatorɜ presenti e passatɜ: @1
+Past and present players inside: @1=Giocatorɜ presenti e passatɜ dentro: @1
+Enabled: @1=Abilitata: @1
+Status: @1=Stato: @1
+Entrance: @1=Entrata: @1
+Region: @1=Regione: @1
+Custom return point: @1=Punto di ritorno personalizzato: @1
+Spawn points: @1=Punti di rinascita: @1
+Custom sky: @1=Cielo personalizzato: @1
+Weather: @1=Meteo: @1
+Custom lighting: @1=Illuminazione personalizzata: @1
+Properties: @1=Proprietà: @1
+Temp properties: @1=Proprietà temporanee: @1
+Player properties: @1=Proprietà giocatorɜ: @1
+Unused arena_lib resources:=Risorse inutilizzate di arena_lib:
+
+##[ src/utils/macros.lua ]##
+There must be no one inside the editor of the arena to perform this command! (now inside: @1)=Non deve esserci nessunə nell'editor dell'arena per poter eseguire questo comando! (attualmente dentro: @1)
+You've recently been kicked from a game! Time left before being able to join a new match: @1s=Sei statə recentemente cacciatə da una partita! Tempo restante prima di poter rientrare in una partita: @1s
+Only the party leader can enter the queue!=Solo lə capə gruppo può entrare nella coda!
+One of your party members has recently been kicked from a game! Time left before being able to join a new match: @1s=Uno dei membri della tua squadra è stato recentemente cacciato da una partita! Tempo restante prima di poter rientrare in una partita: @1s
+You must wait for all your party members to finish their ongoing games before entering a new one!=Devi aspettare che i membri della tua squadra terminino le loro partite in corso prima di iniziarne una nuova!
+Can't enter a game if some of your party members are attached to something! (e.g. boats, horses etc.)=Non puoi entrare in partita se alcuni membri del gruppo sono attaccatɜ a qualcosa! (es. barche, cavalli ecc.)
+@1 is running a Minetest version too old to play this minigame!=@1 sta usando una versione di Minetest troppo vecchia per giocare a questo gioco!
+There is not enough space for the whole party!=Non c'è abbastanza spazio per tutto il gruppo!
+There is no team with enough space for the whole party!=Non c'è una squadra con abbastanza spazio per tutto il gruppo!
+Your version of Minetest is too old to play this minigame! Please update it=La tua versione di Minetest è troppo vecchia per giocare a questo gioco! Per favore aggiornala
+The arena is already full!=L'arena è già piena!
+
+##[ src/utils/utils.lua ]##
+[!] @1=[!] @1

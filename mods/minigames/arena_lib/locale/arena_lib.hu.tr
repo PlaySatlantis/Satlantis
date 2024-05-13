@@ -1,0 +1,555 @@
+# textdomain: arena_lib
+# author(s): nyomi
+# reviewer(s):
+
+##[ src/_load.lua ]##
+Notifications=
+Countdown ticks=
+Someone joins=
+Someone leaves=
+
+##[ src/_load.lua ]##
+##[ src/api/core.lua ]##
+-- missing description --=
+
+##[ src/admin_tools/entrances.lua ]##
+Entrance type - @1=Bejárat tipusa - @1
+Pressing 'overwrite' will try to disable the arena first=A "felülírás" megnyomásával először az arénát próbálja letiltani
+OVERWRITE ALL=MINDEGYIK FELÜLÍRÁSA
+@1 - nothing to overwrite=@1 – nincs mit felülírni
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+This minigame doesn't exist!=Ez a minigame nem létezik!
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+##[ src/editor/editor_main.lua ]##
+You can't perform this action while in game!=Nemtudod ezt az akciót végrehajtani egy játékbanbelül!
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/editor/tools_settings.lua ]##
+Overwrite=felülírás
+
+##[ src/admin_tools/minigame_settings.lua ]##
+Minigame settings=Minigame beállítások
+
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+You can't perform this action while in queue!=Nem tudod ezt az akciót végrehajtani míg egy várakozó sorban vagy!
+
+##[ src/api/core.lua ]##
+team=csapat
+@1 has been eliminated=@1 kiesett
+@1 has been eliminated by @2=@1 kiesett @2 által
+You're the last player standing: you win!=Te maradtál utoljára te nyertél!
+There are no other teams left, you win!=Nem maradt más csapat hátra te nyertél!
+@1 has quit the match=@1 kilépett a játéból
+@1 wins the game=@1 nyerte a játékot
+Team @1 wins the game=A @1 csapat nyerte a játékot
+@1 win the game=@1 nyerte a játékot
+Teams @1 win the game=A @1 csapat nyerte a játékot
+There are no winners=Nincs nyertes
+Property type doesn't match, aborting!=A tulajdonság típusa nem egyezik, megszakítás!
+Parameter @1 successfully overwritten=Paraméter @1 sikeresen felülíródtak
+This minigame needs at least @1 players!=
+In endless minigames, the minimum amount of players must always be 0!=A végtelen minijátékokban a minimális játékoslétszám mindig 0 legyen!
+Arena @1 successfully created=Aréna @1 sikeresen létrejött
+Arena @1 successfully removed=Aréna @1 sikeresen törlődött
+Arena @1 successfully renamed in @2=Aréna @1 sikeresen átneveződött @2-re
+@1's author successfully removed=@1 kiadója sikeresen törlődött
+@1's author successfully changed to @2=@1 kiadója sikerese @2-re változott
+@1's thumbnail successfully removed=
+@1's thumbnail successfully changed to @2=
+Players amount successfully changed ( min @1 | max @2 )=A játékosok száma sikeresen felülíródott ( min: @1 | max: @2 )
+Nothing to do here!=Nincs mit itt csinálni!
+Teams amount successfully changed (@1)=A csapatok menyisége sikeresen megváltozott (@1)
+Teams cannot be disabled in this minigame!=
+Teams successfully enabled for the arena @1=A csapatok sikeresen engedélyezve lettek a @1 arénában
+Teams successfully disabled for the arena @1=A csapatok sikeresen le lettek tiltva a @1 es arénában
+This team doesn't exist!=Ez a csapat nem létezik!
+A team ID must be specified!=Meg kell adni a csapatazonosítót!
+There are no spawners to remove!=Nincs indulási pont törléshez!
+Spawn point #@1 successfully deleted=Indulási pont #@1 sikeresen törlődött
+All the spawn points belonging to team @1 have been removed=Az @1 csapathoz tartozó összes indulási pontot eltávolították
+All spawn points have been removed=Az összes indulási pont törölve lett
+There's already a spawn in this point!=Már itt van egy indulási pont!
+Spawn point #@1 successfully set=Indulási pont #@1 sikeresen be lett állítva
+There is no entrance type with this name!=Nincs ilyen nevű bejárati tipus!
+Entrance type of arena @1 successfully changed (@2)=Bejárati tipusa az aréna @1-nek sikeresen megváltozott (@2)
+There is already an entrance for this arena!=Már van egy bejárat ennek az aréna számára!
+Entrance of arena @1 successfully set=A @1 aréna bejárata sikeresen beállítódott
+Entrance of arena @1 successfully removed=A @1 aréna bejárata sikeresen törlődött!
+Custom return point of arena @1 succesfully set=Egyedi viszatérési pontja a @1 arénának sikeresen létrejött
+Custom return point of arena @1 succesfully removed=Egyedi viszatérési pontja a @1 arénának sikeresen törlődött
+Regions of different arenas can't overlap!=
+Region of arena @1 successfully overwritten=A @1 aréna körzete sikeresen felülíródott
+Lighting of arena @1 successfully overwritten=Az aréna @1 fénye sikeresen felülíródott
+(@1) Celestial vault of arena @2 successfully overwritten=(@1) Az aréna @2 égi boltozata sikeresen felülírva
+Weather condition of arena @1 successfully overwritten=
+parameter `@1` is mandatory!=
+Background music of arena @1 successfully overwritten=A @1 aréna háttérzenéje sikeresen felülírva
+Timers are not enabled in this mod!=Az időzítők nincsenek engedélyezve ebben a modban!
+Arena @1's timer is now @2 seconds=Az aréna @1 időzítője most @2 másodperc
+Insufficient spawners, the arena can't be enabled!=Nem megfelelő indulási pont az aréna nem engedélyezhető!
+Entrance not set, the arena can't be enabled!=A bejárat nincs beállítva az aréna nem engedélyezhető!
+If the arena region is declared, all the existing spawn points must be placed inside it!=Ha az aréna régiót deklarálják, akkor az összes meglévő spawn pontot abban kell elhelyezni! 
+Arena @1 successfully enabled=Az Arena @1 sikeresen engedélyezve
+The arena is already disabled!=Az aréna már le van tiltva!
+You can't disable an arena during an ongoing game!=Nem lehet letiltani az arénát folyamatban lévő játék közben!
+The arena you were queueing for has been disabled... :(=Az aréna ahhol várakozol ki lett kapcsolva … :(
+Arena @1 successfully disabled=Aréna @1 sikeresen leálítódott
+Schematic of arena @1 deleted=
+An arena with that name exists already!=Egy aréna már létezik ezzel a névval!
+The name contains unsupported characters!=A név tartalmaz nem támogatott karaktereket!
+
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+spectator=néző
+
+##[ src/api/core.lua ]##
+##[ src/commands.lua ]##
+arena=aréna
+Teams are not enabled!=A csapatok le vannak tiltva!
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_customise_bgm.lua ]##
+File not found!=A fájl nem található!
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/signs/signs.lua ]##
+Parameters don't seem right!=A parmeterek nem tűnnek jónak!
+
+##[ src/api/core.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+Region not declared!=
+
+##[ src/api/core.lua ]##
+##[ src/signs/signs_editor.lua ]##
+There is no entrance to remove assigned to @1!=
+
+##[ src/api/in_game.lua ]##
+No ongoing game!=Nincs folyamatban kévő menet!
+Spectate mode not supported!=Nézői mód nem támogatott!
+There is nothing to spectate!=Nincs mit nézni!
+The arena is loading, try again in a few seconds!=Az aréna tölt próbáld ujra pár másodperc mulva!
+This minigame doesn't allow to join while in progress!=Ez a minigame nem engedi a csatlakozást menet közben!
+Players and spectators can now interact with each other=A nézők és játékosok most tudnak egymással kapcsolatba lépni
+Can't force a game to start if the arena is not even in queue!=
+Game start in arena @1 successfully forced=
+The arena has been forcibly terminated by @1=Az aréna azonnal leáll @1 által
+Game in arena @1 successfully terminated=Játék az aréna @1 ben sikeresen lezárúlt
+@1 has been kicked by @2=@1 ki lett rugva @2 által
+@1 has been kicked=@1 ki lett rugva
+
+##[ src/api/in_game.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/debug.lua ]##
+##[ src/utils/macros.lua ]##
+This arena doesn't exist!=Az aréna nem létekik!
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+You can't perform this action during an ongoing game!=Nem tudod ezt az akciót egy menetben lévő játékban végrehajtani!
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/macros.lua ]##
+The arena is not enabled!=Az aréna nincs engedélyezve!
+You must detach yourself from the entity you're attached to before entering!=Mielőtt belépne, el kell válnia attól az entitástól, amelyhez kapcsolódik!
+
+##[ src/api/in_queue.lua ]##
+Game begins in @1!=A játék indul @1!
+Get ready!=Készülj fel!
+@1 seconds for the match to start=@1 másodperc a kezdésig
+You're already queuing for this arena!=Már vársz erre az arénára!
+You've been blocked from entering any queue for 10 seconds, due to joining and leaving repeatedly in a short amount of time!=10 másodpercre le lett tiltva a sorba való belépésben, mivel rövid időn belül ismételten csatlakozott és távozott!
+Waiting for more players...=Várakozás több játékosr...
+Only the party leader can leave the queue!=Csak a buli vezetője tudja elhagyni a várakozói sor-t!
+The queue has been cancelled due to not enough players=A sor megszaítódott , mivel nincs elég játékos
+You've joined team @1=Csatlakoztál a csapat @1-hez
+
+##[ src/api/in_queue.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+The map is resetting, try again in a few seconds!=
+
+##[ src/api/map.lua ]##
+You can't modify the map whilst enabled!=
+
+##[ src/commands.lua ]##
+There's a time and place for everything. But not now!=
+There are more minigames having an arena called @1: please specify the name of the minigame before the name of the arena, separating them with a space=Több minigame is van @1 nevű arénával: kérjük adja meg a minijáték nevét az aréna neve előtt, szóközzel elválasztva
+This player is not online!=Ez a játékos nincs online!
+The player must be in a game to perform this action!=A játékosnak az arénában kell jennie,hogy végrehajsd ezt a cselekvést!
+Player successfully kicked=A játékos sikeresen ki lett rugva
+COMMANDS=
+check if there is any unused resource inside the arena_lib world folder (inside BGM and Thumbnails)=
+minigame=minigame
+creates an arena for the specified minigame=Csinálj egy arénát a kijelölt minigame számára
+disables an arena=Letiltani egy arénát
+enters the arena editor=Belépni egy szerkeztőbe
+enables an arena=Aktiválni egy arénát
+changes the entrance types of the specified minigame=Módosítja a megadott minijáték belépési típusait
+DEBUG ONLY - resets the properties of a bugged arena=CSAK HIBAKERESÉSRE – viszaállítsd egy be buggolt arénának a beállíásait 
+forcibly ends an ongoing game=Kényszeresen véget vet egy folyamatban lévő játéknak
+forcibly loads (if in queue) or starts (if in the loading phase) a game=
+lists all the installed minigames, alphabetically sorted=Sorold fel az öszes minigame nevét betűrendi sorrendben
+see @1=Lásd @1
+prints all the arena's info=írd ki az aréna öszes információját
+player=játékos
+kicks a player from an ongoing game. When kicked, they must wait 2 minutes before re-entering a match=
+lists all the arenas of the specified minigame=Listázd ki az öszes arénát a megadott minigame-ben
+deletes an arena=Törölj egy
+tweaks the minigame settings for the current server=Módosítja a minigame beállításait az aktuális szerverhez
+UTILS=
+Barrier node: use it to fence your arenas=
+Manage arena_lib arenas; it requires arenalib_admin=arena_lib arénák kezelése; ehhez arenalib_admin szükséges
+Quits a queue or an ongoing game=
+You must be in a game or in queue to perform this action!=
+You can't perform this action during the celebration phase!=Ezt a műveletet nem hajthatja végre az ünneplési szakaszban!
+message=üzenet
+Writes a message in the arena global chat while in a game=Üzenetet ír az aréna globális csevegésében játék közben
+You must be in a game to perform this action!=Egy játékban kell lenned hogy eszt végrehajsd!
+Writes a message in the arena team chat while in a game (if teams are enabled)=Üzenetet ír az aréna csapatcsevegésében játék közben (ha a csapatok be vannak kapcsolva)
+
+##[ src/deps/parties.lua ]##
+The party leader must not be in queue to perform this action!=A bulivezér nem állhat sorban, hogy végrehajtsa ezt a műveletet!
+The party leader must not be in game to perform this action!=A bulivezére nem lehet játékban ahhoz hogy ezt végrehajtsa!
+
+##[ src/editor/editor_icons.lua ]##
+Players=Játékos
+Values are PER TEAM! Use item #4 to change value=Az érték CSAPATONKÉNT van,használd a #4 itemet az érték változtatásához
+Spawners=Indulási pont
+Map=
+Customise=Egyedire szabás
+Settings=Beállítások
+Info=Infó
+Go back=Menj visza
+Enable and leave=Engedélyezd és lépj ki
+
+##[ src/editor/editor_icons.lua ]##
+##[ src/spectate/spectate_tools.lua ]##
+Leave=Kilépés
+
+##[ src/editor/editor_main.lua ]##
+Wooosh!=Wuuush!
+Players and teams=
+
+##[ src/editor/editor_main.lua ]##
+##[ src/utils/macros.lua ]##
+You must leave the editor first!=El kell hagynod a szerkesztőt először!
+
+##[ src/editor/tools_customise_bgm.lua ]##
+Background music=Háttér zene
+Audio file=Hang fájl
+leave empty to remove the current track=Hagyd üresen hogy töröld a mostani zenét
+Description=
+used for accessibility purposes=
+Title=Felirat
+Author=Kiadó
+Volume=Hangerő
+Pitch=Hangmagasság
+
+##[ src/editor/tools_customise_bgm.lua ]##
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Apply=Elfogad
+
+##[ src/editor/tools_customise_lighting.lua ]##
+Lighting=Fényesség
+Global light=Globális fényesség
+Saturation=
+
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Reset=Újrakezdés
+
+##[ src/editor/tools_customise_sky.lua ]##
+Celestial vault=Égi boltozat
+Sky=Égbolt
+Sun=Nap
+Moon=Hold
+Stars=Csillag
+Clouds=Felhők
+Type=Tipus
+Day sky=Nappli égbolt
+Dawn sky=Naplementi égbolt
+Night sky=Esti égbolt
+Day horizon=Nappali látótáv
+Dawn horizon=Napnyugtai látótáv
+Night horizon=Északai látótáv
+Indoors=Otthon
+Custom fog tint=Egyedi köd szinezés
+Fog sun tint=Nap köd szinezés
+Fog moon tint=Hold köd szinezés
+Base colour=Bázis szín
+Top=Teteje
+Bottom=Alja
+West=Nyugat
+East=Kelet
+North=Észak
+South=dél
+Fog=
+Fog distance=
+Fog start=
+Visible sun=Látható nap
+Visible sunrise=Látható naplemente
+Texture=Textúra
+Tonemap=Hangtérkép
+Size=Méret
+Sunrise texture=Naplemente Textúrája
+Visible moon=Látható hold
+Visible stars=SLátható csillagok
+Count=Menyiség
+Opacity=Átlátszatlanság
+Clouds must be enabled first to change their parameters=A felhőknek be kell lenniük kapcsolva hogy tudj változtatni az adatait
+Ambient=Környező
+Density=Sűrűség
+Thickness=Vékonyság
+Height=Magasság
+Speed=Gyorsaság
+
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Colour=Szín
+
+##[ src/editor/tools_customise_weather.lua ]##
+Weather condition=
+Rain=
+Snow=
+Dust=
+
+##[ src/editor/tools_customise_weather.lua ]##
+##[ src/utils/debug.lua ]##
+Strength=
+
+##[ src/editor/tools_map.lua ]##
+Arena region (LMB pos1, RMB pos2, Q removes)=Aréna régió (LMB pos1, RMB pos2, Q eltávolít)
+Save a schematic of the map=
+Load and paste the map schematic=
+Are you sure you want to edit the region? The associated schematic will be deleted=
+Are you sure you want to delete the region of the arena? It'll also delete the associated schematic, if any=
+
+##[ src/editor/tools_map.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/player_manager.lua ]##
+##[ src/signs/signs_editor.lua ]##
+Yes=Igen
+Cancel=Mégsem
+
+##[ src/editor/tools_players.lua ]##
+Players required=Játékos szükséges
+Players supported (right click to remove the limit)=Játékosok támogatottak(jobb klik a limit törléséhez)
+Players supported (click to set a limit)=Játékosok támogatottak (jobb klik a limit beállításához)
+Teams amount=Csapatok száma
+Change value (LMB decreases, RMB increases)=Érték módosítása (LMB csökken, RMB nő)
+Teams: on (click to toggle off)=Csapatok: be (kattintson a kikapcsoláshoz)
+Teams: off (click to toggle on)=Csapatok: ki (kattintson a bekapcsoláshoz)
+
+##[ src/editor/tools_settings.lua ]##
+Custom return point (LMB sets, RMB removes)=Egyéni visszatérési pont (LMB beállít, RMB eltávolít)
+Arena name, author and thumbnail=Az aréna neve, kiadója és indexképe
+Arena properties=Aréna adatai
+Timer: on=
+Delete arena=Aréna törlése
+Rename arena=Aréna átnevezése
+Set author=Kiadó beállítása
+Set thumbnail=Indexkép beállítása
+Set timer=Időzítő beállítása
+Are you sure you want to delete arena @1?=Biztos hogy törölni szeretnéd a @1 arénát?
+
+##[ src/editor/tools_spawners.lua ]##
+Add spawner=Idulópont hozzáadása
+Remove the closest spawner=Töröld a legközelebbi indulási pontot
+Add team spawner=Csapat-i indulópont hozzáadva
+Remove the closest spawner of the selected team=Töröld a kijelölt csapat legközelebbi indulópontját
+Switch team=Válts csapatot
+Selected team: @1=Választott csapat: @1
+Delete all spawners=Töröld az öszes indulási pontot
+Delete all spawners of the team=Töröld az öszes indulási pontot
+
+##[ src/hud/hud_waypoints.lua ]##
+Return point (custom)=Viszatérési pont (egyedi)
+Return point=Viszatérési pont
+
+##[ src/map_reset/map_reset.lua ]##
+There is no schematic to paste!=
+Schematic of arena @1 successfully pasted=
+
+##[ src/map_reset/map_saving.lua ]##
+Schematic of arena @1 successfully saved (pos1 and pos2 have been automatically sorted)=
+
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/macros.lua ]##
+You must disable the arena first!=Először az arénát kell leállítanod!
+
+##[ src/nodes.lua ]##
+Barrier=Barier
+
+##[ src/player_manager.lua ]##
+The game you were in is still in progress: do you want to rejoin?=
+The match has ended whilst you were deciding :c=
+
+##[ src/signs/signs.lua ]##
+Sign=Tábla
+Signs=Táblák
+One sign per arena=Egy tábla arénánként
+Arena sign=Aréna tábla
+This minigame doesn't exist anymore!=
+This arena doesn't exist anymore!=
+Uh-oh, it looks like this sign has been misplaced: well, fixed, hit it again!=Ó, úgy tűnik, ez a tábla rosszul lett elhelyezve: na, javítva, üsd meg újra!
+That's not an arena_lib sign!=Ez nem egy area_lib tábla!
+No ongoing activity=Nincs folyamatban lévő aktivítás
+The arena is not enabled=Az aréna nincs engedélyezve
+Leave the queue (you can also left-click the sign)=Hagyd el a sort (Bal klikkel is a táblán ezt teszed)
+Full=Teli
+Play (you can also left-click the sign)=Játsz (Bal klikkel a táblán is ezt teszed)
+This minigame can't be joined whilst a game is in progress=Ebbe a minigame-be nem lehet csatlakozni amíg megy egy match
+Spectate mode not supported=Nézői mód nem támogatott
+Spectate=Nézni
+Spectate (there must be a game in progress)=Nézni (egy játéknak folyamatban kell hozzá lennie)
+Edit=
+Force start=
+Now inside=Most bent
+Close=
+
+##[ src/signs/signs_editor.lua ]##
+Add sign=Tábla hozzáadása
+Remove sign=Tábla törlése
+Teleport onto the sign=Teleportálj a táblához
+There is no entrance assigned to @1!=A @1-hez nincs bejárat hozzárendelve!
+Return where you were=Menj oda visza ahhol voltál
+Are you sure you want to delete the sign from @1?=Biztos hogy törölni szeretnéd ezt a táblát az aréna @1 ből?
+
+##[ src/spectate/spectate_main.lua ]##
+Currently spectating: @1=Most nézed: @1
+
+##[ src/spectate/spectate_main.lua ]##
+##[ src/utils/debug.lua ]##
+Spectators inside: @1=
+
+##[ src/spectate/spectate_tools.lua ]##
+Change player=Válts játékost
+Change team=Válts csapatot
+Change entity=Válts entitárst
+Change area=Válts arénát
+Enter the match=Lépj be a menetbe
+
+##[ src/utils/debug.lua ]##
+ID: @1, name: @2=
+Total arenas: @1=
+Players required per team: @1=
+Players supported per team: @1=
+Players inside per team: @1=
+Spectators inside per team: @1=
+Current spectatable entities: @1=
+Current spectatable areas: @1=
+in queue=Várakozó sorban
+loading=Töltés
+in game=Játékban
+celebrating=Felfüggesztés
+waiting=Várakozás
+Is resetting: @1=
+Initial time: @1=
+current: @1=
+rain=
+snow=
+dust=
+custom=
+Spectator properties: @1=
+Team properties: @1=
+Name: @1=
+ID: @1=
+Match ID: @1=
+Author: @1=
+Thumbnail: @1=
+BGM: @1=
+Teams: @1=
+Players required: @1=
+Players supported: @1=
+Players inside: @1=
+Players and spectators inside: @1=
+Past and present players: @1=
+Past and present players inside: @1=
+Enabled: @1=
+Status: @1=
+Entrance: @1=
+Region: @1=
+Custom return point: @1=
+Spawn points: @1=
+Custom sky: @1=
+Weather: @1=
+Custom lighting: @1=
+Properties: @1=
+Temp properties: @1=
+Player properties: @1=
+Unused arena_lib resources:=
+
+##[ src/utils/macros.lua ]##
+There must be no one inside the editor of the arena to perform this command! (now inside: @1)=Senki nem lehet a szerkesztőben hogy ezt végrehajsd (most bent: @1)
+You've recently been kicked from a game! Time left before being able to join a new match: @1s=
+Only the party leader can enter the queue!=Csak a buli vezetője tud belépni a sorba!
+One of your party members has recently been kicked from a game! Time left before being able to join a new match: @1s=
+You must wait for all your party members to finish their ongoing games before entering a new one!=Meg kell várnod a buliban szereplő öszes embert hogy befelyezze a menetét és csak akkor tudsz újat indítani!
+Can't enter a game if some of your party members are attached to something! (e.g. boats, horses etc.)=Nem tudsz belépni egy Játékba még egy buliban szereplő társad csatlakozik valamihez (pl. hajók, lovak stb.)
+@1 is running a Minetest version too old to play this minigame!=
+There is not enough space for the whole party!=Nincs elég hely az egész buli számára!
+There is no team with enough space for the whole party!=Nincs elegendő helyű csapat az egész buli számára!
+Your version of Minetest is too old to play this minigame! Please update it=
+The arena is already full!=Az aréna már teli van!
+
+##[ src/utils/utils.lua ]##
+[!] @1=
+
+
+##### not used anymore #####
+
+Spawn points can't exceed the maximum number of players!=Az indulási helyek száma nem heledhatja meg a játékosok számát!
+Are you sure you want to delete the region of the arena?=Biztos hogy törölni szeretnéd az aréna körzetét?
+Spectators inside: =Bent lévő nézők: 
+current: =Most: 
+name: =Név: 
+Total arenas: =Öszes aréna: 
+Players required per team: =Játékos szükséges csapatonként: 
+Players supported per team: =Játékos támogatott csapatonként: 
+Players inside per team: =Játékosok a csapatban: 
+Spectators inside per team: =Nézők bent csapatonként: 
+Current spectatable entities: =Mostnézhető entitárst: 
+Current spectatable areas: =Most Nézhető aréna: 
+Initial time: =Központi idő: 
+Name: =Név: 
+Author: =Kiadó: 
+Thumbnail: =Indexkép: 
+BGM: =BGM: 
+Teams: =Csapatok: 
+Players required: =Játékosok szükségesek: 
+Players supported: =Játékosok támogatottak: 
+Players inside: =Bent lévő játékosok: 
+Players and spectators inside: =Bent lévő nézők és játékosok: 
+Past and present players: =Volt és mostani játékosok: 
+Past and present players inside: =Volt és mostani bent lévő játékosok: 
+Enabled: =Engedélyezve: 
+Status: =Státusz: 
+Entrance: =Bejárat: 
+Region: =Régió: 
+Custom return point: =Egyed: 
+Spawn points: =Viszatérési pont: 
+Custom sky: =Egyedi égbolt: 
+Custom lighting: =Egyedi fények: 
+Properties: =Adatok: 
+Temp properties: =Hőmérségleti adatok: 
+Team properties: =Csapat adatok: 
+arena name=aréna név
+Quits an ongoing game=Kilépés egy menetben lévő menetből
+kicks a player from an ongoing game=Kirúg egy játékost egy folyó játékból
+All=Mind
+on_timeout callback must be declared to properly use a decreasing timer!=Az on_timeout visszahívást deklarálni kell a csökkenő időzítő megfelelő használatához!

@@ -18,7 +18,7 @@ minetest.register_chatcommand("lobby", {
 
 
         if param ~= "" and minetest.get_player_privs(name).server then
-            if minetest.global_exists("skyblock") then
+            if minetest.get_modpath("satlantis_skyblock") then
                 if skyblock.is_in_skyblock(name) then
                     return false, "Cannot set spawn inside orbiter"
                 end
@@ -45,7 +45,7 @@ minetest.register_chatcommand("lobby", {
                 end
             end
         else
-            if minetest.global_exists("skyblock") then
+            if minetest.get_modpath("satlantis_skyblock") then
                 if skyblock.is_in_skyblock(name) then
                     skyblock.exit_cel(name, lobby_pos)
                     return true, "Transporting to lobby..."
@@ -113,8 +113,8 @@ minetest.register_chatcommand("overworld", {
         local player = minetest.get_player_by_name(name)
         local pos = player:get_pos()
 
-        local in_skyblock = minetest.global_exists("skyblock") and skyblock.is_in_skyblock(name)
-        local in_lobby = pos.y > 20000 and pos.y < 250000 
+        local in_skyblock = minetest.get_modpath("satlantis_skyblock") and skyblock.is_in_skyblock(name)
+        local in_lobby = pos.y > 8100 and pos.y < 240000
 
         if in_lobby and minetest.global_exists("arena_lib") then
             if arena_lib.is_player_in_arena(name) then

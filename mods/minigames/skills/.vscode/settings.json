@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "minetest"
+    ],
+    "Lua.diagnostics.disable": [
+        "need-check-nil",
+        "undefined-field",
+        "lowercase-global"
+    ]
+}

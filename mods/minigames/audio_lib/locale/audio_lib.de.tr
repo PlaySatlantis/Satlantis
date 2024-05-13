@@ -1,0 +1,35 @@
+# textdomain: audio_lib
+
+##[ src/GUI/gui_settings.lua ]##
+Audio Settings=Audioeinstellungen
+Used by:@n@1=Verwendet von:@n@1
+It only affects mods that use audio_lib=Betrifft nur Mods, die audio_lib benutzen
+Main=Haupt
+BGM=Musik
+SFX=Sound
+Accessibility=
+Reset=Zurücksetzen
+Apply=Anwenden
+
+##[ src/commands.lua ]##
+Open the audio settings menu=Das Audioeinstellungsmenü öffnen
+
+##[ src/tests/bgm.lua ]##
+Audio Lib BGM test #1@n@n1. Play BGM #1 in loop.@n@nRight click to stop any BGM=„Audio Lib“-Musik-Test #1@n@n1. Musik #1 in Schleife abspielen.@n@nRechtsklicken, um die ganze Musik zu stoppen
+Audio Lib BGM test #2@n@n1. Play BGM #1 for 1s@n2. Play BGM #2 for 3s, gain 0.3@n3. Play BGM #1 for 4s from where it stopped@n4. Stop BGM #1 after 2s=„Audio Lib“-Musik-Test #2@n@n1. Musik #1 für 1s abspielen@n2. Musik #2 für 3s mit Gain von 0,3 abspielen@n3. Musik #1 für 4s dort abspielen, wo sie gestoppt wurde@n4. Musik #1 nach 2s stoppen
+Audio Lib BGM test #3@n@n1. Play BGM #2 for 2s@n2. Gradually change (1s) gain to 0.5 for 3s@n3. Change gain to 1.4 for 2s@n4. Fade it out in 2s=
+Starts changing volume=
+Starts fading=
+
+##[ src/tests/custom_types.lua ]##
+Custom type test=Benutzerdefinierter-Typ-Test
+Audio Lib custom sound test #1@n@n1. Play Custom Sound #1 to the player=Audio-Lib-Benutzersound-Test #1@n@n1. Spielt Benutzersound #1 an den Spieler
+
+##[ src/tests/sfx.lua ]##
+Audio Lib sfx test #1@n@n1. Play SFX #1 to the player=„Audio Lib“-Sound-Test #1@n@n1. Sound #1 an den Spieler abspielen
+Audio Lib sfx test #2@n@n1. Play SFX #1 at player's position@n2. Play SFX #1 again after 2 seconds, shifted by 30 nodes on the X axis from the player's position@n3.Play it again after 0.5s, but shifted by 30 nodes in the opposite direction@n4. Play it again after 0.4s, like in step #2=
+
+
+##### not used anymore #####
+
+Audio Lib sfx test #2@n@n1. Play SFX #1 at player's position@n2. Play SFX #1 again after 2 seconds, shifted by 30 nodes on the X axis from the player's position=„Audio Lib“-Sound-Test #2@n@n1. Sound #1 an der Spielerposition abspielen@n2. Sound #1 erneut nach 2 Sekunden abspielen, um 30 Nodes auf der X-Achse von der Spielerposition aus verschoben

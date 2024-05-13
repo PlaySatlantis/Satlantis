@@ -23,7 +23,7 @@ Contributions to Satlantis must be licensable as MIT.
 -----------
 Game notes:
 
-orbiters have y = 20000 upwards reserved
+orbiters have y = 28000 upwards reserved
 
 lobby has y = 8000 to y = 20000 reserved
 

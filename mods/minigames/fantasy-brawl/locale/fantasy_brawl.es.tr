@@ -1,0 +1,85 @@
+# textdomain: fantasy_brawl
+# version 0.1.0
+# author(s):
+# reviewer(s):
+# @n means "newline", while @1, @2 ecc. are in-game parameters 
+
+##[ src\arena_lib\callbacks.lua ]##
+The player with the most kills wins=¡El jugador con más asesesinatos gana!
+
+##[ src\classes\book_pedestal.lua ]##
+Fantasy Brawl Class Selector=
+
+##[ src\classes\class_selector_formspec.lua ]##
+Choose=
+You've chosen the @1 class=Has escogido la clase @1
+
+##[ src\classes\classes_system.lua ]##
+You've killed @1=Has asesinado a @1
+You've been killed by @1=Has sido asesinado por @1
+
+##[ src\classes\infector\infector.lua ]##
+Do you want to ssslither at their back and shower them with poison? Make the ground they're walkin' an acid pool? Then, for you, there's nothing better than Infector.=
+
+##[ src\classes\infector\skills\acid_spray.lua ]##
+Acid Spray=
+
+##[ src\classes\mage\items.lua ]##
+You can't point it in the sky!=¡No puedes apuntarlo en el cielo!
+
+##[ src\classes\mage\mage.lua ]##
+Mage=Mago
+Wanna crush them with meteors? Pew pew them with bubbles from far away? Then the mage is for you.=¿Quieres aplastarlos con meteoritos? ¿Hazerles pew pew con burbujas desde lejos? Entonces el mago es para ti.
+
+##[ src\classes\mage\skills\bubble_beam.lua ]##
+Bubble Beam=
+Generates a bubble beam that strikes at medium to long distances.=
+
+##[ src\classes\mage\skills\cry_of_gaia.lua ]##
+Cry of Gaia=Grito de Gaia
+Unleash Gaia's fury: throws a meteor shower wherever you're looking at, damaging all enemies in that area.=Desata la furia de Gaia: lanza una lluvia de meteoritos donde quiera que estés mirando, dañando a todos los enemigos en el área.
+Click to unleash a meteor storm=
+
+##[ src\classes\mage\skills\fire_sprint.lua ]##
+Fire Sprint=Carrera de fuego
+Sprint forward damaging whoever stands in the way.=Corre hacía adelante dañando a quien se atraviese en tu camino.
+
+##[ src\classes\mage\skills\gaia_fist.lua ]##
+Gaia's Fist=Puño de Gaia
+Throw a rock against the enemy and push them away!=¡Arroja una roca contra el enemigo y lo aleja!
+
+##[ src\classes\mage\skills\ice_spikes.lua ]##
+Ice Spikes=
+Creates a wall of ice spikes that damages anyone who walks over it.=
+
+##[ src\classes\warrior\items.lua ]##
+Unleash the fury of the strongest warrior alive!=
+
+##[ src\classes\warrior\skills\death_twirl.lua ]##
+Death Twirl=
+Sprint damaging whoever gets in the way.=
+
+##[ src\classes\warrior\skills\hero_fury.lua ]##
+Hero's Fury=Furia del héroe
+Unleash the fury of a war hero: throw the enemy in the sky and punch them to death. Brr... Merciless.=Desata la furia de un héroe de guerra: lanza al enemigo al cielo y golpéalo hasta la muerte. Brr ... Sin piedad.
+Punch a player to use the ultimate=
+
+##[ src\classes\warrior\skills\iron_skin.lua ]##
+Iron Skin=Piel de hierro
+The damage you take is halved for @1 seconds since you cast the skill.=El daño que recibas será reducido a la mitad por @1 segundos desde que lanzas el hechizo.
+
+##[ src\classes\warrior\skills\sword.lua ]##
+Sword=Espada
+Your trusted steel sword *slice slice slice*.=
+
+##[ src\classes\warrior\skills\warrior_jump.lua ]##
+Warrior's Jump=Salto del guerrero
+Jump very high to then land on their heads and  c r u s h  them!=¡Salta muy alto para después aterrizar sobre sus cabezas y  a p l a s t a r l a s!
+Sneak again to fall down=
+
+##[ src\classes\warrior\warrior.lua ]##
+Warrior=Guerrero
+Punch them with your fists and finish them with your sword! If you want some melee combat, the warrior's for you.=¡Golpéalos con tus puños y remátalos con tu espada! Si quieres algo de combate cuerpo a cuerpo, el guerrero es para ti.
+
+##[ src\hud\controls_hud.lua ]##
+Kills=

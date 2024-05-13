@@ -1,0 +1,5 @@
+# textdomain: 3d_armor_stand
+Armor Stand Top=
+Armor Stand=
+Locked Armor Stand=
+Armor Stand (owned by @1)=
