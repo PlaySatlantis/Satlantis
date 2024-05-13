@@ -110,6 +110,7 @@ end, true)
 
 minetest.register_chatcommand("overworld", {
     func = function(name)
+
         local player = minetest.get_player_by_name(name)
         local pos = player:get_pos()
 
@@ -135,7 +136,15 @@ minetest.register_chatcommand("overworld", {
             -- Try to set player velocity to zero
             player:add_player_velocity(-player:get_velocity())
 
-            local opos = get_overworld_pos()
+            -- Put player back where they were, if a save pos is available
+            local opos 
+            local save = player:get_meta():get_string("overworld:save_pos")
+            if save ~= "" then
+                opos = minetest.string_to_pos(player:get_meta():get_string("overworld:save_pos"))
+            end
+
+            if not opos then opos = get_overworld_pos() end
+
             if not opos then
                 return false, "Couldn't find suitable position. Please try again."
             end
@@ -156,6 +165,39 @@ minetest.register_chatcommand("overworld", {
         return false, "You can only transport to the overworld from the lobby or orbiter!"
     end
 })
+
+-- update players' save positions
+local savetimer = 0
+minetest.register_globalstep(function(dtime)
+    savetimer = savetimer + dtime
+    if savetimer >= 10 then
+        for _, player in pairs(minetest.get_connected_players()) do
+            
+            local in_skyblock = minetest.get_modpath("satlantis_skyblock") and skyblock.is_in_skyblock(name)
+            local pos = player:get_pos()
+            local in_lobby = pos.y > 8100 and pos.y < 240000
+
+            if not(in_skyblock) and not(in_lobby) then
+                -- save the position if the player is on solid ground and standing in air
+                local below_n_pos = vector.add(player:get_pos(), vector.new(0,-.9,0))
+                local below_n_name = minetest.get_node(below_n_pos).name
+                local below_walkable = minetest.registered_nodes[below_n_name] and minetest.registered_nodes[below_n_name].walkable or false
+
+                local above_n_pos = vector.add(player:get_pos(), vector.new(0,1.1,0))
+                local above_n_name = minetest.get_node(above_n_pos).name
+                local above_is_air = above_n_name == "air"
+
+                if below_walkable and above_is_air then
+                    player:get_meta():set_string("overworld:save_pos", minetest.pos_to_string(player:get_pos(), 1))
+                end
+            end
+        end
+        savetimer = 0
+    end
+end)
+
+
+
 
 minetest.registered_chatcommands["world"] = minetest.registered_chatcommands["overworld"]
 minetest.registered_chatcommands["resourceworld"] = minetest.registered_chatcommands["overworld"]

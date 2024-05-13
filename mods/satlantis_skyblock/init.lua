@@ -249,6 +249,16 @@ end)
 -- Player commands
 minetest.register_chatcommand("skyblock", {
     func = function(name, param)
+        -- disable while in arenas
+        if minetest.global_exists("arena_lib") then
+            if arena_lib.is_player_in_arena(name) then
+                return false, "Cannot teleport while inside arena!"
+            end
+            if arena_lib.is_player_in_queue(name) then
+                return false, "Cannot teleport while inside arena queue!"
+            end
+        end
+        
         if param == "set" then
             if skyblock.current_players[name] then
                 local player = minetest.get_player_by_name(name)

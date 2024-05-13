@@ -33,3 +33,13 @@ below y = 8000 is free game to delete for world refreshing.
 
 spawn - (570,10094,143)
 
+
+------------
+
+Refreshing the world:
+
+First, make a backup of map.sqlite.
+
+Next, install https://github.com/random-geek/MapEditr
+
+Run: `MapEditr map.sqlite`
