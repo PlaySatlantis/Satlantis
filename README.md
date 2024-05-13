@@ -18,3 +18,18 @@ Review terms of service here: https://satlantis.net/blog/terms
 **License:** [MIT](https://choosealicense.com/licenses/mit/) ([LICENSE.txt](LICENSE.txt))  
 
 Contributions to Satlantis must be licensable as MIT.
+
+
+-----------
+Game notes:
+
+orbiters have y = 20000 upwards reserved
+
+lobby has y = 8000 to y = 20000 reserved
+
+At the bottom of the lobby level is a layer of invisible solid blocks (TODO)
+
+below y = 8000 is free game to delete for world refreshing.
+
+spawn - (570,10094,143)
+
