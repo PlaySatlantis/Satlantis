@@ -75,7 +75,7 @@ minetest.registered_chatcommands["spawn"] = minetest.registered_chatcommands["lo
 local old_is_protected = minetest.is_protected
 
 minetest.is_protected = function(pos, name)
-    if pos.y >= 20000 and pos.y <= 25000 then
+    if is_player_in_lobby(name) and (minetest.global_exists("arena_lib") and not(arena_lib.is_player_in_arena(name))) then
         if not minetest.get_player_privs(name).protection_bypass then
             return true
         end
