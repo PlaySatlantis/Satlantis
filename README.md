@@ -33,13 +33,32 @@ below y = 8000 is free game to delete for world refreshing.
 
 spawn - (570,10094,143)
 
+-- to test:
+- players do not return to beds when they die in arenas
+- players are kicked from queue when they die while in arena queues
+- beds are only functional in the overworld
 
 ------------
 
 Refreshing the world:
 
-First, make a backup of map.sqlite.
+First, STOP THE MINETEST SERVER.
+
+Second, make a backup of map.sqlite.
 
 Next, install https://github.com/random-geek/MapEditr
 
-Run: `MapEditr map.sqlite`
+Replace anything in <replaceme> brackets with the actual values
+Run: 
+```bash
+<path/to/mapditr_executable> <path/to/map.sqlite> deleteblocks --p1 -31000 -31000 -31000 --p2 31000 7900 31000
+```
+
+It should take about 20 mins to delete the overworld if the overworld has been explored much.
+
+-------------
+
+
+
+
+

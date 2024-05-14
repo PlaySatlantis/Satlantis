@@ -2,6 +2,18 @@ local storage = minetest.get_mod_storage()
 local lobby_pos = minetest.string_to_pos(storage:get("lobby_pos") or "0,0,0")
 local skyblock, space = satlantis.skyblock, satlantis.space
 
+
+local is_player_in_lobby = function(p_name)
+    local player = minetest.get_player_by_name(p_name)
+    if player then
+        local pos = player:get_pos()
+        local in_lobby = pos.y > 8100 and pos.y < 240000
+
+        return in_lobby
+    end
+    return false
+end
+
 minetest.register_chatcommand("lobby", {
     func = function(name, param)
         local player = minetest.get_player_by_name(name)
@@ -115,7 +127,7 @@ minetest.register_chatcommand("overworld", {
         local pos = player:get_pos()
 
         local in_skyblock = minetest.get_modpath("satlantis_skyblock") and skyblock.is_in_skyblock(name)
-        local in_lobby = pos.y > 8100 and pos.y < 240000
+        local in_lobby = is_player_in_lobby(name)
 
         if in_lobby and minetest.global_exists("arena_lib") then
             if arena_lib.is_player_in_arena(name) then
@@ -173,9 +185,10 @@ minetest.register_globalstep(function(dtime)
     if savetimer >= 10 then
         for _, player in pairs(minetest.get_connected_players()) do
             
+            local name = player:get_player_name()
             local in_skyblock = minetest.get_modpath("satlantis_skyblock") and skyblock.is_in_skyblock(name)
             local pos = player:get_pos()
-            local in_lobby = pos.y > 8100 and pos.y < 240000
+            local in_lobby = is_player_in_lobby(name)
 
             if not(in_skyblock) and not(in_lobby) then
                 -- save the position if the player is on solid ground and standing in air
@@ -198,7 +211,6 @@ end)
 
 
 
-
 minetest.registered_chatcommands["world"] = minetest.registered_chatcommands["overworld"]
 minetest.registered_chatcommands["resourceworld"] = minetest.registered_chatcommands["overworld"]
 
@@ -210,8 +222,15 @@ end
 minetest.register_on_respawnplayer(function(player)
     local name = player:get_player_name()
     local cel = skyblock.get_player_cel(name)
+    local is_player_in_arena = minetest.get_modpath("arena_lib") and arena_lib.is_player_in_arena(name)
+    local is_player_in_queue = minetest.get_modpath("arena_lib") and arena_lib.is_player_in_queue(name)
+    local in_lobby = is_player_in_lobby(name)
 
-	if beds and enable_bed_respawn and beds.spawn[name] then
+    if is_player_in_arena then return false end
+
+    if in_lobby then
+        player:set_pos(lobby_pos)
+	elseif beds and enable_bed_respawn and beds.spawn[name] then
         local pos = beds.spawn[name]
         if cel and skyblock.pos_in_bounds(pos, cel.bounds.min, cel.bounds.max) then
             skyblock.enter_cel(name, pos)
