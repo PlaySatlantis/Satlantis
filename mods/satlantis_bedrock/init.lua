@@ -77,43 +77,43 @@ function luamap.logic(noise_vals,x,y,z,seed,original_content)
 end
 
 
--- -- handle players' skybox 
--- local underground_players = {}
--- minetest.register_globalstep(function(dtime)
---     local players = minetest.get_connected_players()
---     for _, player in pairs(players) do
---         local pos = player:get_pos()
---         if pos.y < -100 then
---             -- player is underground, set all to black
---             underground_players[player:get_player_name()] = true
---             -- set sky
---             player:set_sky({
---                 sky_color = {
---                     day_sky = {"#000000"},
---                     day_horizon = {"#000000"},
---                     dawn_sky = {"#000000"},
---                     dawn_horizon = {"#000000"},
---                     night_sky = {"#000000"},
---                     night_horizon = {"#000000"},
---                     fog_sun_tint = {"#000000"},
---                     fog_moon_tint = {"#000000"},
---                     fog_tint_type = "default"
---                 },
---                 clouds = false,
---                 -- TODO; implement fog for 5.9 clients/server
---             })
---             player:set_sun({visible = false})
---             player:set_moon({visible = false})
---             player:set_stars({visible = false})
---         elseif pos.y > -100 and pos.y < 20000 then
---             if underground_players[player:get_player_name()] then
---                 -- restore sky
---                 player:set_sky()
---                 player:set_sun()
---                 player:set_moon()
---                 player:set_stars()
---                 underground_players[player:get_player_name()] = nil
---             end
---         end
---     end
--- end)
+-- handle players' skybox 
+local underground_players = {}
+minetest.register_globalstep(function(dtime)
+    local players = minetest.get_connected_players()
+    for _, player in pairs(players) do
+        local pos = player:get_pos()
+        if pos.y < -100 then
+            -- player is underground, set all to black
+            -- underground_players[player:get_player_name()] = true
+            -- set sky
+            player:set_sky({
+                sky_color = {
+                    day_sky = {"#000000"},
+                    day_horizon = {"#000000"},
+                    dawn_sky = {"#000000"},
+                    dawn_horizon = {"#000000"},
+                    night_sky = {"#000000"},
+                    night_horizon = {"#000000"},
+                    fog_sun_tint = {"#000000"},
+                    fog_moon_tint = {"#000000"},
+                    fog_tint_type = "default"
+                },
+                clouds = false,
+                -- TODO; implement fog for 5.9 clients/server
+            })
+            player:set_sun({visible = false})
+            player:set_moon({visible = false})
+            player:set_stars({visible = false})
+        -- elseif pos.y > -100 and pos.y < 20000 then
+        --     if underground_players[player:get_player_name()] then
+        --         -- restore sky
+        --         player:set_sky()
+        --         player:set_sun()
+        --         player:set_moon()
+        --         player:set_stars()
+        --         underground_players[player:get_player_name()] = nil
+        --     end
+        end
+    end
+end)
