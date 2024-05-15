@@ -46,13 +46,24 @@ First, STOP THE MINETEST SERVER.
 
 Second, make a backup of map.sqlite.
 
-Next, install https://github.com/random-geek/MapEditr
+Next, install https://github.com/random-geek/MapEditr:
+
+ - `$sudo apt install cargo`
+ - `$cd /path/to/MapEditr`
+ - `$cargo build --release`
+ - `$cd target/release/` -- the mapeditr executable should be here
 
 Replace anything in <replaceme> brackets with the actual values
 Run: 
 ```bash
-<path/to/mapditr_executable> <path/to/map.sqlite> deleteblocks --p1 -31000 -31000 -31000 --p2 31000 7900 31000
+<path/to/mapeditr_executable> <path/to/map.sqlite> deleteblocks --p1 -31000 -31000 -31000 --p2 31000 7900 31000
 ```
+
+so if in the `mapeditr/target/release/` folder, and if the mapeditr folder is in the world folder, the command would be:
+```bash
+./mapeditr ../../../map.sqlite deleteblocks --p1 -31000 -31000 -31000 --p2 31000 7900 31000
+```
+
 
 It should take about 20 mins to delete the overworld if the overworld has been explored much.
 
