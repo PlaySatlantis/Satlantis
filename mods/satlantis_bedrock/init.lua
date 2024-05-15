@@ -105,15 +105,13 @@ minetest.register_globalstep(function(dtime)
             player:set_sun({visible = false})
             player:set_moon({visible = false})
             player:set_stars({visible = false})
-        -- elseif pos.y > -100 and pos.y < 20000 then
-        --     if underground_players[player:get_player_name()] then
-        --         -- restore sky
-        --         player:set_sky()
-        --         player:set_sun()
-        --         player:set_moon()
-        --         player:set_stars()
-        --         underground_players[player:get_player_name()] = nil
-        --     end
+        elseif pos.y > -100 and pos.y < 8000 then
+            -- restore sky
+            player:set_sky()
+            player:set_sun()
+            player:set_moon()
+            player:set_stars()
+            
         end
     end
 end)
