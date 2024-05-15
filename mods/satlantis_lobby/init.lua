@@ -60,11 +60,20 @@ minetest.register_chatcommand("lobby", {
             if minetest.get_modpath("satlantis_skyblock") then
                 if skyblock.is_in_skyblock(name) then
                     skyblock.exit_cel(name, lobby_pos)
+                    player:set_sun()
+                    player:set_moon()
+                    player:set_stars()
+                    player:set_sky()
                     return true, "Transporting to lobby..."
                 end
             end
 
+            player:set_sun()
+            player:set_moon()
+            player:set_stars()
+            player:set_sky()
             player:set_pos(lobby_pos)
+
             return true, "Transporting to lobby..."
         end
     end,
