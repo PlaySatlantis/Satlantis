@@ -102,10 +102,12 @@ minetest.register_globalstep(function(dtime)
                 clouds = false,
                 -- TODO; implement fog for 5.9 clients/server
             })
+            player:set_sun({visible = false})
         elseif pos.y > -100 and pos.y < 20000 then
             if underground_players[player:get_player_name()] then
                 -- restore sky
                 player:set_sky()
+                player:set_sun()
                 underground_players[player:get_player_name()] = nil
             end
         end
