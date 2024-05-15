@@ -102,7 +102,7 @@ minetest.register_globalstep(function(dtime)
                 clouds = false,
                 -- TODO; implement fog for 5.9 clients/server
             })
-            player:set_sun({visible = false})
+            player:set_sun({visible = false, sunrise_visible = false})
             player:set_moon({visible = false})
             player:set_stars({visible = false})
         elseif pos.y > -100 and pos.y < 8000 then
