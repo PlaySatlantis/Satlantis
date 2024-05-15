@@ -57,16 +57,16 @@ Everness:register_ore({
 
 -- Quartz
 
-Everness:register_ore({
-    ore_type = 'scatter',
-    ore = 'everness:quartz_ore',
-    wherein = { 'default:stone' },
-    clust_scarcity = 10 * 10 * 10,
-    clust_num_ores = 6,
-    clust_size = 5,
-    y_max = -5,
-    y_min = -31000,
-})
+-- Everness:register_ore({
+--     ore_type = 'scatter',
+--     ore = 'everness:quartz_ore',
+--     wherein = { 'default:stone' },
+--     clust_scarcity = 10 * 10 * 10,
+--     clust_num_ores = 6,
+--     clust_size = 5,
+--     y_max = -5,
+--     y_min = -31000,
+-- })
 
 --
 -- Decorations

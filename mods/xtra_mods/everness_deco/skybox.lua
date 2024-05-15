@@ -883,17 +883,17 @@ minetest.register_globalstep(function(dtime)
                         player:set_stars()
                     end
 
-                    if skybox_defs[biome_name].sky_parameters then
-                        player:set_sky(skybox_defs[biome_name].sky_parameters)
-                    else
-                        player:set_sky()
-                    end
+                    -- if skybox_defs[biome_name].sky_parameters then
+                    --     player:set_sky(skybox_defs[biome_name].sky_parameters)
+                    -- else
+                    --     player:set_sky()
+                    -- end
 
-                    if skybox_defs[biome_name].cloud_parameters then
-                        player:set_clouds(skybox_defs[biome_name].cloud_parameters)
-                    else
-                        player:set_clouds()
-                    end
+                    -- if skybox_defs[biome_name].cloud_parameters then
+                    --     player:set_clouds(skybox_defs[biome_name].cloud_parameters)
+                    -- else
+                    --     player:set_clouds()
+                    -- end
 
                     if skybox_defs[biome_name].particlespawner then
                         local pdef = table.copy(skybox_defs[biome_name].particlespawner)

@@ -106,7 +106,7 @@ Everness:register_node('everness:mineral_stone_with_coal', {
 
 Everness:register_node('everness:stone_with_pyrite', {
     description = S('Pyrite Ore'),
-    tiles = { 'everness_stone.png^everness_mineral_pyrite.png' },
+    tiles = { 'default_stone.png^everness_mineral_pyrite.png' },
     groups = {
         -- MTG
         cracky = 2,
@@ -338,25 +338,25 @@ Everness:register_node('everness:pyriteblock_polished', {
     sounds = Everness.node_sound_metal_defaults(),
 })
 
-Everness:register_node('everness:quartz_ore', {
-    description = S('Quartz Ore'),
-    tiles = { 'everness_stone.png^everness_quartz_ore.png' },
-    groups = {
-        -- MTG
-        cracky = 3,
-        stone = 1,
-        -- MCL
-        pickaxey = 1,
-        building_block = 1,
-        material_stone = 1,
-        xp = 3
-    },
-    _mcl_blast_resistance = 3,
-    _mcl_hardness = 3,
-    _mcl_silk_touch_drop = true,
-    drop = 'everness:quartz_crystal',
-    sounds = Everness.node_sound_stone_defaults(),
-})
+-- Everness:register_node('everness:quartz_ore', {
+--     description = S('Quartz Ore'),
+--     tiles = { 'default_stone.png^everness_quartz_ore.png' },
+--     groups = {
+--         -- MTG
+--         cracky = 3,
+--         stone = 1,
+--         -- MCL
+--         pickaxey = 1,
+--         building_block = 1,
+--         material_stone = 1,
+--         xp = 3
+--     },
+--     _mcl_blast_resistance = 3,
+--     _mcl_hardness = 3,
+--     _mcl_silk_touch_drop = true,
+--     drop = 'everness:quartz_crystal',
+--     sounds = Everness.node_sound_stone_defaults(),
+-- })
 
 --
 -- Stone
