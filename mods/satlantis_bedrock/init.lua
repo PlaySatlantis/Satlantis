@@ -97,7 +97,7 @@ minetest.register_globalstep(function(dtime)
                     night_horizon = {"#000000"},
                     fog_sun_tint = {"#000000"},
                     fog_moon_tint = {"#000000"},
-                    fog_tint_type = "default"
+                    fog_tint_type = "custom"
                 },
                 clouds = false,
                 -- TODO; implement fog for 5.9 clients/server
