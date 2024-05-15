@@ -235,7 +235,7 @@ if not mobs.custom_spawn_monster then
 		name = "mobs_monster:spider",
 		nodes = {
 			"default:dirt_with_rainforest_litter", "default:snowblock",
-			"default:snow", "ethereal:crystal_dirt", "ethereal:cold_dirt"
+			"default:snow", "everness:dirt_with_crystal_grass", "ethereal:cold_dirt"
 		},
 		min_light = 0,
 		max_light = 8,
