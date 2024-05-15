@@ -55,11 +55,11 @@ end
 
 local function set_player_location_default(player)
     player:set_physics_override(DEFAULT_PHYSICS)
-    player:set_sky()
-    player:set_stars()
+    -- player:set_sky()
+    -- player:set_stars()
 
-    player:set_sun()
-    player:set_moon()
+    -- player:set_sun()
+    -- player:set_moon()
 
     player:override_day_night_ratio()
 end

@@ -172,8 +172,16 @@ minetest.register_chatcommand("overworld", {
 
             if in_skyblock then
                 skyblock.exit_cel(name, opos)
+                player:set_sun()
+                player:set_moon()
+                player:set_stars()
+                player:set_sky()
             else
                 player:set_pos(opos)
+                player:set_sun()
+                player:set_moon()
+                player:set_stars()
+                player:set_sky()
             end
 
             minetest.after(3, function()
