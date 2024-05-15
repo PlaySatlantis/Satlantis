@@ -795,202 +795,202 @@ end
 
 local timer = 0
 
-minetest.register_globalstep(function(dtime)
-    timer = timer + dtime
+-- minetest.register_globalstep(function(dtime)
+--     timer = timer + dtime
 
-    if timer > 5 then
-        local players = minetest.get_connected_players()
-        local tod = minetest.get_timeofday()
-        local is_day = false
+--     if timer > 5 then
+--         local players = minetest.get_connected_players()
+--         local tod = minetest.get_timeofday()
+--         local is_day = false
 
-        if tod > 0.2 and tod < 0.805 then
-            is_day = true
-        end
+--         if tod > 0.2 and tod < 0.805 then
+--             is_day = true
+--         end
 
-        for _, player in ipairs(players) do
-            if not player then
-                return
-            end
+--         for _, player in ipairs(players) do
+--             if not player then
+--                 return
+--             end
 
-            local player_meta = player:get_meta()
-            local player_pos = player:get_pos()
-            local biome_data = minetest.get_biome_data(player_pos)
-            local player_biome_name = player_meta:get_string('everness_biome_name')
-            local is_underground = player_meta:get_int('everness_is_underground')
-            local player_is_day = player_meta:get_int('everness_is_day') == 1
+--             local player_meta = player:get_meta()
+--             local player_pos = player:get_pos()
+--             local biome_data = minetest.get_biome_data(player_pos)
+--             local player_biome_name = player_meta:get_string('everness_biome_name')
+--             local is_underground = player_meta:get_int('everness_is_underground')
+--             local player_is_day = player_meta:get_int('everness_is_day') == 1
 
-            if not biome_data then
-                return
-            end
+--             if not biome_data then
+--                 return
+--             end
 
-            local biome_name = minetest.get_biome_name(biome_data.biome)
+--             local biome_name = minetest.get_biome_name(biome_data.biome)
 
-            if not biome_name then
-                return
-            end
+--             if not biome_name then
+--                 return
+--             end
 
-            local should_flip_data = should_flip(player)
+--             local should_flip_data = should_flip(player)
 
-            -- flip sun/moon when morning/afternoon
-            if player_biome_name == biome_name and should_flip_data.should_flip then
-                if skybox_defs[biome_name] then
-                    if skybox_defs[biome_name].sun_parameters then
-                        local sun_params = table.copy(skybox_defs[biome_name].sun_parameters)
+--             -- flip sun/moon when morning/afternoon
+--             if player_biome_name == biome_name and should_flip_data.should_flip then
+--                 if skybox_defs[biome_name] then
+--                     if skybox_defs[biome_name].sun_parameters then
+--                         local sun_params = table.copy(skybox_defs[biome_name].sun_parameters)
 
-                        if should_flip_data.current_time == 2 then
-                            sun_params.texture = sun_params.texture .. '^[transformFY'
-                        end
+--                         if should_flip_data.current_time == 2 then
+--                             sun_params.texture = sun_params.texture .. '^[transformFY'
+--                         end
 
-                        player:set_sun(sun_params)
-                    end
+--                         player:set_sun(sun_params)
+--                     end
 
-                    -- if skybox_defs[biome_name].moon_parameters then
-                    --     player:set_moon(skybox_defs[biome_name].moon_parameters)
-                    -- else
-                    --     player:set_moon()
-                    -- end
-                end
-            end
+--                     if skybox_defs[biome_name].moon_parameters then
+--                         player:set_moon(skybox_defs[biome_name].moon_parameters)
+--                     else
+--                         player:set_moon()
+--                     end
+--                 end
+--             end
 
-            -- Change skybox params
-            if player_biome_name ~= biome_name then
-                player_meta:set_string('everness_biome_name', biome_name)
-                player_biome_name = biome_name
+--             -- Change skybox params
+--             if player_biome_name ~= biome_name then
+--                 player_meta:set_string('everness_biome_name', biome_name)
+--                 player_biome_name = biome_name
 
-                if skybox_defs[biome_name] then
-                    if skybox_defs[biome_name].sun_parameters then
-                        local sun_params = table.copy(skybox_defs[biome_name].sun_parameters)
+--                 if skybox_defs[biome_name] then
+--                     if skybox_defs[biome_name].sun_parameters then
+--                         local sun_params = table.copy(skybox_defs[biome_name].sun_parameters)
 
-                        -- flip sun when afternoon
-                        if should_flip_data.current_time == 2 then
-                            sun_params.texture = sun_params.texture .. '^[transformFY'
-                        end
+--                         -- flip sun when afternoon
+--                         if should_flip_data.current_time == 2 then
+--                             sun_params.texture = sun_params.texture .. '^[transformFY'
+--                         end
 
-                        player:set_sun(sun_params)
-                    else
-                        player:set_sun()
-                    end
+--                         player:set_sun(sun_params)
+--                     else
+--                         player:set_sun()
+--                     end
 
-                    if skybox_defs[biome_name].moon_parameters then
-                        player:set_moon(skybox_defs[biome_name].moon_parameters)
-                    else
-                        player:set_moon()
-                    end
+--                     if skybox_defs[biome_name].moon_parameters then
+--                         player:set_moon(skybox_defs[biome_name].moon_parameters)
+--                     else
+--                         player:set_moon()
+--                     end
 
-                    if skybox_defs[biome_name].star_parameters then
-                        player:set_stars(skybox_defs[biome_name].star_parameters)
-                    else
-                        player:set_stars()
-                    end
+--                     if skybox_defs[biome_name].star_parameters then
+--                         player:set_stars(skybox_defs[biome_name].star_parameters)
+--                     else
+--                         player:set_stars()
+--                     end
 
-                    -- if skybox_defs[biome_name].sky_parameters then
-                    --     player:set_sky(skybox_defs[biome_name].sky_parameters)
-                    -- else
-                    --     player:set_sky()
-                    -- end
+--                     if skybox_defs[biome_name].sky_parameters then
+--                         player:set_sky(skybox_defs[biome_name].sky_parameters)
+--                     else
+--                         player:set_sky()
+--                     end
 
-                    -- if skybox_defs[biome_name].cloud_parameters then
-                    --     player:set_clouds(skybox_defs[biome_name].cloud_parameters)
-                    -- else
-                    --     player:set_clouds()
-                    -- end
+--                     if skybox_defs[biome_name].cloud_parameters then
+--                         player:set_clouds(skybox_defs[biome_name].cloud_parameters)
+--                     else
+--                         player:set_clouds()
+--                     end
 
-                    if skybox_defs[biome_name].particlespawner then
-                        local pdef = table.copy(skybox_defs[biome_name].particlespawner)
+--                     if skybox_defs[biome_name].particlespawner then
+--                         local pdef = table.copy(skybox_defs[biome_name].particlespawner)
 
-                        pdef.attached = player
-                        pdef.playername = player:get_player_name()
+--                         pdef.attached = player
+--                         pdef.playername = player:get_player_name()
 
-                        local pid = minetest.add_particlespawner(pdef)
-                        player_meta:set_int('everness_biome_particlespawner_id', pid)
-                    else
-                        local pid = player_meta:get_int('everness_biome_particlespawner_id')
+--                         local pid = minetest.add_particlespawner(pdef)
+--                         player_meta:set_int('everness_biome_particlespawner_id', pid)
+--                     else
+--                         local pid = player_meta:get_int('everness_biome_particlespawner_id')
 
-                        if pid ~= 0 then
-                            minetest.delete_particlespawner(pid)
-                            player_meta:set_int('everness_biome_particlespawner_id', 0)
-                        end
-                    end
-                else
-                    player:set_sun()
-                    player:set_moon()
-                    player:set_stars()
-                    player:set_sky()
-                    player:set_clouds()
+--                         if pid ~= 0 then
+--                             minetest.delete_particlespawner(pid)
+--                             player_meta:set_int('everness_biome_particlespawner_id', 0)
+--                         end
+--                     end
+--                 else
+--                     player:set_sun()
+--                     player:set_moon()
+--                     player:set_stars()
+--                     player:set_sky()
+--                     player:set_clouds()
 
-                    local pid = player_meta:get_int('everness_biome_particlespawner_id')
+--                     local pid = player_meta:get_int('everness_biome_particlespawner_id')
 
-                    if pid ~= 0 then
-                        minetest.delete_particlespawner(pid)
-                        player_meta:set_int('everness_biome_particlespawner_id', 0)
-                    end
-                end
-            end
+--                     if pid ~= 0 then
+--                         minetest.delete_particlespawner(pid)
+--                         player_meta:set_int('everness_biome_particlespawner_id', 0)
+--                     end
+--                 end
+--             end
 
-            -- change day/night params
-            if player_biome_name == biome_name and player_is_day ~= is_day then
-                if skybox_defs[biome_name] then
-                    if skybox_defs[biome_name].sky_parameters then
-                        if skybox_defs[biome_name].sky_parameters.type == 'skybox' then
-                            player_meta:set_int('everness_is_day', is_day and 1 or 0)
+--             -- change day/night params
+--             if player_biome_name == biome_name and player_is_day ~= is_day then
+--                 if skybox_defs[biome_name] then
+--                     if skybox_defs[biome_name].sky_parameters then
+--                         if skybox_defs[biome_name].sky_parameters.type == 'skybox' then
+--                             player_meta:set_int('everness_is_day', is_day and 1 or 0)
 
-                            if is_day then
-                                for i, v in ipairs(skybox_defs[biome_name].sky_parameters.textures) do
-                                    skybox_defs[biome_name].sky_parameters.base_color = skybox_defs[biome_name].sky_parameters._day_base_color
-                                    skybox_defs[biome_name].sky_parameters.textures[i] = skybox_defs[biome_name].sky_parameters._textures_base[i]
-                                end
-                            else
-                                for i, v in ipairs(skybox_defs[biome_name].sky_parameters.textures) do
-                                    skybox_defs[biome_name].sky_parameters.base_color = skybox_defs[biome_name].sky_parameters._night_base_color
-                                    skybox_defs[biome_name].sky_parameters.textures[i] = skybox_defs[biome_name].sky_parameters._textures_base[i] .. '^[contrast:0:-85'
-                                end
-                            end
+--                             if is_day then
+--                                 for i, v in ipairs(skybox_defs[biome_name].sky_parameters.textures) do
+--                                     skybox_defs[biome_name].sky_parameters.base_color = skybox_defs[biome_name].sky_parameters._day_base_color
+--                                     skybox_defs[biome_name].sky_parameters.textures[i] = skybox_defs[biome_name].sky_parameters._textures_base[i]
+--                                 end
+--                             else
+--                                 for i, v in ipairs(skybox_defs[biome_name].sky_parameters.textures) do
+--                                     skybox_defs[biome_name].sky_parameters.base_color = skybox_defs[biome_name].sky_parameters._night_base_color
+--                                     skybox_defs[biome_name].sky_parameters.textures[i] = skybox_defs[biome_name].sky_parameters._textures_base[i] .. '^[contrast:0:-85'
+--                                 end
+--                             end
 
-                            player:set_sky(skybox_defs[biome_name].sky_parameters)
-                        end
-                    end
-                end
-            end
+--                             player:set_sky(skybox_defs[biome_name].sky_parameters)
+--                         end
+--                     end
+--                 end
+--             end
 
-            if player_pos.y <= -256 and is_underground == 0 or (is_underground ~= 0 and player_meta:get_string('everness_biome_name') ~= biome_name) then
-                -- hide sun, moon, stars ... underground
-                player_meta:set_int('everness_is_underground', 1)
+--             if player_pos.y <= -256 and is_underground == 0 or (is_underground ~= 0 and player_meta:get_string('everness_biome_name') ~= biome_name) then
+--                 -- hide sun, moon, stars ... underground
+--                 player_meta:set_int('everness_is_underground', 1)
 
-                player:set_sun({
-                    visible = false,
-                    sunrise_visible = false
-                })
+--                 player:set_sun({
+--                     visible = false,
+--                     sunrise_visible = false
+--                 })
 
-                player:set_moon({
-                    visible = false
-                })
+--                 player:set_moon({
+--                     visible = false
+--                 })
 
-                player:set_stars({
-                    visible = false
-                })
+--                 player:set_stars({
+--                     visible = false
+--                 })
 
-            elseif player_pos.y > -256 and is_underground ~= 0 or (is_underground == 0 and player_meta:get_string('everness_biome_name') ~= biome_name) then
-                -- show sun, moon, stars ... underground
-                player_meta:set_int('everness_is_underground', 0)
+--             elseif player_pos.y > -256 and is_underground ~= 0 or (is_underground == 0 and player_meta:get_string('everness_biome_name') ~= biome_name) then
+--                 -- show sun, moon, stars ... underground
+--                 player_meta:set_int('everness_is_underground', 0)
 
-                player:set_sun({
-                    visible = true
-                })
+--                 player:set_sun({
+--                     visible = true
+--                 })
 
-                player:set_moon({
-                    visible = true
-                })
+--                 player:set_moon({
+--                     visible = true
+--                 })
 
-                player:set_stars({
-                    visible = true,
-                    sunrise_visible = true
-                })
-            end
-        end
+--                 player:set_stars({
+--                     visible = true,
+--                     sunrise_visible = true
+--                 })
+--             end
+--         end
 
-        timer = 0
-    end
-end)
+--         timer = 0
+--     end
+-- end)
 
 minetest.register_on_joinplayer(function(player, last_login)
     local player_meta = player:get_meta()
