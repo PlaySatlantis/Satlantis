@@ -1,6 +1,9 @@
+-- TODO: GUI predefinita da rifare completamente, non funziona con le ultime modifiche
+
 local S = minetest.get_translator("collectible_skins")
 local function FS(...) return minetest.formspec_escape(S(...)) end
 
+local skins_amount = #collectible_skins.get_skins()
 local locked_skin = {
   name        = "???",
   description = "???",
@@ -13,13 +16,13 @@ local locked_skin = {
 
 
 
-function collectible_skins.get_formspec(p_name, page, skin_ID)
+function collectible_skins.get_formspec(p_name, page, skin_name)
   local selected_skin
   local skin_bg
   local skin_stars
 
   -- se la skin è bloccata o meno
-  if skin_ID == "LOCKED" then
+  if skin_name == "LOCKED" then
     selected_skin = locked_skin
     skin_bg = "cskins_gui_bg_locked.png"
     skin_stars = "blank.png"
@@ -27,11 +30,11 @@ function collectible_skins.get_formspec(p_name, page, skin_ID)
     minetest.get_player_by_name(p_name):get_meta():set_int("collectible_skins:selected_skin_ID", -1)        -- metadato per "Wear" se è bloccata
 
   else
-    selected_skin = collectible_skins.get_skin(skin_ID) or collectible_skins.get_skin(1) -- evita che possano abusare del valore passato nei formspec
+    selected_skin = collectible_skins.get_skin(skin_name) or collectible_skins.get_skin(1) -- evita che possano abusare del valore passato nei formspec
     skin_bg = "cskins_gui_bg_tier" .. selected_skin.tier .. ".png"
     skin_stars = "cskins_gui_stars" .. selected_skin.tier .. ".png"
 
-    minetest.get_player_by_name(p_name):get_meta():set_int("collectible_skins:selected_skin_ID", skin_ID)    -- metadato per "Wear" se è sbloccata
+    minetest.get_player_by_name(p_name):get_meta():set_int("collectible_skins:selected_skin_ID", skin_name)    -- metadato per "Wear" se è sbloccata
   end
 
   local fs_begin = {
@@ -45,7 +48,6 @@ function collectible_skins.get_formspec(p_name, page, skin_ID)
     "image_button[14.65,0.1;0.6,0.6;cskins_gui_close.png;close;]"
   }
 
-  local skins_amount = #collectible_skins.get_skins()
   local arrows = skins_amount > 16 and "image_button[0.2,6;0.7,1.2;cskins_gui_arrow_left.png;GO_LEFT]image_button[15.2,6;0.7,1.2;cskins_gui_arrow_right.png;GO_RIGHT;]" or ""
 
   local formspec = {

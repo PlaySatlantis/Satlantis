@@ -11,9 +11,9 @@ To add a skin:
 1. be sure the world has been launched at least once with Skins Collectible active
 2. go to `your world folder/skins`
 3. open an existing `.yml` file or create a new one (Skins Collectible can read multiple skins from multiple files)
-4. follow the template down below, where `skinID` is an actual number
+4. follow the template down below (`skin_name` is the technical name without spaces of sort, `name` is the readable name)
 ```yaml
-skinID:    
+skin_name:
     name:
     description:
     texture:

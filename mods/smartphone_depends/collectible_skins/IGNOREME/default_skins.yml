@@ -1,27 +1,27 @@
-1:
+default_1:
     name: Default 1
     description: A simple skin with a red shirt
-    collection: Test
+    collection: Default
     texture: cskins_default1.png
     author: Zughy
 
-2:
+default_2:
     name: Default 2
     description: A simple skin with a red shirt
-    collection: Test
+    collection: Default
     texture: cskins_default2.png
     author: Zughy
 
-3:
+default_3:
     name: Default 3
     description: A simple skin with a blue shirt
-    collection: Test
+    collection: Default
     texture: cskins_default3.png
     author: Zughy
 
-4:
+default_4:
     name: Default 4
     description: A simple skin with a blue shirt
-    collection: Test
+    collection: Default
     texture: cskins_default4.png
     author: Zughy

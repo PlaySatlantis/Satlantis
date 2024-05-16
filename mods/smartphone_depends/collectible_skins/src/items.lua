@@ -10,7 +10,7 @@ minetest.register_tool("collectible_skins:wardrobe", {
 
   on_use = function(itemstack, user, pointed_thing)
     local p_name = user:get_player_name()
-    minetest.show_formspec(p_name, "collectible_skins:GUI", collectible_skins.get_formspec(p_name, 1, collectible_skins.get_player_skin_ID(p_name)))
+    minetest.show_formspec(p_name, "collectible_skins:GUI", collectible_skins.get_formspec(p_name, 1, collectible_skins.get_player_skin(p_name).technical_name))
   end
 
 })
