@@ -23,7 +23,7 @@ local function recall_armor_inv(p_name)
     if val == "" then
         return
     end
-    local tbl = minetest.deserialize()
+    local tbl = minetest.deserialize(val)
     if not tbl then
         return
     end
