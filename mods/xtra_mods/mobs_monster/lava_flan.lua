@@ -102,7 +102,7 @@ mobs:spawn({
 	name = "mobs_monster:lava_flan",
 	nodes = {"default:lava_source"},
 	chance = 1500,
-	active_object_count = 1,
+	active_object_count = 9,
 	max_height = 0
 })
 end

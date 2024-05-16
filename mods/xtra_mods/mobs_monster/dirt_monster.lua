@@ -96,7 +96,7 @@ if not mobs.custom_spawn_monster then
 		min_light = 0,
 		max_light = 7,
 		chance = 6000,
-		active_object_count = 2,
+		active_object_count = 4,
 		min_height = 0,
 		day_toggle = false
 	})

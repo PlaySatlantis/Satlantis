@@ -118,7 +118,7 @@ mobs:spawn({
 	max_light = 7,
 	chance = 25000,
 	min_height = 0,
-	active_object_count = 1,
+	active_object_count = 2,
 })
 end
 

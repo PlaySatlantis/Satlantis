@@ -122,7 +122,7 @@ if not mobs.custom_spawn_monster then
 		name = "mobs_monster:sand_monster",
 		nodes = {"default:desert_sand"},
 		chance = 7000,
-		active_object_count = 2,
+		active_object_count = 5,
 		min_height = 0
 	})
 end

@@ -738,7 +738,7 @@ armor.get_player_skin = function(self, name)
 	local pl_texture = player:get_properties().textures[1]
 	
 	if not pl_texture or pl_texture == "blank.png" then
-		return skins_collectible.get_player_skin(name).texture
+		return (skins_collectible and skins_collectible.get_player_skin(name).texture) or "character.png"
 	end
 	
 	return pl_texture

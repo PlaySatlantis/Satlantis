@@ -106,7 +106,7 @@ if not mobs.custom_spawn_monster then
 		nodes = {"default:stone", "nether:rack", "nether:rack_deep"},
 		max_light = 5,
 		chance = 9000,
-		active_object_count = 1,
+		active_object_count = 3,
 		max_height = -70
 	})
 end

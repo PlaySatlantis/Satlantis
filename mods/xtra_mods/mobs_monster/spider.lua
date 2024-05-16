@@ -240,7 +240,7 @@ if not mobs.custom_spawn_monster then
 		min_light = 0,
 		max_light = 8,
 		chance = 7000,
-		active_object_count = 1,
+		active_object_count = 3,
 		min_height = 25,
 		max_height = 31000
 	})
@@ -252,7 +252,7 @@ if not mobs.custom_spawn_monster then
 		min_light = 0,
 		max_light = 7,
 		chance = 7000,
-		active_object_count = 1,
+		active_object_count = 5,
 		min_height = -31000,
 		max_height = -40
 	})

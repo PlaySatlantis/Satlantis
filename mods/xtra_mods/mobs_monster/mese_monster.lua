@@ -330,7 +330,7 @@ if not mobs.custom_spawn_monster then
 		nodes = {"default:stone"},
 		max_light = 7,
 		chance = 5000,
-		active_object_count = 1,
+		active_object_count = 3,
 		max_height = -20
 	})
 end
