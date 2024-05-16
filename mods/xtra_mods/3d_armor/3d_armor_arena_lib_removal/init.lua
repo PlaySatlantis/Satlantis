@@ -16,7 +16,8 @@ local function save_armor_inv(p_name)
         table.insert(tbl, v:to_string())
         inv:set_stack("armor", k, "")
     end
-    armor:update_player_visuals(player)
+    armor:update_skin(player:get_player_name())
+	armor:save_armor_inventory(player)
     storage:set_string("arena_saved_armor_" .. p_name, minetest.serialize(tbl))
 end
 
@@ -40,7 +41,8 @@ local function recall_armor_inv(p_name)
     for k, v in ipairs(tbl) do
         inv:set_stack("armor", k, ItemStack(v))
     end
-    armor:update_player_visuals(player)
+    armor:update_skin(player:get_player_name())
+	armor:save_armor_inventory(player)
     -- clear the storage
     storage:set_string("arena_saved_armor_" .. p_name, "")
 end
