@@ -347,7 +347,7 @@ minetest.register_on_mods_loaded(function()
 			end
 		end)
 	end
-end
+end)
 
 -- Time based stamina functions
 local function move_tick()
