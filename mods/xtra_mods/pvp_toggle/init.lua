@@ -63,12 +63,15 @@ minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, 
     local player_pvp_setting = player:get_meta():get_string("pvp_enabled")
     local hitter_pvp_setting = hitter:get_meta():get_string("pvp_enabled")
 
-    -- Check if PvP is disabled for either player
-    if player_pvp_setting == "false" or hitter_pvp_setting == "false" then
-        if minetest.get_modpath("mcl_burning") then
-            mcl_burning.extinguish(player)  -- Extinguish the player if they are on fire
+    -- Check if PvP is disabled for either player. Don't cancel the punch event if both players are in an arena_lib arena.
+    if not (arena_lib) or (arena_lib and not(arena_lib.is_player_in_arena(player:get_player_name()) and arena_lib.is_player_in_arena(hitter:get_player_name()))) then
+        if (player_pvp_setting == "false" or hitter_pvp_setting == "false") then
+            
+            if minetest.get_modpath("mcl_burning") then
+                mcl_burning.extinguish(player)  -- Extinguish the player if they are on fire
+            end
+            return true  -- Cancel the punch event
         end
-        return true  -- Cancel the punch event
     end
 end)
 
