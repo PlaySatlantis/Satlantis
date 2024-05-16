@@ -263,3 +263,23 @@ minetest.register_on_respawnplayer(function(player)
 
     return true
 end)
+
+
+
+-- arena_lib checks: if arena_lib exists, then if the player joins and is found
+-- inside an arena area, then move the player to the lobby
+
+minetest.register_on_mods_loaded(function() 
+    if arena_lib then
+        minetest.register_on_joinplayer(function(player)
+            -- iterate through all arena
+            for modname, arenamod in pairs(arena_lib.mods) do
+                for arenaid, arena in pairs(arenamod.arenas) do
+                    if arena_lib.is_player_in_region(arena, player:get_player_name()) and not(arena_lib.is_player_in_arena(player:get_player_name())) then
+                        player:set_pos(lobby_pos)
+                    end
+                end
+            end
+        end)
+    end
+end)
