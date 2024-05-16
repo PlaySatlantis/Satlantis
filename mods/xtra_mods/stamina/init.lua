@@ -328,7 +328,7 @@ end
 -- We can't sprint while in arena, and when we join an arena we end any sprinting.
 stamina.register_on_sprinting(function(player, sprinting)
 	if arena_lib then
-		if sprinting and arena_lib.player_in_arena(player:get_player_name()) then
+		if sprinting and arena_lib.is_player_in_arena(player:get_player_name()) then
 			return true
 		end
 	end
@@ -617,6 +617,17 @@ minetest.register_on_mods_loaded(function()
 						player:hud_change(id, "text2", "stamina_hud_bg.png")
 						minetest.after(0, function() if player then stamina.update_saturation(player, settings.visual_max) end end)
 					end
+				end
+			end
+		end)
+		arena_lib.register_on_eliminate(function(mod, arena, p_name)
+			local player = minetest.get_player_by_name(p_name)
+			if player then
+				local id = get_hud_id(player)
+				if id then
+					player:hud_change(id, "text", "stamina_hud_fg.png")
+					player:hud_change(id, "text2", "stamina_hud_bg.png")
+					minetest.after(0, function() if player then stamina.update_saturation(player, settings.visual_max) end end)
 				end
 			end
 		end)
