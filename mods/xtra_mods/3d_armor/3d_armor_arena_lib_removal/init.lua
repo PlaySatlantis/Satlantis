@@ -14,6 +14,7 @@ local function save_armor_inv(p_name)
         table.insert(tbl, v:to_string())
         inv:set_stack("armor", k, "")
     end
+    armor:update_player_visuals(player)
     storage:set_string("arena_saved_armor_" .. p_name, minetest.serialize(tbl))
 end
 
@@ -27,11 +28,13 @@ local function recall_armor_inv(p_name)
         return
     end
     local player = minetest.get_player_by_name(p_name)
+    if not player then return end
     local name, inv = armor:get_valid_player(player)
     if not name or not inv then
         return
     end
     inv:set_list("armor", tbl)
+    armor:update_player_visuals(player)
     -- clear the storage
     storage:set_string("arena_saved_armor_" .. p_name, "")
 end
