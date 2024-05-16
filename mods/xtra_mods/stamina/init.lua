@@ -324,37 +324,64 @@ function stamina.set_sprinting(player, sprinting)
 end
 --- END SPRINTING API ---
 
+-- account for arena_lib.
+-- We can't sprint while in arena, and when we join an arena we end any sprinting.
+stamina.register_on_sprinting(function(player, sprinting)
+	if arena_lib then
+		if sprinting and arena_lib.player_in_arena(player:get_player_name()) then
+			return true
+		end
+	end
+end)
+
+minetest.register_on_mods_loaded(function()
+	if arena_lib then
+		-- iterate thru all arena_lib mods
+		arena_lib.register_on_load(function(mod, arena) 
+			for pl_name, stats in pairs(arena.players) do
+				local player = minetest.get_player_by_name(pl_name)
+
+				if player then
+					stamina.set_sprinting(player, false)
+				end
+			end
+		end)
+	end
+end
+
 -- Time based stamina functions
 local function move_tick()
 	for _,player in ipairs(minetest.get_connected_players()) do
-		local controls = player:get_player_control()
-		local is_moving = controls.up or controls.down or controls.left or controls.right
-		local velocity = player:get_velocity()
-		velocity.y = 0
-		local horizontal_speed = vector.length(velocity)
-		local has_velocity = horizontal_speed > 0.05
+		if arena_lib or arena_lib and not arena_lib.is_player_in_arena(player:get_player_name()) then
+			local controls = player:get_player_control()
+			local is_moving = controls.up or controls.down or controls.left or controls.right
+			local velocity = player:get_velocity()
+			velocity.y = 0
+			local horizontal_speed = vector.length(velocity)
+			local has_velocity = horizontal_speed > 0.05
 
-		if controls.jump then
-			stamina.exhaust_player(player, settings.exhaust_jump, stamina.exhaustion_reasons.jump)
-		elseif is_moving and has_velocity then
-			stamina.exhaust_player(player, settings.exhaust_move, stamina.exhaustion_reasons.move)
-		end
+			if controls.jump then
+				stamina.exhaust_player(player, settings.exhaust_jump, stamina.exhaustion_reasons.jump)
+			elseif is_moving and has_velocity then
+				stamina.exhaust_player(player, settings.exhaust_move, stamina.exhaustion_reasons.move)
+			end
 
-		if settings.sprint then
-			local can_sprint = (
-				controls.aux1 and
-				not player:get_attach() and
-				(settings.sprint_with_fast or not minetest.check_player_privs(player, {fast = true})) and
-				stamina.get_saturation(player) > settings.sprint_lvl
-			)
+			if settings.sprint then
+				local can_sprint = (
+					controls.aux1 and
+					not player:get_attach() and
+					(settings.sprint_with_fast or not minetest.check_player_privs(player, {fast = true})) and
+					stamina.get_saturation(player) > settings.sprint_lvl
+				)
 
-			if can_sprint then
-				stamina.set_sprinting(player, true)
-				if is_moving and has_velocity then
-					stamina.exhaust_player(player, settings.exhaust_sprint, stamina.exhaustion_reasons.sprint)
+				if can_sprint then
+					stamina.set_sprinting(player, true)
+					if is_moving and has_velocity then
+						stamina.exhaust_player(player, settings.exhaust_sprint, stamina.exhaustion_reasons.sprint)
+					end
+				else
+					stamina.set_sprinting(player, false)
 				end
-			else
-				stamina.set_sprinting(player, false)
 			end
 		end
 	end
@@ -363,9 +390,11 @@ end
 local function stamina_tick()
 	-- lower saturation by 1 point after settings.tick second(s)
 	for _,player in ipairs(minetest.get_connected_players()) do
-		local saturation = stamina.get_saturation(player)
-		if saturation > settings.tick_min then
-			stamina.update_saturation(player, saturation - 1)
+		if arena_lib or arena_lib and not arena_lib.is_player_in_arena(player:get_player_name()) then
+			local saturation = stamina.get_saturation(player)
+			if saturation > settings.tick_min then
+				stamina.update_saturation(player, saturation - 1)
+			end
 		end
 	end
 end
@@ -373,30 +402,32 @@ end
 local function health_tick()
 	-- heal or damage player, depending on saturation
 	for _,player in ipairs(minetest.get_connected_players()) do
-		local air = player:get_breath() or 0
-		local hp = player:get_hp()
-		local hp_max = player:get_properties().hp_max
-		local saturation = stamina.get_saturation(player)
+		if arena_lib or arena_lib and not arena_lib.is_player_in_arena(player:get_player_name()) then
+			local air = player:get_breath() or 0
+			local hp = player:get_hp()
+			local hp_max = player:get_properties().hp_max
+			local saturation = stamina.get_saturation(player)
 
-		-- don't heal if dead, drowning, or poisoned
-		local should_heal = (
-			saturation >= settings.heal_lvl and
-			hp < hp_max and
-			hp > 0 and
-			air > 0
-			and not stamina.is_poisoned(player)
-		)
-		-- or damage player by 1 hp if saturation is < 2 (of 30)
-		local is_starving = (
-			saturation < settings.starve_lvl and
-			hp > 0
-		)
+			-- don't heal if dead, drowning, or poisoned
+			local should_heal = (
+				saturation >= settings.heal_lvl and
+				hp < hp_max and
+				hp > 0 and
+				air > 0
+				and not stamina.is_poisoned(player)
+			)
+			-- or damage player by 1 hp if saturation is < 2 (of 30)
+			local is_starving = (
+				saturation < settings.starve_lvl and
+				hp > 0
+			)
 
-		if should_heal then
-			player:set_hp(hp + settings.heal, {type = "set_hp", cause = "stamina:heal"})
-			stamina.exhaust_player(player, settings.exhaust_lvl, stamina.exhaustion_reasons.heal)
-		elseif is_starving then
-			player:set_hp(hp - settings.starve, {type = "set_hp", cause = "stamina:starve"})
+			if should_heal then
+				player:set_hp(hp + settings.heal, {type = "set_hp", cause = "stamina:heal"})
+				stamina.exhaust_player(player, settings.exhaust_lvl, stamina.exhaustion_reasons.heal)
+			elseif is_starving then
+				player:set_hp(hp - settings.starve, {type = "set_hp", cause = "stamina:starve"})
+			end
 		end
 	end
 end
@@ -463,9 +494,15 @@ local function show_eat_particles(player, itemname)
 	minetest.add_particlespawner(particle_def)
 end
 
--- override minetest.do_item_eat() so we can redirect hp_change to stamina
+-- override minetest.do_item_eat() so we can redirect hp_change to stamina, but don't change the old do_item_eat when the player is in an arena_lib arena.
+
 stamina.core_item_eat = minetest.do_item_eat
 function minetest.do_item_eat(hp_change, replace_with_item, itemstack, player, pointed_thing)
+	
+	if arena_lib and arena_lib.is_player_in_arena(player:get_player_name()) then
+		return stamina.core_item_eat(hp_change, replace_with_item, itemstack, player, pointed_thing)
+	end
+
 	for _, callback in ipairs(minetest.registered_on_item_eats) do
 		local result = callback(hp_change, replace_with_item, itemstack, player, pointed_thing)
 		if result then
@@ -543,6 +580,59 @@ minetest.register_on_joinplayer(function(player)
 	set_player_attribute(player, "stamina:hud_id", nil)
 end)
 
+
+-- account for arena_lib. Hide HUD when player enters arena, show it again when player leaves arena
+minetest.register_on_mods_loaded(function()
+	if arena_lib then
+		arena_lib.register_on_load(function(mod, arena) 
+			for pl_name, stats in pairs(arena.players) do
+				local player = minetest.get_player_by_name(pl_name)
+
+				if player then
+					local id = get_hud_id(player)
+					if id then
+						player:hud_change(id, "text", "blank.png")
+						player:hud_change(id, "text2", "blank.png")
+					end
+				end
+			end
+		end)
+		arena_lib.register_on_join(function(mod, arena, p_name, as_spectator, was_spectator)
+			local player = minetest.get_player_by_name(p_name)
+			if player then
+				local id = get_hud_id(player)
+				if id then
+					player:hud_change(id, "text", "blank.png")
+					player:hud_change(id, "text2", "blank.png")
+				end
+			end
+		end)
+		arena_lib.register_on_end(function(mod, arena, winners, is_forced)
+			for pl_name, stats in pairs(arena.players) do
+				local player = minetest.get_player_by_name(pl_name)
+				if player then
+					local id = get_hud_id(player)
+					if id then
+						player:hud_change(id, "text", "stamina_hud_fg.png")
+						player:hud_change(id, "text2", "stamina_hud_bg.png")
+						minetest.after(0, function() if player then stamina.update_saturation(player, settings.visual_max) end end)
+					end
+				end
+			end
+		end)
+		arena_lib.register_on_quit(function(mod, arena, p_name, is_spectator, reason)
+			local player = minetest.get_player_by_name(p_name)
+			if player then
+				local id = get_hud_id(player)
+				if id then
+					player:hud_change(id, "text", "stamina_hud_fg.png")
+					player:hud_change(id, "text2", "stamina_hud_bg.png")
+					minetest.after(0, function() if player then stamina.update_saturation(player, settings.visual_max) end end)
+				end
+			end
+		end)
+	end
+end)
 minetest.register_on_leaveplayer(function(player)
 	set_hud_id(player, nil)
 end)
@@ -550,17 +640,28 @@ end)
 minetest.register_globalstep(stamina_globaltimer)
 
 minetest.register_on_placenode(function(pos, oldnode, player, ext)
-	stamina.exhaust_player(player, settings.exhaust_place, stamina.exhaustion_reasons.place)
+	if not arena_lib or not arena_lib.is_player_in_arena(player:get_player_name()) then
+		stamina.exhaust_player(player, settings.exhaust_place, stamina.exhaustion_reasons.place)
+	end
 end)
 minetest.register_on_dignode(function(pos, oldnode, player, ext)
-	stamina.exhaust_player(player, settings.exhaust_dig, stamina.exhaustion_reasons.dig)
+	if not arena_lib or not arena_lib.is_player_in_arena(player:get_player_name()) then
+		stamina.exhaust_player(player, settings.exhaust_dig, stamina.exhaustion_reasons.dig)
+	end
 end)
 minetest.register_on_craft(function(itemstack, player, old_craft_grid, craft_inv)
-	stamina.exhaust_player(player, settings.exhaust_craft, stamina.exhaustion_reasons.craft)
+	if not arena_lib or not arena_lib.is_player_in_arena(player:get_player_name()) then
+		stamina.exhaust_player(player, settings.exhaust_craft, stamina.exhaustion_reasons.craft)
+	end
 end)
 minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage)
-	stamina.exhaust_player(hitter, settings.exhaust_punch, stamina.exhaustion_reasons.punch)
+	-- check both player and hitter
+	if not arena_lib or (arena_lib and not(arena_lib.is_player_in_arena(player:get_player_name())) and not(arena_lib.is_player_in_arena(hitter:get_player_name()))) then
+		stamina.exhaust_player(hitter, settings.exhaust_punch, stamina.exhaustion_reasons.punch)
+	end
 end)
 minetest.register_on_respawnplayer(function(player)
-	stamina.update_saturation(player, settings.visual_max)
+	if not arena_lib or not arena_lib.is_player_in_arena(player:get_player_name()) then
+		stamina.update_saturation(player, settings.visual_max)
+	end
 end)
