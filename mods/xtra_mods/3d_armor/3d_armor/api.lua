@@ -162,9 +162,10 @@ armor = {
 
 armor.config = {
 	init_delay = 2,
+	init_times = 10,
 	bones_delay = 1,
 	update_time = 1,
-	drop = minetest.get_modpath("bones") ~= nil,
+	drop = true,
 	destroy = false,
 	level_multiplier = 1,
 	heal_multiplier = 1,
@@ -352,7 +353,7 @@ armor.update_player_visuals = function(self, player)
 	end
 	local name = player:get_player_name()
 	if self.textures[name] then
-		player_api.set_textures(player, {
+		default.player_set_textures(player, {
 			self.textures[name].skin,
 			self.textures[name].armor,
 			self.textures[name].wielditem,
@@ -373,7 +374,7 @@ armor.set_player_armor = function(self, player)
 	local state = 0
 	local count = 0
 	local preview = armor:get_preview(name)
-	local texture = "blank.png"
+	local texture = "3d_armor_trans.png"
 	local physics = {}
 	local attributes = {}
 	local levels = {}
@@ -415,7 +416,7 @@ armor.set_player_armor = function(self, player)
 				end
 				-- DEPRECATED, use armor_groups instead
 				if def.groups["armor_radiation"] and levels["radiation"] then
-					levels["radiation"] = levels["radiation"] + def.groups["armor_radiation"]
+					levels["radiation"] = def.groups["armor_radiation"]
 				end
 			end
 			local item = stack:get_name()
@@ -499,27 +500,7 @@ armor.set_player_armor = function(self, player)
 		groups.fall_damage_add_percent = player_groups.fall_damage_add_percent
 		player:set_armor_groups(groups)
 	end
-	if use_player_monoids then
-		player_monoids.speed:add_change(player, physics.speed,
-			"3d_armor:physics")
-		player_monoids.jump:add_change(player, physics.jump,
-			"3d_armor:physics")
-		player_monoids.gravity:add_change(player, physics.gravity,
-			"3d_armor:physics")
-	elseif use_pova_mod then
-		-- only add the changes, not the default 1.0 for each physics setting
-		pova.add_override(name, "3d_armor", {
-			speed = physics.speed - 1,
-			jump = physics.jump - 1,
-			gravity = physics.gravity - 1,
-		})
-		pova.do_override(player)
-	else
-		local player_physics_locked = player:get_meta():get_int("player_physics_locked")
-		if player_physics_locked == nil or player_physics_locked == 0 then
-			player:set_physics_override(physics)
-		end
-	end
+
 	self.textures[name].armor = texture
 	self.textures[name].preview = preview
 	self.def[name].level = self.def[name].groups.fleshy or 0
@@ -630,9 +611,6 @@ end
 armor.damage = function(self, player, index, stack, use)
 	local old_stack = ItemStack(stack)
 	local worn_armor = armor:get_weared_armor_elements(player)
-	if not worn_armor then
-		return
-	end
 	local armor_worn_cnt = 0
 	for k,v in pairs(worn_armor) do
 		armor_worn_cnt = armor_worn_cnt + 1
@@ -644,7 +622,7 @@ armor.damage = function(self, player, index, stack, use)
 	if stack:get_count() == 0 then
 		self:run_callbacks("on_unequip", player, index, old_stack)
 		self:run_callbacks("on_destroy", player, index, old_stack)
-		self:set_player_armor(player)
+		self:update_skin(player:get_player_name())
 	end
 end
 
@@ -683,10 +661,6 @@ armor.equip = function(self, player, itemstack)
 		for i=1, armor_inv:get_size("armor") do
 			local stack = armor_inv:get_stack("armor", i)
 			if self:get_element(stack:get_name()) == armor_element then
-				--prevents equiping an armor that would unequip a cursed armor.
-				if minetest.get_item_group(stack:get_name(), "cursed") ~= 0 then
-					return itemstack
-				end
 				index = i
 				self:unequip(player, armor_element)
 				break
@@ -697,9 +671,12 @@ armor.equip = function(self, player, itemstack)
 		local stack = itemstack:take_item()
 		armor_inv:set_stack("armor", index, stack)
 		self:run_callbacks("on_equip", player, index, stack)
-		self:set_player_armor(player)
+		self:update_skin(player:get_player_name())
 		self:save_armor_inventory(player)
 	end
+
+	minetest.sound_play("3d_armor_equip", {max_hear_distance = 5, pos = player:get_pos()})
+
 	return itemstack
 end
 
@@ -719,18 +696,15 @@ armor.unequip = function(self, player, armor_element)
 		if self:get_element(stack:get_name()) == armor_element then
 			armor_inv:set_stack("armor", i, "")
 			minetest.after(0, function()
-				local pplayer = minetest.get_player_by_name(name)
-				if pplayer then -- player is still online
-					local inv = pplayer:get_inventory()
-					if inv:room_for_item("main", stack) then
-						inv:add_item("main", stack)
-					else
-						minetest.add_item(pplayer:get_pos(), stack)
-					end
+				local inv = player:get_inventory()
+				if inv:room_for_item("main", stack) then
+					inv:add_item("main", stack)
+				else
+					minetest.add_item(player:get_pos(), stack)
 				end
 			end)
 			self:run_callbacks("on_unequip", player, i, stack)
-			self:set_player_armor(player)
+			self:update_skin(player:get_player_name())
 			self:save_armor_inventory(player)
 			return
 		end
@@ -747,7 +721,7 @@ armor.remove_all = function(self, player)
 		return
     end
 	inv:set_list("armor", {})
-	self:set_player_armor(player)
+	self:update_skin(player:get_player_name())
 	self:save_armor_inventory(player)
 end
 
@@ -759,14 +733,15 @@ local skin_mod
 --  @tparam string name Player name.
 --  @treturn string Skin filename.
 armor.get_player_skin = function(self, name)
-	if (skin_mod == "skins" or skin_mod == "simple_skins") and skins.skins[name] then
-		return skins.skins[name]..".png"
-	elseif skin_mod == "u_skins" and u_skins.u_skins[name] then
-		return u_skins.u_skins[name]..".png"
-	elseif skin_mod == "wardrobe" and wardrobe.playerSkins and wardrobe.playerSkins[name] then
-		return wardrobe.playerSkins[name]
+	local player = minetest.get_player_by_name(name)
+	if not player then return end 
+	local pl_texture = player:get_properties().textures[1]
+	
+	if not pl_texture or pl_texture == "blank.png" then
+		return skins_collectible.get_player_skin(name).texture
 	end
-	return armor.default_skin..".png"
+	
+	return pl_texture
 end
 
 --- Updates skin.
@@ -811,6 +786,9 @@ end
 --  @tparam[opt] bool listring Use `listring` formspec element (default: `false`).
 --  @treturn string Formspec formatted string.
 armor.get_armor_formspec = function(self, name, listring)
+	if armor.def[name].init_time == 0 then
+		return "label[0,0;Armor not initialized!]"
+	end
 	local formspec = armor.formspec..
 		"list[detached:"..name.."_armor;armor;0,0.5;2,3;]"
 	if listring == true then

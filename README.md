@@ -69,6 +69,7 @@ It should take about 20 mins to delete the overworld if the overworld has been e
 
 -------------
 
+Note: you cannot use the mods that generate spawn and the fantasy brawl arenas (mods made with modgen) with the everness_deco mod included with the game. You have to remove everness_deco for the spawn and the fantasy brawl arenas to generate. Once generated, the everness_deco mod can be re-added and the generation mods can be removed.
 
 
 

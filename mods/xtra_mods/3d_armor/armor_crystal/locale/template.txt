@@ -1,5 +1,0 @@
-# textdomain: armor_crystal
-Crystal Helmet=
-Crystal Chestplate=
-Crystal Leggings=
-Crystal Boots=

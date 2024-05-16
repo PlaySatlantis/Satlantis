@@ -5,7 +5,7 @@
 
 
 -- support for i18n
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = armor.get_translator
 
 --- Steel
 --

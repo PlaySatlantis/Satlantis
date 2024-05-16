@@ -1,5 +1,0 @@
-# textdomain: armor_nether
-Nether Helmet=
-Nether Chestplate=
-Nether Leggings=
-Nether Boots=
