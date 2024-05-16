@@ -1,0 +1,56 @@
+
+v1.2.1
+----
+- use sounds mod for sounds
+
+
+v1.2
+----
+- added API
+- added support for unregistering ores (unsafe)
+- added setting for enabling "unsafe" methods & commands
+- all types are loaded from <world_path>/cleaner.json file
+- added localization support
+- added Spanish localization
+- added pencil tool for erasing, adding, & swapping nodes
+- added chat commands:
+	- remove_entities
+	- remove_nodes
+	- replace_items
+	- replace_nodes
+	- find_unknown_nodes
+	- find_nearby_nodes
+	- remove_ores (unsafe)
+	- ctool (manages wielded cleaner tool settings)
+
+v1.1
+----
+- uses "register_lbm" with "run_at_every_load" instead of "register_abm" to save resources
+	- suggested by bell07 ( https://forum.minetest.net/viewtopic.php?p=325519#p325519 )
+
+v1.0
+----
+- changed license to MIT
+- "clean_entities" & "clean_nodes" files now use json format
+- nodes can be replaced with other nodes
+- items can be replaced with other items (<world_path>/clean_items.json file)
+
+v0.4
+----
+- changed technical name to "cleaner"
+- re-added functionality to clean nodes
+
+v0.3
+----
+- removed functionality for cleaning anything other than entities
+
+v0.2
+----
+- changed license to CC0
+- added some log output
+- entities to be cleaned can be configured & loaded from world directory
+
+v0.1
+----
+- forked from PilzAdam's "clean" mod @ forum post updated: 2013-06-08
+- replaced deprecated call to "minetest.env"

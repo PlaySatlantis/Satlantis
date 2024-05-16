@@ -1,0 +1,66 @@
+# textdomain:cleaner
+
+# Translators: Jordan Irwin (AntumDeluge)
+
+
+# chat commands
+entity=entidad
+mode=modo
+node=nodo
+radius=radio
+old_item=objeto_antiguo
+new_item=objeto_nuevo
+old_node=nodo_antiguo
+new_node=nodo_nuevo
+ore=mineral
+action=acción
+value=valor
+Usage:=Uso:
+Params:=Parámetros:
+default: @1=por defecto: @1
+Search radius.=Radio de búsqueda.
+Entity technical name.=Nombre técnico de entidad.
+Node technical name.=Nombre técnico de nodo.
+Technical name of node to be replaced.=Nombre técnico del nodo reemplazado.
+Technical name of node to be used in place.=Nombre técnico del nodo de reemplazo.
+Technical name of item to be replaced.=Nombre técnico del objeto reemplazado.
+Technical name of item to be used in place.=Nombre técnico del objeto de reemplazo.
+Ore technical name.=Nombre técnico de mineral.
+Action to execute. Can be one of "@1", "@2", or "@3".=La acción para ejecutar. Puede ser "@1", "@2", o "@3".
+Mode or node to be set for tool (not required for "@1" action).=Modo o nodo para configurar a la herramienta (no se requiere para la acción de "@1").
+Remove an entity from game.=Eliminar una entidad del juego.
+Remove a node from game.=Eliminar un nodo del juego.
+Replace an item in game.=Sustituir un objecto del juego.
+Replace a node in game.=Sustituir un nodo del juego.
+Find names of unknown nodes.=Descubrir los nombres de nodos desconocidos.
+Find names of nearby nodes.=Descubrir los nombres de nodos cercanos.
+Remove an ore from game.=Eliminar un mineral del juego.
+Missing parameter.=Parámetro extraviado.
+Too many parameters.=Demasiados parámetros.
+Radius must be a number.=El radio debe ser un número.
+Cannot use unknown item "@1" as replacement.=El objeto "@1" es desonocido, no se puede utilizar como sustitución.
+Cannot use unknown node "@1" as replacement.=El nodo "@1" es desonocido, no se puede utilizar como sustitución.
+Replaced @1 nodes.=Nodos sustituidos: @1
+Removed @1 nodes.=Se eliminaron @1 nodos.
+Removed @1 entities.=Se eliminaron @1 entidades.
+Found unknown nodes: @1=Se encontraron @1 nodos desconocidos.
+No unknown nodes found.=No se encontraron nodos desconocidos.
+Nearby nodes: @1=Nodos cercanos: @1
+No nearby nodes found.=No se encontraron nodos cercanos.
+Ore "@1" not found, not unregistering.=No se encontró el mineral "@1", se mantiene registrado.
+Unregistered @1 ores (this will be undone after server restart).=Se anuló @1 minerales del registro.
+Success!=¡Éxito!
+Manage settings for wielded cleaner tool.=Administrar a los ajustes de la herramienta cleaner empuñada.
+Unrecognized wielded item: @1=Objeto empuñado desconocido: @1
+Unrecognized action: @1=Acción desconocido: @1
+You do not have permission to set radius that high. Reduced to @1.=No tienes permiso para poner al radio tan alto. Se reduce a @1.
+Radius is too high. Reduced to @1.=El radio es demasiado alto. Se reduce a @1.
+
+# tools:
+@1: mode set to: @2=@1: modo configurado para: @2
+@1: node set to: @2=@1: nodo configurado para: @2
+Modes for tool "@1" not available.=Modos para herramienta "@1" no disponibles.
+You do not have permission to use this item. Missing privs: @1=No tienes permiso para usar este objeto. Privs que faltan: @1
+Unknown mode: @1=Modo desconocido: @1
+Can't place node there.=No se puede poner nodo allí.
+Cannot place unknown node: @1=No se puede poner nodo desconocido: @1

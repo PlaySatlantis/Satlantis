@@ -1,0 +1,6 @@
+
+# Enables unsafe methods & chat commands.
+#
+# - cleaner.remove_ore
+# - /remove_ores
+cleaner.unsafe (Enable unsafe methods) bool false
