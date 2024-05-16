@@ -12,6 +12,7 @@ local function save_armor_inv(p_name)
     local tbl = {}
     for k,v in ipairs(list) do
         table.insert(tbl, v:to_string())
+        inv:set_stack("armor", k, "")
     end
     storage:set_string("arena_saved_armor_" .. p_name, minetest.serialize(tbl))
 end
