@@ -4,6 +4,8 @@ local storage = minetest.get_mod_storage()
 local function save_armor_inv(p_name)
     -- get the player's armor inventory
     local player = minetest.get_player_by_name(p_name)
+    if not player then return end
+
     local name, inv = armor:get_valid_player(player)
     if not name or not inv then
         return
@@ -23,17 +25,21 @@ local function recall_armor_inv(p_name)
     if val == "" then
         return
     end
-    local tbl = minetest.deserialize(val)
+    local tbl = minetest.deserialize(val)  -- Pass the serialized string here
     if not tbl then
         return
     end
     local player = minetest.get_player_by_name(p_name)
     if not player then return end
+
     local name, inv = armor:get_valid_player(player)
     if not name or not inv then
         return
     end
-    inv:set_list("armor", tbl)
+
+    for k, v in ipairs(tbl) do
+        inv:set_stack("armor", k, ItemStack(v))
+    end
     armor:update_player_visuals(player)
     -- clear the storage
     storage:set_string("arena_saved_armor_" .. p_name, "")
