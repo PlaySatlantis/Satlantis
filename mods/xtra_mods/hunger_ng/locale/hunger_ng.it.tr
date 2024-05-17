@@ -1,0 +1,45 @@
+# textdomain: hunger_ng
+
+# Hunger data information on items
+Satiates: @1=Sazia: @1
+Deprives: @1=Priva: @1
+Heals: @1=Guarisce: @1
+Injures: @1=Ferisce: @1
+Returns: @1=Restituisce: @1
+Eating timeout: @1 seconds=Pausa pasto: @1
+
+# Generic terms (for interoperability and generic use)
+Hunger=Fame
+Satiation=Sazietà
+Edible=Commestibile
+
+# On-eat information
+You’re fully satiated already!=Sei già completamente sazio!
+You have no inventory space to keep the leftovers.=Non hai spazio nell'inventario per ternere gli avanzi.
+You’re eating too fast!=Stai mangiando troppo velocemente!
+Wait for eating timeout to end: @1s=Aspetta che finisca la pausa: @1s
+Hunger is disabled for you! Eating normally.=Per te la fame è disabilitata! Mangi normalmente.
+
+# Chat command (general)
+The player @1 is not online=Il giocatore @1 non è in linea.
+Hunger for @1 is disabled=La fame è disabilitata per @1
+Modify or get hunger values=Modifica o ottieni i valori di fame
+Player can view and alter own and others hunger values.=Il giocatore può vedere e cambiare i valori della fame propri e altrui.
+run `/help hunger` to show help=esegui "/help hunger" per mostrare l'aiuto
+
+# Chat command returns (set)
+Hunger for @1 set to @2=Fame per @1 impostata a @2
+@1 set your hunger to @2=@1 ha impostato la tua fame a @2
+Hunger set to @1=Fame impostata a @1
+
+# Chat command returns (change)
+Hunger for @1 changed by @2=Fame di @1 cambiata di @2
+@1 changed your hunger by @2=@1 ha cambiato la tua fame di @2
+Hunger changed by @1=Fame cambiata di @1
+
+# Chat command returns (get)
+No player matches your criteria=Nessun giocatore corrispondente ai tuoi criteri
+
+# Chat command returns (myhunger)
+Show own hunger value=Mostra il proprio valore di fame
+Your hunger is disabled=La tua fame è disabilitata

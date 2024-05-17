@@ -1,0 +1,7 @@
+DO NOT rename folders or the mod won't be able to read them.
+
+/BGM is where arenas BGM shall be put (to then be assigned through the editor specific section). Tracks can also be manually registered via audio_lib, as arena_lib is able to read every audio_lib's "bgm" type track
+
+/Schematics is where arenas schematics are saved, for minigames that support map regeneration. Schematic files follow the naming convention modname_arenaid and they're deleted when the arena is deleted.
+
+/Thumbnails is where arenas thumbnails shall be put (to then be assigned through the editor specific section). If you're using the default signs entrance system, the recommended size for a thumbnail is 710x465.

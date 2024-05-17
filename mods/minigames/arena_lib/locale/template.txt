@@ -1,0 +1,511 @@
+# textdomain: arena_lib
+# author(s):
+# reviewer(s):
+
+##[ src/_load.lua ]##
+Notifications=
+Countdown ticks=
+Someone joins=
+Someone leaves=
+
+##[ src/_load.lua ]##
+##[ src/api/core.lua ]##
+-- missing description --=
+
+##[ src/admin_tools/entrances.lua ]##
+Entrance type - @1=
+Pressing 'overwrite' will try to disable the arena first=
+OVERWRITE ALL=
+@1 - nothing to overwrite=
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+This minigame doesn't exist!=
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+##[ src/editor/editor_main.lua ]##
+You can't perform this action while in game!=
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/editor/tools_settings.lua ]##
+Overwrite=
+
+##[ src/admin_tools/minigame_settings.lua ]##
+Minigame settings=
+
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+You can't perform this action while in queue!=
+
+##[ src/api/core.lua ]##
+team=
+@1 has been eliminated=
+@1 has been eliminated by @2=
+You're the last player standing: you win!=
+There are no other teams left, you win!=
+@1 has quit the match=
+@1 wins the game=
+Team @1 wins the game=
+@1 win the game=
+Teams @1 win the game=
+There are no winners=
+Property type doesn't match, aborting!=
+Parameter @1 successfully overwritten=
+This minigame needs at least @1 players!=
+In endless minigames, the minimum amount of players must always be 0!=
+Arena @1 successfully created=
+Arena @1 successfully removed=
+Arena @1 successfully renamed in @2=
+@1's author successfully removed=
+@1's author successfully changed to @2=
+@1's thumbnail successfully removed=
+@1's thumbnail successfully changed to @2=
+Players amount successfully changed ( min @1 | max @2 )=
+Nothing to do here!=
+Teams amount successfully changed (@1)=
+Teams cannot be disabled in this minigame!=
+Teams successfully enabled for the arena @1=
+Teams successfully disabled for the arena @1=
+This team doesn't exist!=
+A team ID must be specified!=
+There are no spawners to remove!=
+Spawn point #@1 successfully deleted=
+All the spawn points belonging to team @1 have been removed=
+All spawn points have been removed=
+There's already a spawn in this point!=
+Spawn point #@1 successfully set=
+There is no entrance type with this name!=
+Entrance type of arena @1 successfully changed (@2)=
+There is already an entrance for this arena!=
+Entrance of arena @1 successfully set=
+Entrance of arena @1 successfully removed=
+Custom return point of arena @1 succesfully set=
+Custom return point of arena @1 succesfully removed=
+Regions of different arenas can't overlap!=
+Region of arena @1 successfully overwritten=
+Lighting of arena @1 successfully overwritten=
+(@1) Celestial vault of arena @2 successfully overwritten=
+Weather condition of arena @1 successfully overwritten=
+parameter `@1` is mandatory!=
+Background music of arena @1 successfully overwritten=
+Timers are not enabled in this mod!=
+Arena @1's timer is now @2 seconds=
+Insufficient spawners, the arena can't be enabled!=
+Entrance not set, the arena can't be enabled!=
+If the arena region is declared, all the existing spawn points must be placed inside it!=
+Arena @1 successfully enabled=
+The arena is already disabled!=
+You can't disable an arena during an ongoing game!=
+The arena you were queueing for has been disabled... :(=
+Arena @1 successfully disabled=
+Schematic of arena @1 deleted=
+An arena with that name exists already!=
+The name contains unsupported characters!=
+
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+spectator=
+
+##[ src/api/core.lua ]##
+##[ src/commands.lua ]##
+arena=
+Teams are not enabled!=
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_customise_bgm.lua ]##
+File not found!=
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/signs/signs.lua ]##
+Parameters don't seem right!=
+
+##[ src/api/core.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+Region not declared!=
+
+##[ src/api/core.lua ]##
+##[ src/signs/signs_editor.lua ]##
+There is no entrance to remove assigned to @1!=
+
+##[ src/api/in_game.lua ]##
+No ongoing game!=
+Spectate mode not supported!=
+There is nothing to spectate!=
+The arena is loading, try again in a few seconds!=
+This minigame doesn't allow to join while in progress!=
+Players and spectators can now interact with each other=
+Can't force a game to start if the arena is not even in queue!=
+Game start in arena @1 successfully forced=
+The arena has been forcibly terminated by @1=
+Game in arena @1 successfully terminated=
+@1 has been kicked by @2=
+@1 has been kicked=
+
+##[ src/api/in_game.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/debug.lua ]##
+##[ src/utils/macros.lua ]##
+This arena doesn't exist!=
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+You can't perform this action during an ongoing game!=
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/macros.lua ]##
+The arena is not enabled!=
+You must detach yourself from the entity you're attached to before entering!=
+
+##[ src/api/in_queue.lua ]##
+Game begins in @1!=
+Get ready!=
+@1 seconds for the match to start=
+You're already queuing for this arena!=
+You've been blocked from entering any queue for 10 seconds, due to joining and leaving repeatedly in a short amount of time!=
+Waiting for more players...=
+Only the party leader can leave the queue!=
+The queue has been cancelled due to not enough players=
+You've joined team @1=
+
+##[ src/api/in_queue.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+The map is resetting, try again in a few seconds!=
+
+##[ src/api/map.lua ]##
+You can't modify the map whilst enabled!=
+
+##[ src/commands.lua ]##
+There's a time and place for everything. But not now!=
+There are more minigames having an arena called @1: please specify the name of the minigame before the name of the arena, separating them with a space=
+This player is not online!=
+The player must be in a game to perform this action!=
+Player successfully kicked=
+COMMANDS=
+check if there is any unused resource inside the arena_lib world folder (inside BGM and Thumbnails)=
+minigame=
+creates an arena for the specified minigame=
+disables an arena=
+enters the arena editor=
+enables an arena=
+changes the entrance types of the specified minigame=
+DEBUG ONLY - resets the properties of a bugged arena=
+forcibly ends an ongoing game=
+forcibly loads (if in queue) or starts (if in the loading phase) a game=
+lists all the installed minigames, alphabetically sorted=
+see @1=
+prints all the arena's info=
+player=
+kicks a player from an ongoing game. When kicked, they must wait 2 minutes before re-entering a match=
+lists all the arenas of the specified minigame=
+deletes an arena=
+tweaks the minigame settings for the current server=
+UTILS=
+Barrier node: use it to fence your arenas=
+Manage arena_lib arenas; it requires arenalib_admin=
+Quits a queue or an ongoing game=
+You must be in a game or in queue to perform this action!=
+You can't perform this action during the celebration phase!=
+message=
+Writes a message in the arena global chat while in a game=
+You must be in a game to perform this action!=
+Writes a message in the arena team chat while in a game (if teams are enabled)=
+
+##[ src/deps/parties.lua ]##
+The party leader must not be in queue to perform this action!=
+The party leader must not be in game to perform this action!=
+
+##[ src/editor/editor_icons.lua ]##
+Players=
+Values are PER TEAM! Use item #4 to change value=
+Spawners=
+Map=
+Customise=
+Settings=
+Info=
+Go back=
+Enable and leave=
+
+##[ src/editor/editor_icons.lua ]##
+##[ src/spectate/spectate_tools.lua ]##
+Leave=
+
+##[ src/editor/editor_main.lua ]##
+Wooosh!=
+Players and teams=
+
+##[ src/editor/editor_main.lua ]##
+##[ src/utils/macros.lua ]##
+You must leave the editor first!=
+
+##[ src/editor/tools_customise_bgm.lua ]##
+Background music=
+Audio file=
+leave empty to remove the current track=
+Description=
+used for accessibility purposes=
+Title=
+Author=
+Volume=
+Pitch=
+
+##[ src/editor/tools_customise_bgm.lua ]##
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Apply=
+
+##[ src/editor/tools_customise_lighting.lua ]##
+Lighting=
+Global light=
+Saturation=
+
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Reset=
+
+##[ src/editor/tools_customise_sky.lua ]##
+Celestial vault=
+Sky=
+Sun=
+Moon=
+Stars=
+Clouds=
+Type=
+Day sky=
+Dawn sky=
+Night sky=
+Day horizon=
+Dawn horizon=
+Night horizon=
+Indoors=
+Custom fog tint=
+Fog sun tint=
+Fog moon tint=
+Base colour=
+Top=
+Bottom=
+West=
+East=
+North=
+South=
+Fog=
+Fog distance=
+Fog start=
+Visible sun=
+Visible sunrise=
+Texture=
+Tonemap=
+Size=
+Sunrise texture=
+Visible moon=
+Visible stars=
+Count=
+Opacity=
+Clouds must be enabled first to change their parameters=
+Ambient=
+Density=
+Thickness=
+Height=
+Speed=
+
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Colour=
+
+##[ src/editor/tools_customise_weather.lua ]##
+Weather condition=
+Rain=
+Snow=
+Dust=
+
+##[ src/editor/tools_customise_weather.lua ]##
+##[ src/utils/debug.lua ]##
+Strength=
+
+##[ src/editor/tools_map.lua ]##
+Arena region (LMB pos1, RMB pos2, Q removes)=
+Save a schematic of the map=
+Load and paste the map schematic=
+Are you sure you want to edit the region? The associated schematic will be deleted=
+Are you sure you want to delete the region of the arena? It'll also delete the associated schematic, if any=
+
+##[ src/editor/tools_map.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/player_manager.lua ]##
+##[ src/signs/signs_editor.lua ]##
+Yes=
+Cancel=
+
+##[ src/editor/tools_players.lua ]##
+Players required=
+Players supported (right click to remove the limit)=
+Players supported (click to set a limit)=
+Teams amount=
+Change value (LMB decreases, RMB increases)=
+Teams: on (click to toggle off)=
+Teams: off (click to toggle on)=
+
+##[ src/editor/tools_settings.lua ]##
+Custom return point (LMB sets, RMB removes)=
+Arena name, author and thumbnail=
+Arena properties=
+Timer: on=
+Delete arena=
+Rename arena=
+Set author=
+Set thumbnail=
+Set timer=
+Are you sure you want to delete arena @1?=
+
+##[ src/editor/tools_spawners.lua ]##
+Add spawner=
+Remove the closest spawner=
+Add team spawner=
+Remove the closest spawner of the selected team=
+Switch team=
+Selected team: @1=
+Delete all spawners=
+Delete all spawners of the team=
+
+##[ src/hud/hud_waypoints.lua ]##
+Return point (custom)=
+Return point=
+
+##[ src/map_reset/map_reset.lua ]##
+There is no schematic to paste!=
+Schematic of arena @1 successfully pasted=
+
+##[ src/map_reset/map_saving.lua ]##
+Schematic of arena @1 successfully saved (pos1 and pos2 have been automatically sorted)=
+
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/macros.lua ]##
+You must disable the arena first!=
+
+##[ src/nodes.lua ]##
+Barrier=
+
+##[ src/player_manager.lua ]##
+The game you were in is still in progress: do you want to rejoin?=
+The match has ended whilst you were deciding :c=
+
+##[ src/signs/signs.lua ]##
+Sign=
+Signs=
+One sign per arena=
+Arena sign=
+This minigame doesn't exist anymore!=
+This arena doesn't exist anymore!=
+Uh-oh, it looks like this sign has been misplaced: well, fixed, hit it again!=
+That's not an arena_lib sign!=
+No ongoing activity=
+The arena is not enabled=
+Leave the queue (you can also left-click the sign)=
+Full=
+Play (you can also left-click the sign)=
+This minigame can't be joined whilst a game is in progress=
+Spectate mode not supported=
+Spectate=
+Spectate (there must be a game in progress)=
+Edit=
+Force start=
+Now inside=
+Close=
+
+##[ src/signs/signs_editor.lua ]##
+Add sign=
+Remove sign=
+Teleport onto the sign=
+There is no entrance assigned to @1!=
+Return where you were=
+Are you sure you want to delete the sign from @1?=
+
+##[ src/spectate/spectate_main.lua ]##
+Currently spectating: @1=
+
+##[ src/spectate/spectate_main.lua ]##
+##[ src/utils/debug.lua ]##
+Spectators inside: @1=
+
+##[ src/spectate/spectate_tools.lua ]##
+Change player=
+Change team=
+Change entity=
+Change area=
+Enter the match=
+
+##[ src/utils/debug.lua ]##
+ID: @1, name: @2=
+Total arenas: @1=
+Players required per team: @1=
+Players supported per team: @1=
+Players inside per team: @1=
+Spectators inside per team: @1=
+Current spectatable entities: @1=
+Current spectatable areas: @1=
+in queue=
+loading=
+in game=
+celebrating=
+waiting=
+Is resetting: @1=
+Initial time: @1=
+current: @1=
+rain=
+snow=
+dust=
+custom=
+Spectator properties: @1=
+Team properties: @1=
+Name: @1=
+ID: @1=
+Match ID: @1=
+Author: @1=
+Thumbnail: @1=
+BGM: @1=
+Teams: @1=
+Players required: @1=
+Players supported: @1=
+Players inside: @1=
+Players and spectators inside: @1=
+Past and present players: @1=
+Past and present players inside: @1=
+Enabled: @1=
+Status: @1=
+Entrance: @1=
+Region: @1=
+Custom return point: @1=
+Spawn points: @1=
+Custom sky: @1=
+Weather: @1=
+Custom lighting: @1=
+Properties: @1=
+Temp properties: @1=
+Player properties: @1=
+Unused arena_lib resources:=
+
+##[ src/utils/macros.lua ]##
+There must be no one inside the editor of the arena to perform this command! (now inside: @1)=
+You've recently been kicked from a game! Time left before being able to join a new match: @1s=
+Only the party leader can enter the queue!=
+One of your party members has recently been kicked from a game! Time left before being able to join a new match: @1s=
+You must wait for all your party members to finish their ongoing games before entering a new one!=
+Can't enter a game if some of your party members are attached to something! (e.g. boats, horses etc.)=
+@1 is running a Minetest version too old to play this minigame!=
+There is not enough space for the whole party!=
+There is no team with enough space for the whole party!=
+Your version of Minetest is too old to play this minigame! Please update it=
+The arena is already full!=
+
+##[ src/utils/utils.lua ]##
+[!] @1=

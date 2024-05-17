@@ -29,6 +29,7 @@ local PLATFORM_RADIUS = 3
 
 skyblock.get_cel = function(id)
     if id >= GRID_VOLUME then return end
+    -- TODO introduce another layer of cells .. there's room for 6 layers
 
     local grid_x = id % GRID_WIDTH
     local grid_z = math.floor(id / GRID_WIDTH)
@@ -163,8 +164,14 @@ end
 skyblock.enter_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
     if player and skyblock.get_player_cel(name) then
+        hunger_ng.configure_hunger(name, 'enable')
         player:get_meta():set_int("skyblock:in_skyblock", 1)
+        local att = player:get_nametag_attributes()
+        player:get_meta():set_string("skyblock:nametag_att", minetest.serialize(att))
         player:set_pos(pos or skyblock.get_home(player))
+        -- disable nametag
+        att.color.a = 0
+        player:set_nametag_attributes(att)
         skyblock.current_players[name] = true
     end
 end
@@ -172,7 +179,12 @@ end
 skyblock.exit_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
     if player then
+
         player:get_meta():set_int("skyblock:in_skyblock", 0)
+        local att_str = player:get_meta():get_string("skyblock:nametag_att")
+        local att_tbl = minetest.deserialize(att_str)
+        local color = (att_tbl and att_tbl.color) or {a=255, r=255, g=255, b=255}
+        player:set_nametag_attributes({color = color})
         player:set_pos(pos)
     end
 
@@ -248,6 +260,16 @@ end)
 -- Player commands
 minetest.register_chatcommand("skyblock", {
     func = function(name, param)
+        -- disable while in arenas
+        if minetest.global_exists("arena_lib") then
+            if arena_lib.is_player_in_arena(name) then
+                return false, "Cannot teleport while inside arena!"
+            end
+            if arena_lib.is_player_in_queue(name) then
+                return false, "Cannot teleport while inside arena queue!"
+            end
+        end
+        
         if param == "set" then
             if skyblock.current_players[name] then
                 local player = minetest.get_player_by_name(name)

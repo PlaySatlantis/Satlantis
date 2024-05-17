@@ -1,0 +1,556 @@
+# textdomain: arena_lib
+# author(s): vintprox
+# reviewer(s):
+
+##[ src/_load.lua ]##
+Notifications=
+Countdown ticks=
+Someone joins=
+Someone leaves=
+
+##[ src/_load.lua ]##
+##[ src/api/core.lua ]##
+-- missing description --=
+
+##[ src/admin_tools/entrances.lua ]##
+Entrance type - @1=Тип входа - @1
+Pressing 'overwrite' will try to disable the arena first=Нажатие на «Перезаписать» попробует сначала отключить арену
+OVERWRITE ALL=ПЕРЕЗАПИСАТЬ ВСЁ
+@1 - nothing to overwrite=@1 - нечего перезаписать
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+This minigame doesn't exist!=Эта мини-игра не существует!
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+##[ src/editor/editor_main.lua ]##
+You can't perform this action while in game!=Вы не можете совершить это действие во время игры!
+
+##[ src/admin_tools/entrances.lua ]##
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/editor/tools_settings.lua ]##
+Overwrite=Перезаписать
+
+##[ src/admin_tools/minigame_settings.lua ]##
+Minigame settings=Настройки мини-игры
+
+##[ src/admin_tools/minigame_settings.lua ]##
+##[ src/deps/parties.lua ]##
+You can't perform this action while in queue!=Вы не можете совершить это действие, находясь в очереди!
+
+##[ src/api/core.lua ]##
+team=команда
+@1 has been eliminated=@1 был ликвидирован
+@1 has been eliminated by @2=@1 был ликвидирован @2
+You're the last player standing: you win!=Вы последний оставшийся: вы победили!
+There are no other teams left, you win!=Других команд не осталось, вы победили!
+@1 has quit the match=@1 покинул матч
+@1 wins the game=@1 побеждает в игре
+Team @1 wins the game=Команда @1 побеждает в игре
+@1 win the game=@1 побеждают в игре
+Teams @1 win the game=Команды @1 побеждают в игре
+There are no winners=Победителей нет
+Property type doesn't match, aborting!=Тип свойства не совпадает, отмена!
+Parameter @1 successfully overwritten=Параметр @1 успешно перезаписан
+This minigame needs at least @1 players!=Этой мини-игре нужно как минимум @1 игрока!
+In endless minigames, the minimum amount of players must always be 0!=В бесконечных мини-играх минимальное количество игроков всегда должно быть 0!
+Arena @1 successfully created=Арена @1 успешно создана
+Arena @1 successfully removed=Арена @1 успешно удалена
+Arena @1 successfully renamed in @2=Аfрена @1 успешно переименована в @2
+@1's author successfully removed=Автор арены @1 успешно удалён
+@1's author successfully changed to @2=Автор арены @1 успешно изменён на @2
+@1's thumbnail successfully removed=
+@1's thumbnail successfully changed to @2=
+Players amount successfully changed ( min @1 | max @2 )=Количество игроков успешно изменено ( мин. @1 | макс. @2 )
+Nothing to do here!=Ничего не изменилось!
+Teams amount successfully changed (@1)=Количество команд успешно изменено (@1)
+Teams cannot be disabled in this minigame!=
+Teams successfully enabled for the arena @1=Команды успешно включены на арене @1
+Teams successfully disabled for the arena @1=Команды успешно отключены на арене @1
+This team doesn't exist!=Этой команды не существует!
+A team ID must be specified!=ID команды должен быть указан!
+There are no spawners to remove!=Нет спавнеров, подлежащих удалению!
+Spawn point #@1 successfully deleted=Точка спавна №@1 успешно удалена
+All the spawn points belonging to team @1 have been removed=Все точки спавна, принадлежащие команде @1, были удалены
+All spawn points have been removed=Все точки спавна были удалены
+There's already a spawn in this point!=Спавн уже стоит на этой точке!
+Spawn point #@1 successfully set=Точка спавна №@1 успешно установлена
+There is no entrance type with this name!=Нет типа входа с таким именем!
+Entrance type of arena @1 successfully changed (@2)=Тип входа на арену @1 успешно изменён (@2)
+There is already an entrance for this arena!=Уже есть вход на эту арену!
+Entrance of arena @1 successfully set=Вход на арену @1 успешно установлен
+Entrance of arena @1 successfully removed=Вход на арену @1 успешно удалён
+Custom return point of arena @1 succesfully set=Произвольная точка возврата из арены @1 успешно установлена
+Custom return point of arena @1 succesfully removed=Произвольная точка возврата из арены @1 успешно удалена
+Regions of different arenas can't overlap!=
+Region of arena @1 successfully overwritten=Область арены @1 успешно перезаписана
+Lighting of arena @1 successfully overwritten=Освещение арены @1 успешно перезаписано
+(@1) Celestial vault of arena @2 successfully overwritten=(@1) Небесный свод арены @2 успешно перезаписан
+Weather condition of arena @1 successfully overwritten=Погодные условия арны @1 успешно перезаписаны
+parameter `@1` is mandatory!=
+Background music of arena @1 successfully overwritten=Фоновая музыка арены @1 успешно перезаписана
+Timers are not enabled in this mod!=Таймеры не доступны в этом режиме!
+Arena @1's timer is now @2 seconds=Таймер арены @1 установлен на @2 с
+Insufficient spawners, the arena can't be enabled!=Недостаточно спавнеров, арена не может быть включена!
+Entrance not set, the arena can't be enabled!=Вход не установлен, арена не может быть включена!
+If the arena region is declared, all the existing spawn points must be placed inside it!=Если задана область арены, все существующие точки спавна должны располагаться в её пределах!
+Arena @1 successfully enabled=Арена @1 успешно включена
+The arena is already disabled!=Арена уже отключена!
+You can't disable an arena during an ongoing game!=Вы не можете отключить арену во время игры!
+The arena you were queueing for has been disabled... :(=Арена, в очереди которой вы стояли, была отключена... :(
+Arena @1 successfully disabled=Арена @1 успешно отключена
+Schematic of arena @1 deleted=
+An arena with that name exists already!=Арена с таким именем уже существует!
+The name contains unsupported characters!=Имя содержит неподдерживаемые символы!
+
+##[ src/api/core.lua ]##
+##[ src/api/in_game.lua ]##
+spectator=наблюдатель
+
+##[ src/api/core.lua ]##
+##[ src/commands.lua ]##
+arena=арена
+Teams are not enabled!=Команды не включены!
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_customise_bgm.lua ]##
+File not found!=Файл не найден!
+
+##[ src/api/core.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/signs/signs.lua ]##
+Parameters don't seem right!=Параметры не выглядят верными!
+
+##[ src/api/core.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+Region not declared!=
+
+##[ src/api/core.lua ]##
+##[ src/signs/signs_editor.lua ]##
+There is no entrance to remove assigned to @1!=
+
+##[ src/api/in_game.lua ]##
+No ongoing game!=Игра не запущена!
+Spectate mode not supported!=Режим наблюдения не поддерживается!
+There is nothing to spectate!=Тут незачем наблюдать!
+The arena is loading, try again in a few seconds!=Арена загружается, попробуйте через несколько секунд!
+This minigame doesn't allow to join while in progress!=Эта мини-игра не позволяет входить во время игры!
+Players and spectators can now interact with each other=Игроки и наблюдатели теперь могут вместе взаимодействовать
+Can't force a game to start if the arena is not even in queue!=
+Game start in arena @1 successfully forced=
+The arena has been forcibly terminated by @1=@1 принудительно остановил арену
+Game in arena @1 successfully terminated=Игра на арене @1 успешно прервана
+@1 has been kicked by @2=@1 был выгнан модератором @2
+@1 has been kicked=@1 был выгнан
+
+##[ src/api/in_game.lua ]##
+##[ src/map_reset/map_reset.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/debug.lua ]##
+##[ src/utils/macros.lua ]##
+This arena doesn't exist!=Эта арена не существует!
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/debug.lua ]##
+You can't perform this action during an ongoing game!=Вы не можете совершить это действие во время игры!
+
+##[ src/api/in_game.lua ]##
+##[ src/utils/macros.lua ]##
+The arena is not enabled!=Арена не включена!
+You must detach yourself from the entity you're attached to before entering!=Перед входом, вы должны отцепиться от объекта, к которому вы приставлены!
+
+##[ src/api/in_queue.lua ]##
+Game begins in @1!=Игра начнётся через @1!
+Get ready!=Приготовьтесь!
+@1 seconds for the match to start=@1 с до начала матча
+You're already queuing for this arena!=Вы уже стоите в очереди на эту арену!
+You've been blocked from entering any queue for 10 seconds, due to joining and leaving repeatedly in a short amount of time!=Вам запретили вставать в очереди на 10 секунд из-за частого покидания игр в короткий промежуток времени!
+Waiting for more players...=Ожидаем больше игроков...
+Only the party leader can leave the queue!=Только глава группы может покинуть очередь!
+The queue has been cancelled due to not enough players=Очередь была отменена из-за недостаточного количества игроков
+#utils/utils.lua
+You've joined team @1=Вы присоединились к команде @1
+
+##[ src/api/in_queue.lua ]##
+##[ src/map_reset/map_saving.lua ]##
+The map is resetting, try again in a few seconds!=
+
+##[ src/api/map.lua ]##
+You can't modify the map whilst enabled!=
+
+##[ src/commands.lua ]##
+There's a time and place for everything. But not now!=
+There are more minigames having an arena called @1: please specify the name of the minigame before the name of the arena, separating them with a space=Другие мини-игры имеют арену с именем @1: пожалуйста, уточните имя мини-игры перед именем арены, отделив их пробелом
+This player is not online!=Этого игрока нет в сети!
+The player must be in a game to perform this action!=Игрок должен быть в игре, чтобы совершить это действие!
+Player successfully kicked=Игрок успешно выгнан
+COMMANDS=КОМАНДЫ
+check if there is any unused resource inside the arena_lib world folder (inside BGM and Thumbnails)=проверяет на наличие любого неиспользованного ресурса в папке arena_lib мира (внутри BGM и Thumbnails)
+minigame=мини-игра
+creates an arena for the specified minigame=создаёт арену для указанной мини-игры
+disables an arena=отключает арену
+enters the arena editor=открывает редактор арены
+enables an arena=включает арену
+changes the entrance types of the specified minigame=меняет типы входа в указанную мини-игру
+DEBUG ONLY - resets the properties of a bugged arena=ТОЛЬКО ОТЛАДКА - сбрасывает свойства забагованной арены
+forcibly ends an ongoing game=принудительно завершает текущую игру
+forcibly loads (if in queue) or starts (if in the loading phase) a game=
+lists all the installed minigames, alphabetically sorted=перечисляет все установленные мини-игры в алфавитном порядке
+see @1=см. @1
+prints all the arena's info=выводит всю информацию по арене
+player=игрок
+kicks a player from an ongoing game. When kicked, they must wait 2 minutes before re-entering a match=выгоняет игрока из текущей игры. Будучи выгнанным, игрок должен подождать 2 минуты перед повторным заходом в матч
+lists all the arenas of the specified minigame=перечисляет все арены по указанной мини-игре
+deletes an arena=удаляет арену
+tweaks the minigame settings for the current server=меняет настройки мини-игры на этом сервере
+UTILS=УТИЛИТЫ
+Barrier node: use it to fence your arenas=
+Manage arena_lib arenas; it requires arenalib_admin=Управляйте аренами arena_lib; требует arenalib_admin
+Quits a queue or an ongoing game=Выходит из очереди или текущей игры
+You must be in a game or in queue to perform this action!=Вы должны быть в игре или в очереди, чтобы совершить это действие!
+You can't perform this action during the celebration phase!=Вы не можете совершить это действие во период празднования!
+message=сообщение
+Writes a message in the arena global chat while in a game=Отправляет сообщение в глобальный чат арены во время игры
+You must be in a game to perform this action!=Вы должны быть в игре, чтобы совершить это действие!
+Writes a message in the arena team chat while in a game (if teams are enabled)=Отправляет сообщение в комадный чат арены во время игры
+
+##[ src/deps/parties.lua ]##
+The party leader must not be in queue to perform this action!=Глава группы должен выйти из очереди, чтобы совершить это действие!
+The party leader must not be in game to perform this action!=Глава группы должен покинуть игру, чтобы совершить это действие!
+
+##[ src/editor/editor_icons.lua ]##
+Players=Игроки
+Values are PER TEAM! Use item #4 to change value=Значения отдельные для разных команд! Используйте предмет №4, чтобы изменить значение
+Spawners=Спавнеры
+Map=
+Customise=Украсить
+Settings=Настройки
+Info=Информация
+Go back=Назад
+Enable and leave=Включить и покинуть
+
+##[ src/editor/editor_icons.lua ]##
+##[ src/spectate/spectate_tools.lua ]##
+Leave=Покинуть
+
+##[ src/editor/editor_main.lua ]##
+Wooosh!=Вжууух!
+Players and teams=
+
+##[ src/editor/editor_main.lua ]##
+##[ src/utils/macros.lua ]##
+You must leave the editor first!=Сначала вы должны покинуть редактор!
+
+##[ src/editor/tools_customise_bgm.lua ]##
+Background music=Фоновая музыка
+Audio file=Аудио файл
+leave empty to remove the current track=оставьте пустым, чтобы удалить текущий трек
+Description=
+used for accessibility purposes=
+Title=Название
+Author=Автор
+Volume=Громкость
+Pitch=Тон
+
+##[ src/editor/tools_customise_bgm.lua ]##
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Apply=Применить
+
+##[ src/editor/tools_customise_lighting.lua ]##
+Lighting=Освещение
+Global light=Глобальный свет
+Saturation=Насыщенность
+
+##[ src/editor/tools_customise_lighting.lua ]##
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Reset=Сбросить
+
+##[ src/editor/tools_customise_sky.lua ]##
+Celestial vault=Небесный свод
+Sky=Небо
+Sun=Солнце
+Moon=Луна
+Stars=Звёзды
+Clouds=Облака
+Type=Тип
+Day sky=Дневное небо
+Dawn sky=Рассвет
+Night sky=Ночное небо
+Day horizon=Дневной горизонт
+Dawn horizon=Рассветный горизонт
+Night horizon=Ночной горизонт
+Indoors=Помещение
+Custom fog tint=Произвольный оттенок тумана
+Fog sun tint=Солнечный оттенок тумана
+Fog moon tint=Лунный оттенок тумана
+Base colour=Основной цвет
+Top=Верх
+Bottom=Низ
+West=Запад
+East=Восток
+North=Север
+South=Юг
+Fog=
+Fog distance=
+Fog start=
+Visible sun=Видимое солнце
+Visible sunrise=Видимый восход
+Texture=Текстура
+Tonemap=Карта тонов
+Size=Размер
+Sunrise texture=Текстура восхода
+Visible moon=Видимая луна
+Visible stars=Видимые звёзды
+Count=Кол-во
+Opacity=Видимость
+Clouds must be enabled first to change their parameters=Облака вначале нужно включить, чтобы менять их параметры
+Ambient=Окружение
+Density=Плотность
+Thickness=Толщина
+Height=Высота
+Speed=Скорость
+
+##[ src/editor/tools_customise_sky.lua ]##
+##[ src/editor/tools_customise_weather.lua ]##
+Colour=Цвет
+
+##[ src/editor/tools_customise_weather.lua ]##
+Weather condition=Погодные условия
+Rain=
+Snow=
+Dust=
+
+##[ src/editor/tools_customise_weather.lua ]##
+##[ src/utils/debug.lua ]##
+Strength=Сила
+
+##[ src/editor/tools_map.lua ]##
+Arena region (LMB pos1, RMB pos2, Q removes)=Область арены (ЛКМ поз1, ПКМ поз2, Q удаляет)
+Save a schematic of the map=
+Load and paste the map schematic=
+Are you sure you want to edit the region? The associated schematic will be deleted=
+Are you sure you want to delete the region of the arena? It'll also delete the associated schematic, if any=
+
+##[ src/editor/tools_map.lua ]##
+##[ src/editor/tools_settings.lua ]##
+##[ src/player_manager.lua ]##
+##[ src/signs/signs_editor.lua ]##
+Yes=Да
+Cancel=Отмена
+
+##[ src/editor/tools_players.lua ]##
+Players required=Игроков требуется
+Players supported (right click to remove the limit)=Игроков помещается (ПКМ удаляет ограничение)
+Players supported (click to set a limit)=Игроков помещается (ЛКМ устанавливает ограничение)
+Teams amount=Количество команд
+Change value (LMB decreases, RMB increases)=Изменить значение (ЛКМ уменьшает, ПКМ увеличивает)
+Teams: on (click to toggle off)=Команды: включены (ЛКМ отключает)
+Teams: off (click to toggle on)=Команды: отключены (ЛКМ включает)
+
+##[ src/editor/tools_settings.lua ]##
+Custom return point (LMB sets, RMB removes)=Произвольная точка возврата (ЛКМ устанавливает, ПКМ удаляет)
+Arena name, author and thumbnail=Имя, автор и миниатюра арены
+Arena properties=Свойства арены
+Timer: on=Таймер: включён
+Delete arena=Удалить арену
+Rename arena=Переименовать арену
+Set author=Установить автора
+Set thumbnail=Установить миниатюру
+Set timer=Установить таймер
+Are you sure you want to delete arena @1?=Вы точно хотите удалить арену @1?
+
+##[ src/editor/tools_spawners.lua ]##
+Add spawner=Добавить спавнер
+Remove the closest spawner=Удалить ближайший спавнер
+Add team spawner=Добавить спавнер команды
+Remove the closest spawner of the selected team=Удалить ближайший спавнер выбранной команды
+Switch team=Переключить команду
+Selected team: @1=Выбранная команда: @1
+Delete all spawners=Удалить все спавнеры
+Delete all spawners of the team=Удалить все спавнеры команды
+
+##[ src/hud/hud_waypoints.lua ]##
+Return point (custom)=Точка возврата (произвольная)
+Return point=Точка возврата
+
+##[ src/map_reset/map_reset.lua ]##
+There is no schematic to paste!=
+Schematic of arena @1 successfully pasted=
+
+##[ src/map_reset/map_saving.lua ]##
+Schematic of arena @1 successfully saved (pos1 and pos2 have been automatically sorted)=
+
+##[ src/map_reset/map_saving.lua ]##
+##[ src/utils/macros.lua ]##
+You must disable the arena first!=Вначале вам нужно отключить арена!
+
+##[ src/nodes.lua ]##
+Barrier=Барьер
+
+##[ src/player_manager.lua ]##
+The game you were in is still in progress: do you want to rejoin?=
+The match has ended whilst you were deciding :c=
+
+##[ src/signs/signs.lua ]##
+Sign=Табличка
+Signs=Таблички
+One sign per arena=Одна табличка на арену
+Arena sign=Табличка арены
+This minigame doesn't exist anymore!=
+This arena doesn't exist anymore!=
+Uh-oh, it looks like this sign has been misplaced: well, fixed, hit it again!=Ой-ой, как видимо, эта табличка встала криво: вот, поправили, ударьте её снова! 
+That's not an arena_lib sign!=Это не табличка arena_lib!
+No ongoing activity=Нет активности
+The arena is not enabled=Арена не включена
+Leave the queue (you can also left-click the sign)=Покинуть очередь (также можно ударить табличку)
+Full=Заполнена
+Play (you can also left-click the sign)=Играть (также можно ударить табличку)
+This minigame can't be joined whilst a game is in progress=В эту мини-игру нельзя зайти во время игры
+Spectate mode not supported=Режим наблюдения не поддерживается
+Spectate=Наблюдать
+Spectate (there must be a game in progress)=Наблюдать (только в процессе игры)
+Edit=
+Force start=
+Now inside=На арене
+Close=
+
+##[ src/signs/signs_editor.lua ]##
+Add sign=Добавить табличку
+Remove sign=Удалить табличку
+Teleport onto the sign=Телепортироваться к табличке
+There is no entrance assigned to @1!=Нет входа, установленного на @1!
+Return where you were=Вернуться обратно
+Are you sure you want to delete the sign from @1?=Вы точно хотите удалить табличку на @1?
+
+##[ src/spectate/spectate_main.lua ]##
+Currently spectating: @1=Сейчас наблюдают: @1
+
+##[ src/spectate/spectate_main.lua ]##
+##[ src/utils/debug.lua ]##
+Spectators inside: @1=
+
+##[ src/spectate/spectate_tools.lua ]##
+Change player=Сменить игрока
+Change team=Сменить команду
+Change entity=Сменить объект
+Change area=Сменить зону
+Enter the match=Присоединиться к матчу
+
+##[ src/utils/debug.lua ]##
+ID: @1, name: @2=
+Total arenas: @1=
+Players required per team: @1=
+Players supported per team: @1=
+Players inside per team: @1=
+Spectators inside per team: @1=
+Current spectatable entities: @1=
+Current spectatable areas: @1=
+in queue=в очереди
+loading=загрузка
+in game=в игре
+celebrating=празднование
+waiting=ожидание
+Is resetting: @1=
+Initial time: @1=
+current: @1=
+rain=дождь
+snow=снег
+dust=пыль
+custom=произвольное
+Spectator properties: @1=
+Team properties: @1=
+Name: @1=
+ID: @1=
+Match ID: @1=
+Author: @1=
+Thumbnail: @1=
+BGM: @1=
+Teams: @1=
+Players required: @1=
+Players supported: @1=
+Players inside: @1=
+Players and spectators inside: @1=
+Past and present players: @1=
+Past and present players inside: @1=
+Enabled: @1=
+Status: @1=
+Entrance: @1=
+Region: @1=
+Custom return point: @1=
+Spawn points: @1=
+Custom sky: @1=
+Weather: @1=
+Custom lighting: @1=
+Properties: @1=
+Temp properties: @1=
+Player properties: @1=
+Unused arena_lib resources:=Неиспользованные ресурсы arena_lib:
+
+##[ src/utils/macros.lua ]##
+There must be no one inside the editor of the arena to perform this command! (now inside: @1)=Чтобы выполнить эту команду, все должны покинуть редактор арены! (Сейчас внутри: @1)
+You've recently been kicked from a game! Time left before being able to join a new match: @1s=Вас недавно выгнали из игры! Присоединиться к следующему матчу можно будет через @1 с
+Only the party leader can enter the queue!=Только глава группы может встать в очередь!
+One of your party members has recently been kicked from a game! Time left before being able to join a new match: @1s=Одного из ваших одногруппников недавно выгнали из игры! Присоединиться к следующему матчу можно будет через @1 с
+You must wait for all your party members to finish their ongoing games before entering a new one!=Вы должны дождаться, пока все ваши одногруппники завершат свои текущие игры, перед входом на новую!
+Can't enter a game if some of your party members are attached to something! (e.g. boats, horses etc.)=Невозможно войти в игру, когда ваш одногруппник приставлен к объекту (лодке, лошади, пр.)!
+@1 is running a Minetest version too old to play this minigame!=
+There is not enough space for the whole party!=Недостаточно места для всей группы!
+There is no team with enough space for the whole party!=Нет команды, в которой было бы достаточно места для всей группы!
+Your version of Minetest is too old to play this minigame! Please update it=
+The arena is already full!=Арена уже заполнена!
+
+##[ src/utils/utils.lua ]##
+[!] @1=
+
+
+##### not used anymore #####
+
+Spawn points can't exceed the maximum number of players!=Спавн точки не могут суммарно превышать максимальное количество игроков!
+Are you sure you want to delete the region of the arena?=Уверены ли вы, что хотите удалить область арены?
+Spectators inside: =Наблюдатели внутри: 
+current: =текущее: 
+name: =имя: 
+Total arenas: =Всего арен: 
+Players required per team: =Игроков требуется в команде: 
+Players supported per team: =Игроков помещается в команде: 
+Players inside per team: =Игроков в команде: 
+Spectators inside per team: =Наблюдателей в команде: 
+Current spectatable entities: =Текущие объекты для наблюдения: 
+Current spectatable areas: =Текущие зоны для наблюдения: 
+Initial time: =Начальное время: 
+Name: =Имя: 
+Author: =Автор: 
+Thumbnail: =Миниатюра: 
+BGM: =Музыка: 
+Teams: =Команды: 
+Players required: =Игроков требуется: 
+Players supported: =Игроков помещается: 
+Players inside: =Игроков внутри: 
+Players and spectators inside: =Игроков и наблюдателей внутри: 
+Past and present players: =Прошлые и настоящие игроки: 
+Past and present players inside: =Прошлые и настоящие игроки внутри: 
+Enabled: =Включена: 
+Status: =Состояние: 
+Entrance: =Вход: 
+Region: =Область: 
+Custom return point: =Произвольная точка возврата: 
+Spawn points: =Точки спавна: 
+Custom sky: =Произвольное небо: 
+Weather: =Погода: 
+Custom lighting: =Произвольное освещение: 
+Properties: =Свойства: 
+Temp properties: =Временные свойства: 
+Team properties: =Свойства команды: 
+arena name=имя арены
+Barrer node: use it to fence your arenas=Барьерный блок: используйте его, чтобы ограждать свои арены
+All=Всё
+on_timeout callback must be declared to properly use a decreasing timer!=Функция on_timeout должна быть задана, чтобы правильно применить таймер обратного отсчёта!

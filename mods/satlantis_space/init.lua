@@ -34,14 +34,18 @@ local SPACE_LIGHT = 0.8
 
 local function set_player_location_space(player)
     player:set_physics_override(SPACE_PHYSICS)
+    player:set_sky()
     player:set_sky(SPACE_SKY)
+    player:set_stars()
     player:set_stars(SPACE_STARS)
 
+    player:set_sun()
     player:set_sun({
         visible = false,
         sunrise_visible = false,
     })
 
+    player:set_moon()
     player:set_moon({
         visible = false,
     })
@@ -51,11 +55,11 @@ end
 
 local function set_player_location_default(player)
     player:set_physics_override(DEFAULT_PHYSICS)
-    player:set_sky()
-    player:set_stars()
+    -- player:set_sky()
+    -- player:set_stars()
 
-    player:set_sun()
-    player:set_moon()
+    -- player:set_sun()
+    -- player:set_moon()
 
     player:override_day_night_ratio()
 end

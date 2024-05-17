@@ -2,12 +2,35 @@ local storage = minetest.get_mod_storage()
 local lobby_pos = minetest.string_to_pos(storage:get("lobby_pos") or "0,0,0")
 local skyblock, space = satlantis.skyblock, satlantis.space
 
+
+local is_player_in_lobby = function(p_name)
+    local player = minetest.get_player_by_name(p_name)
+    if player then
+        local pos = player:get_pos()
+        local in_lobby = pos.y > 8100 and pos.y < 24000
+        -- minetest.debug("Player " .. p_name .. " in lobby: " .. tostring(in_lobby))
+        return in_lobby
+    end
+    return false
+end
+
 minetest.register_chatcommand("lobby", {
     func = function(name, param)
         local player = minetest.get_player_by_name(name)
 
+        -- disable while in arenas
+        if minetest.global_exists("arena_lib") then
+            if arena_lib.is_player_in_arena(name) then
+                return false, "Cannot teleport while inside arena!"
+            end
+            if arena_lib.is_player_in_queue(name) then
+                return false, "Cannot teleport while inside arena queue!"
+            end
+        end
+
+
         if param ~= "" and minetest.get_player_privs(name).server then
-            if minetest.global_exists("skyblock") then
+            if minetest.get_modpath("satlantis_skyblock") then
                 if skyblock.is_in_skyblock(name) then
                     return false, "Cannot set spawn inside orbiter"
                 end
@@ -34,25 +57,52 @@ minetest.register_chatcommand("lobby", {
                 end
             end
         else
-            if minetest.global_exists("skyblock") then
+            if minetest.get_modpath("satlantis_skyblock") then
                 if skyblock.is_in_skyblock(name) then
                     skyblock.exit_cel(name, lobby_pos)
+                    player:set_sun()
+                    player:set_moon()
+                    player:set_stars()
+                    player:set_sky()
+                    if hunger_ng then hunger_ng.configure_hunger(name, 'disable') end
                     return true, "Transporting to lobby..."
                 end
             end
 
+            player:set_sun()
+            player:set_moon()
+            player:set_stars()
+            player:set_sky()
+            if hunger_ng then hunger_ng.configure_hunger(name, 'disable') end
             player:set_pos(lobby_pos)
+
             return true, "Transporting to lobby..."
         end
     end,
 })
+
+
+-- turn off hunger when players join if they enter the lobby
+minetest.register_on_joinplayer(function(player)
+    local in_lobby = is_player_in_lobby(player:get_player_name())
+    
+    if in_lobby then
+        if hunger_ng then
+            hunger_ng.configure_hunger(player:get_player_name(), 'disable')
+        end
+    else
+        if hunger_ng then
+            hunger_ng.configure_hunger(player:get_player_name(), 'enable')
+        end
+    end
+end)
 
 minetest.registered_chatcommands["spawn"] = minetest.registered_chatcommands["lobby"]
 
 local old_is_protected = minetest.is_protected
 
 minetest.is_protected = function(pos, name)
-    if pos.y >= 20000 and pos.y <= 25000 then
+    if is_player_in_lobby(name) and (minetest.global_exists("arena_lib") and not(arena_lib.is_player_in_arena(name))) then
         if not minetest.get_player_privs(name).protection_bypass then
             return true
         end
@@ -99,11 +149,21 @@ end, true)
 
 minetest.register_chatcommand("overworld", {
     func = function(name)
+
         local player = minetest.get_player_by_name(name)
         local pos = player:get_pos()
 
-        local in_skyblock = minetest.global_exists("skyblock") and skyblock.is_in_skyblock(name)
-        local in_lobby = pos.y > 20000 and pos.y < 250000
+        local in_skyblock = minetest.get_modpath("satlantis_skyblock") and skyblock.is_in_skyblock(name)
+        local in_lobby = is_player_in_lobby(name)
+
+        if in_lobby and minetest.global_exists("arena_lib") then
+            if arena_lib.is_player_in_arena(name) then
+                return false, "Cannot transport to overworld while in Minigame arena!"
+            end
+            if arena_lib.is_player_in_queue(name) then
+                return false, "Cannot transport to overworld while in Minigame queue!"
+            end
+        end
 
         if in_skyblock or in_lobby then
             if space then
@@ -115,27 +175,80 @@ minetest.register_chatcommand("overworld", {
             -- Try to set player velocity to zero
             player:add_player_velocity(-player:get_velocity())
 
-            local opos = get_overworld_pos()
+            -- Put player back where they were, if a save pos is available
+            local opos 
+            local save = player:get_meta():get_string("overworld:save_pos")
+            if save ~= "" then
+                opos = minetest.string_to_pos(player:get_meta():get_string("overworld:save_pos"))
+            end
+
+            if not opos then opos = get_overworld_pos() end
+
             if not opos then
                 return false, "Couldn't find suitable position. Please try again."
             end
 
             if in_skyblock then
                 skyblock.exit_cel(name, opos)
+                player:set_sun()
+                player:set_moon()
+                player:set_stars()
+                player:set_sky()
             else
                 player:set_pos(opos)
+                player:set_sun()
+                player:set_moon()
+                player:set_stars()
+                player:set_sky()
             end
 
             minetest.after(3, function()
                 invincible[name] = false
             end)
-
+            hunger_ng.configure_hunger(name, 'enable')
             return true, "Transporting to overworld..."
         end
 
-        return false, "You can only transport to the overworld from the main ship or orbiter!"
+        return false, "You can only transport to the overworld from the lobby or orbiter!"
     end
 })
+
+-- update players' save positions
+local savetimer = 0
+minetest.register_globalstep(function(dtime)
+    savetimer = savetimer + dtime
+    if savetimer >= 45 then
+        for _, player in pairs(minetest.get_connected_players()) do
+            
+            local name = player:get_player_name()
+            local in_skyblock = minetest.get_modpath("satlantis_skyblock") and skyblock.is_in_skyblock(name)
+            local pos = player:get_pos()
+            local in_lobby = is_player_in_lobby(name)
+
+            -- check that player is not dead not in skyblock and not in lobby
+            if not(in_skyblock) and not(in_lobby) and not(player:get_hp() > 0)then
+                -- save the position if the player is on solid ground and standing in air
+                local below_n_pos = vector.add(player:get_pos(), vector.new(0,-.9,0))
+                local below_n_name = minetest.get_node(below_n_pos).name
+                local below_walkable = minetest.registered_nodes[below_n_name] and minetest.registered_nodes[below_n_name].walkable or false
+
+                local above_n_pos = vector.add(player:get_pos(), vector.new(0,1.1,0))
+                local above_n_name = minetest.get_node(above_n_pos).name
+                local above_is_air = above_n_name == "air"
+
+                if below_walkable and above_is_air then
+                    player:get_meta():set_string("overworld:save_pos", minetest.pos_to_string(player:get_pos(), 1))
+                end
+            end
+        end
+        savetimer = 0
+    end
+end)
+
+
+
+minetest.registered_chatcommands["world"] = minetest.registered_chatcommands["overworld"]
+minetest.registered_chatcommands["resourceworld"] = minetest.registered_chatcommands["overworld"]
 
 local enable_bed_respawn = minetest.settings:get_bool("enable_bed_respawn")
 if enable_bed_respawn == nil then
@@ -145,8 +258,15 @@ end
 minetest.register_on_respawnplayer(function(player)
     local name = player:get_player_name()
     local cel = skyblock.get_player_cel(name)
+    local is_player_in_arena = minetest.get_modpath("arena_lib") and arena_lib.is_player_in_arena(name)
+    local is_player_in_queue = minetest.get_modpath("arena_lib") and arena_lib.is_player_in_queue(name)
+    local in_lobby = is_player_in_lobby(name)
 
-	if beds and enable_bed_respawn and beds.spawn[name] then
+    if is_player_in_arena then return false end
+
+    if in_lobby then
+        player:set_pos(lobby_pos)
+	elseif beds and enable_bed_respawn and beds.spawn[name] then
         local pos = beds.spawn[name]
         if cel and skyblock.pos_in_bounds(pos, cel.bounds.min, cel.bounds.max) then
             skyblock.enter_cel(name, pos)
@@ -161,4 +281,62 @@ minetest.register_on_respawnplayer(function(player)
     end
 
     return true
+end)
+
+
+
+-- arena_lib checks: if arena_lib exists, then if the player joins and is found
+-- inside an arena area, then move the player to the lobby
+
+minetest.register_on_mods_loaded(function() 
+    if arena_lib then
+        minetest.register_on_joinplayer(function(player)
+            -- iterate through all arena
+            for modname, arenamod in pairs(arena_lib.mods) do
+                for arenaid, arena in pairs(arenamod.arenas) do
+                    if arena_lib.is_player_in_region(arena, player:get_player_name()) and not(arena_lib.is_player_in_arena(player:get_player_name())) then
+                        player:set_pos(lobby_pos)
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+-- add arena_lib callbacks to disable hunger when players join arenas and enable hunger when players leave arenas 
+
+local function enable_hunger_after(p_name)
+    minetest.after(1, function(p_name)
+        local player = minetest.get_player_by_name(p_name)
+        if player then 
+            if not(is_player_in_lobby(p_name)) then
+                hunger_ng.configure_hunger(p_name, 'enable')
+            end
+        end
+    end,p_name)
+end
+
+
+minetest.register_on_mods_loaded(function()
+	if arena_lib and hunger_ng then
+		arena_lib.register_on_load(function(mod, arena) 
+			for pl_name, stats in pairs(arena.players) do
+				hunger_ng.configure_hunger(pl_name, 'disable')
+			end
+		end)
+		arena_lib.register_on_join(function(mod, arena, p_name, as_spectator, was_spectator)
+            hunger_ng.configure_hunger(p_name, 'disable')
+		end)
+		arena_lib.register_on_end(function(mod, arena, winners, is_forced)
+			for pl_name, stats in pairs(arena.players) do
+                enable_hunger_after(pl_name)
+			end
+		end)
+		arena_lib.register_on_eliminate(function(mod, arena, p_name)
+            enable_hunger_after(p_name)
+		end)
+		arena_lib.register_on_quit(function(mod, arena, p_name, is_spectator, reason)
+            enable_hunger_after(p_name)
+		end)
+	end
 end)

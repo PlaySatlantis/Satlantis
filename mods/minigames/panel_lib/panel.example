@@ -1,0 +1,29 @@
+{
+    name = "mymod_mypanel",
+	player = "singleplayer",
+	position = { x = 1, y = 0.5 },
+	alignment = { x = -1, y = 0 },
+	bg = "panel_bg.png"
+	bg_scale = { x = 45, y = 28 },
+	title = "Default",
+	title_alignment = { x = 0, y = 0 },
+	title_offset = { x = 0, y = -180},
+	title_color = 0xFFFFFF,
+
+	sub_img_elems = {
+	  player_indicator = {
+	    scale = {x = 2, y = 2},
+	    offset = {x = 0, y = -120},
+	    alignment = { x = 0, y = 0 },
+	    text = "whatever_pic.png"
+	  }
+	},
+
+	sub_txt_elems = {
+	  sub_elem = {
+	    alignment = { x = 0, y = 1 },
+	    offset = {x = 0, y = -130},
+	    text = "Hey, I'm a sub-element!",
+	  }
+	 }
+}

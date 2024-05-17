@@ -1,0 +1,30 @@
+# textdomain: audio_lib
+
+##[ src/GUI/gui_settings.lua ]##
+Audio Settings=Ajustes de sonido
+Used by:@n@1=
+It only affects mods that use audio_lib=Sólo afecta los mods que usan audio_lib
+Main=Principal
+BGM=Música de fondo
+SFX=Efectos de sonido
+Accessibility=
+Reset=Reiniciar
+Apply=Aplicar
+
+##[ src/commands.lua ]##
+Open the audio settings menu=Abre los ajustes de sonido
+
+##[ src/tests/bgm.lua ]##
+Audio Lib BGM test #1@n@n1. Play BGM #1 in loop.@n@nRight click to stop any BGM=Audio Lib test fondo #1@n@n1. Reproduce fondo #1 en bucle.@n@nClic derecho para interrumpir cualquier fondo
+Audio Lib BGM test #2@n@n1. Play BGM #1 for 1s@n2. Play BGM #2 for 3s, gain 0.3@n3. Play BGM #1 for 4s from where it stopped@n4. Stop BGM #1 after 2s=Audio lib test fondo #2@n@n1. Reproduce fondo #1 por 1s@n2. Reproduce fondo #2 por 3s, volumen 0.3@n3. Reproduce fondo #1 por 4s de donde paró@n4. Interrumpe fondo #1 después de 2s
+Audio Lib BGM test #3@n@n1. Play BGM #2 for 2s@n2. Gradually change (1s) gain to 0.5 for 3s@n3. Change gain to 1.4 for 2s@n4. Fade it out in 2s=
+Starts changing volume=
+Starts fading=
+
+##[ src/tests/custom_types.lua ]##
+Custom type test=
+Audio Lib custom sound test #1@n@n1. Play Custom Sound #1 to the player=
+
+##[ src/tests/sfx.lua ]##
+Audio Lib sfx test #1@n@n1. Play SFX #1 to the player=Audio Lib test efecto de sonido #1@n@n1. Reproduce efecto de sonido #1 al jugador
+Audio Lib sfx test #2@n@n1. Play SFX #1 at player's position@n2. Play SFX #1 again after 2 seconds, shifted by 30 nodes on the X axis from the player's position@n3.Play it again after 0.5s, but shifted by 30 nodes in the opposite direction@n4. Play it again after 0.4s, like in step #2=

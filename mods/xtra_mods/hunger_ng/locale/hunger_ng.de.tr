@@ -1,0 +1,52 @@
+# textdomain: hunger_ng
+
+# Hunger data information on items
+Satiates: @1=Sättigt: @1
+Deprives: @1=Entzieht: @1
+Heals: @1=Heilt: @1
+Injures: @1=Verletzt: @1
+Returns: @1=Rückgabe: @1
+Eating timeout: @1 seconds=Verzehrpause: @1 Sekunden
+
+# Generic terms (for interoperability and generic use)
+Hunger=Hunger
+Satiation=Sättigung
+Edible=Essbar
+
+# On-eat information
+You’re fully satiated already!=Bereits vollständig gesättigt!
+You have no inventory space to keep the leftovers.=Kein Inventarplatz frei, um die Reste abzulegen.
+You’re eating too fast!=Zu schnell gegessen!
+Wait for eating timeout to end: @1s=Ende des Timeouts abwarten: @1s
+Hunger is disabled for you! Eating normally.=Eigene Hungerfunktionen sind deaktiviert. Essen funktioniert normal.
+
+# Chat command (general)
+The player @1 is not online=Der Spieler @1 ist nicht online
+Hunger for @1 is disabled=Hunger ist für @1 deaktiviert
+Modify or get hunger values=Hungerwerte verändern oder anzeigen
+Player can view and alter own and others hunger values.=Spieler kann eigene und andere Hungerwerte anzeigen und verändern.
+run `/help hunger` to show help=Für Hilfe `/help hunger` ausführen
+
+# Chat command returns (set)
+Hunger for @1 set to @2=Hunger für @1 auf @2 gesetzt
+@1 set your hunger to @2=Hungerwert wurde von @1 auf @2 gesetzt
+Hunger set to @1=Hungerwert auf @1 gesetzt
+
+# Chat command returns (change)
+Hunger for @1 changed by @2=Hungerwert von @1 um @2 verändert
+@1 changed your hunger by @2=Hungerwert wurde von @1 um @2 verändert
+Hunger changed by @1=Hungerwert um @1 verändert
+
+# Chat command returns (get)
+No player matches your criteria=Keinen passenden Spieler gefunden
+Hunger is disabled=Hunger ist deaktiviert
+
+# Chat command returns (toggling)
+Hunger for @1 was toggled=Hunger für @1 wurde umgeschaltet
+@1 toggled your hunger=@1 hat deinen Hunger umgeschaltet
+Own hunger was toggled=Eigener Hunger wurde umgeschaltet
+
+# Chat command returns (myhunger)
+Show own hunger value=Eigenen Hungerwert anzeigen
+Your hunger is disabled=Eigener Hunger ist deaktiviert
+Your hunger value is @1=Eigener Hungerwert ist @1

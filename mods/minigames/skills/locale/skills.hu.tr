@@ -1,0 +1,20 @@
+# version 1.0
+# author(s): nyomi
+# reviewer(s):
+# textdomain: skills
+# @n means "newline"
+# @<number> (@1, @2, ecc) is a value that the mod will pass at runtime 
+
+You can't use the @1 skill now=Nem tudod használni a @1 képességet most
+You have to wait @1 seconds to use this again!=Várnod kell @1 másodpercet hogy használd ezt újra
+@1 already has that skill=@1-nek már megvan ez a képesség
+@1 doesn't have that skill=@1-nek nincs meg ez a képesség
+The skill @1 doesn't exist!=A @1 képesség nem létezik
+@1 skill unlocked to @2=@1 képesség megnyílt @2 elött
+@1 skill removed from @2=@1 képesség el lett véve @2 től
+The @1 skill is already disabled=A @1 képesség ki van kapcsolva
+@1 skill disabled to @2=A @1 képessék ki lett kapcsolva @2 számára
+The @1 skill is already enabled=A @1 képesség már engedélyezve van
+@1 skill enabled to @2=A @1 képesség @2 számára engedélyezve lett
+Database flushed=Az adatbázis kiürült
+

@@ -1,0 +1,18 @@
+==========================
+
+Creative Commons Attribution-ShareAlike 4.0 International Public License
+
+Created by [Hugues Alexandre Ross](https://huguesross.net)
+from RPG_16 texture pack for minetest.
+
+default_lava_flowing_animated.png"
+default_lava_source_animated.png"
+default_river_water.png"
+default_river_water_flowing_animated.png"
+default_river_water_source_animated.png"
+default_water.png"
+default_water_flowing_animated.png"
+default_water_source_animated.png"
+default_lava.png"
+=========================
+

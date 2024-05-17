@@ -1,0 +1,66 @@
+# textdomain:cleaner
+
+# Translators:
+
+
+# chat commands
+entity=
+mode=
+node=
+radius=
+old_item=
+new_item=
+old_node=
+new_node=
+ore=
+action=
+value=
+Usage:=
+Params:=
+default: @1=
+Search radius.=
+Entity technical name.=
+Node technical name.=
+Technical name of node to be replaced.=
+Technical name of node to be used in place.=
+Technical name of item to be replaced.=
+Technical name of item to be used in place.=
+Ore technical name.=
+Action to execute. Can be one of "@1", "@2", or "@3".=
+Mode or node to be set for tool (not required for "@1" action).=
+Remove an entity from game.=
+Remove a node from game.=
+Replace an item in game.=
+Replace a node in game.=
+Find names of unknown nodes.=
+Find names of nearby nodes.=
+Remove an ore from game.=
+Missing parameter.=
+Too many parameters.=
+Radius must be a number.=
+Cannot use unknown item "@1" as replacement.=
+Cannot use unknown node "@1" as replacement.=
+Replaced @1 nodes.=
+Removed @1 nodes.=
+Removed @1 entities.=
+Found unknown nodes: @1=
+No unknown nodes found.=
+Nearby nodes: @1=
+No nearby nodes found.=
+Ore "@1" not found, not unregistering.=
+Unregistered @1 ores (this will be undone after server restart).=
+Success!=
+Manage settings for wielded cleaner tool.=
+Unrecognized wielded item: @1=
+Unrecognized action: @1=
+You do not have permission to set radius that high. Reduced to @1.=
+Radius is too high. Reduced to @1.=
+
+# tools:
+@1: mode set to: @2=
+Modes for tool "@1" not available.=
+@1: node set to: @2=
+You do not have permission to use this item. Missing privs: @1=
+Can't place node there.=
+Unknown mode: @1=
+Cannot place unknown node: @1=

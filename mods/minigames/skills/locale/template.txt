@@ -1,0 +1,19 @@
+# version 1.0
+# author(s):
+# reviewer(s):
+# textdomain: skills
+# @n means "newline"
+# @<number> (@1, @2, ecc) is a value that the mod will pass at runtime 
+
+You can't use the @1 skill now=
+You have to wait @1 seconds to use this again!=
+@1 already has that skill=
+@1 doesn't have that skill=
+The skill @1 doesn't exist!=
+@1 skill unlocked to @2=
+@1 skill removed from @2=
+The @1 skill is already disabled=
+@1 skill disabled to @2=
+The @1 skill is already enabled=
+@1 skill enabled to @2=
+Database flushed=
