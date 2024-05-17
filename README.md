@@ -71,18 +71,3 @@ It should take about 20 mins to delete the overworld if the overworld has been e
 
 Note: you cannot use the mods that generate spawn and the fantasy brawl arenas (mods made with modgen) with the everness_deco mod included with the game. You have to remove everness_deco for the spawn and the fantasy brawl arenas to generate. Once generated, the everness_deco mod can be re-added and the generation mods can be removed.
 
-
-
-TODO: 
-- [x]  hide nametags in skyblock
-- [x]  fix protection of orbiters
-- [x]  last pos should not be saved when players are dead
-- [x]  increase pos save time to 45 s
-- [x]  replace transparent map borders with glass
-
-- [x]  replace hunger mod with hunger_ng
-- [x]  limit hunger in lobby
-- [x]  fix hunger in arenas
-- [?]  increase movement speed in arenas,
-            I can't edit that but I can fix external overrides if they exist. Hopefully its fixed by disabling hunger mod in arenas.
-
