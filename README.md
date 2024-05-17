@@ -83,5 +83,6 @@ TODO:
 - [x]  replace hunger mod with hunger_ng
 - [x]  limit hunger in lobby
 - [x]  fix hunger in arenas
-- []  increase movement speed in arenas
+- [?]  increase movement speed in arenas,
+            I can't edit that but I can fix external overrides if they exist. Hopefully its fixed by disabling hunger mod in arenas.
 
