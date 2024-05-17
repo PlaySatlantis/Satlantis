@@ -78,9 +78,10 @@ TODO:
 - [x]  fix protection of orbiters
 - [x]  last pos should not be saved when players are dead
 - [x]  increase pos save time to 45 s
-- []  fix hunger in arenas
-- []  increase movement speed in arenas
-- []  replace transparent map borders with glass
+- [x]  replace transparent map borders with glass
+
 - []  replace hunger mod with hunger_ng
 - []  limit hunger in lobby
+- []  fix hunger in arenas
+- []  increase movement speed in arenas
 
