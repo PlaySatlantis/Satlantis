@@ -7,8 +7,8 @@ local is_player_in_lobby = function(p_name)
     local player = minetest.get_player_by_name(p_name)
     if player then
         local pos = player:get_pos()
-        local in_lobby = pos.y > 8100 and pos.y < 240000
-
+        local in_lobby = pos.y > 8100 and pos.y < 24000
+        minetest.debug("Player " .. p_name .. " in lobby: " .. tostring(in_lobby))
         return in_lobby
     end
     return false
