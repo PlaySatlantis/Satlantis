@@ -127,8 +127,15 @@ function collectible_skins.load_player_data(player)
 
     -- migrazione vecchio sistema basato sugli id
     if player:get_meta():contains("collectible_skins:skin_ID") then
-      migrate_old_skins(player, p_name)
-      return
+      local p_skins = minetest.deserialize(storage:get_string(p_name))
+
+      -- se p_skins non esiste significa che hanno cancellato il mod storage, ma non i metadati degli utenti
+      if p_skins then
+        migrate_old_skins(player, p_name)
+        return
+      end
+
+      player:get_meta():set_string("collectible_skins:skin_ID", "")
     end
 
     -- sblocco le skin base
@@ -367,6 +374,7 @@ function migrate_old_skins(player, p_name)
       end
     end
   end
+  
 
   storage:set_string(p_name, minetest.serialize(players_skins[p_name]))
   player:get_meta():set_string("collectible_skins:skin_ID", "")
