@@ -1,0 +1,19 @@
+This folder shall contain all the information regarding the skins linked to this world. DO NOT rename folders or the mod won't be able to read them.
+
+skins are stored in .yml files, and every file can contain multiple skins. Skins must follow the template down below, where 'skinID' is an actual number
+
+skinID:    
+    name:
+    description:
+    texture:
+    hint: (optional, default "(locked)")
+    model: (optional, default none)
+    tier: (optional, default 1)
+    splash_art: (optional, default none)
+    author: (optional, default "???")
+
+/locale is for translation files, in case you want to geolocalise your skins (name, description). It's highly recommended to rename the example files, so put whatever name you want, followed by the country code the file represents and .tr. For instance, a translation file for Spanish would be "mycoolgame.es.tr".
+
+/menu is for customising the skin selection formspec. DO NOT rename files or they won't work, just override them with your custom image.
+
+/textures is for images in general (skin, preview, splash art). Every preview file must have the same name of the skin it represents + "_preview", or it won't work. The same goes for splash art, with the suffix "_splash". Preview files are mandatory, splash arts are not.

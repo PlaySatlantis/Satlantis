@@ -1,0 +1,15 @@
+# textdomain: collectible_skins
+# author(s): Zughy
+# reviewer(s):
+
+##[ src/commands.lua ]##
+COMMANDS=COMANDI
+player=giocatore
+unlocks a skin=sblocca un aspetto
+Manage players skins. It requires cskins_admin=Gestisce gli aspetti dellɜ giocatori. Richiede cskins_admin
+
+##[ src/formspec.lua ]##
+Wear=Indossa
+
+##[ src/items.lua ]##
+Wardrobe=Guardaroba
