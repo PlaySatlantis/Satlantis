@@ -81,7 +81,7 @@ TODO:
 - [x]  replace transparent map borders with glass
 
 - [x]  replace hunger mod with hunger_ng
-- []  limit hunger in lobby
-- []  fix hunger in arenas
+- [x]  limit hunger in lobby
+- [x]  fix hunger in arenas
 - []  increase movement speed in arenas
 

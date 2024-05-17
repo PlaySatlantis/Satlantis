@@ -164,6 +164,7 @@ end
 skyblock.enter_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
     if player and skyblock.get_player_cel(name) then
+        hunger_ng.configure_hunger(name, 'enable')
         player:get_meta():set_int("skyblock:in_skyblock", 1)
         local att = player:get_nametag_attributes()
         player:get_meta():set_string("skyblock:nametag_att", minetest.serialize(att))

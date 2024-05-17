@@ -8,7 +8,7 @@ local is_player_in_lobby = function(p_name)
     if player then
         local pos = player:get_pos()
         local in_lobby = pos.y > 8100 and pos.y < 24000
-        minetest.debug("Player " .. p_name .. " in lobby: " .. tostring(in_lobby))
+        -- minetest.debug("Player " .. p_name .. " in lobby: " .. tostring(in_lobby))
         return in_lobby
     end
     return false
@@ -64,6 +64,7 @@ minetest.register_chatcommand("lobby", {
                     player:set_moon()
                     player:set_stars()
                     player:set_sky()
+                    if hunger_ng then hunger_ng.configure_hunger(name, 'disable') end
                     return true, "Transporting to lobby..."
                 end
             end
@@ -72,12 +73,29 @@ minetest.register_chatcommand("lobby", {
             player:set_moon()
             player:set_stars()
             player:set_sky()
+            if hunger_ng then hunger_ng.configure_hunger(name, 'disable') end
             player:set_pos(lobby_pos)
 
             return true, "Transporting to lobby..."
         end
     end,
 })
+
+
+-- turn off hunger when players join if they enter the lobby
+minetest.register_on_joinplayer(function(player)
+    local in_lobby = is_player_in_lobby(player:get_player_name())
+    
+    if in_lobby then
+        if hunger_ng then
+            hunger_ng.configure_hunger(player:get_player_name(), 'disable')
+        end
+    else
+        if hunger_ng then
+            hunger_ng.configure_hunger(player:get_player_name(), 'enable')
+        end
+    end
+end)
 
 minetest.registered_chatcommands["spawn"] = minetest.registered_chatcommands["lobby"]
 
@@ -187,7 +205,7 @@ minetest.register_chatcommand("overworld", {
             minetest.after(3, function()
                 invincible[name] = false
             end)
-
+            hunger_ng.configure_hunger(name, 'enable')
             return true, "Transporting to overworld..."
         end
 
@@ -283,4 +301,42 @@ minetest.register_on_mods_loaded(function()
             end
         end)
     end
+end)
+
+-- add arena_lib callbacks to disable hunger when players join arenas and enable hunger when players leave arenas 
+
+local function enable_hunger_after(p_name)
+    minetest.after(1, function(p_name)
+        local player = minetest.get_player_by_name(p_name)
+        if player then 
+            if not(is_player_in_lobby(p_name)) then
+                hunger_ng.configure_hunger(p_name, 'enable')
+            end
+        end
+    end,p_name)
+end
+
+
+minetest.register_on_mods_loaded(function()
+	if arena_lib and hunger_ng then
+		arena_lib.register_on_load(function(mod, arena) 
+			for pl_name, stats in pairs(arena.players) do
+				hunger_ng.configure_hunger(pl_name, 'disable')
+			end
+		end)
+		arena_lib.register_on_join(function(mod, arena, p_name, as_spectator, was_spectator)
+            hunger_ng.configure_hunger(p_name, 'disable')
+		end)
+		arena_lib.register_on_end(function(mod, arena, winners, is_forced)
+			for pl_name, stats in pairs(arena.players) do
+                enable_hunger_after(pl_name)
+			end
+		end)
+		arena_lib.register_on_eliminate(function(mod, arena, p_name)
+            enable_hunger_after(p_name)
+		end)
+		arena_lib.register_on_quit(function(mod, arena, p_name, is_spectator, reason)
+            enable_hunger_after(p_name)
+		end)
+	end
 end)
