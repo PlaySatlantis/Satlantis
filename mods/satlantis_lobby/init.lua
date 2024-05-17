@@ -199,7 +199,7 @@ minetest.register_chatcommand("overworld", {
 local savetimer = 0
 minetest.register_globalstep(function(dtime)
     savetimer = savetimer + dtime
-    if savetimer >= 10 then
+    if savetimer >= 45 then
         for _, player in pairs(minetest.get_connected_players()) do
             
             local name = player:get_player_name()
@@ -207,7 +207,8 @@ minetest.register_globalstep(function(dtime)
             local pos = player:get_pos()
             local in_lobby = is_player_in_lobby(name)
 
-            if not(in_skyblock) and not(in_lobby) then
+            -- check that player is not dead not in skyblock and not in lobby
+            if not(in_skyblock) and not(in_lobby) and not(player:get_hp() > 0)then
                 -- save the position if the player is on solid ground and standing in air
                 local below_n_pos = vector.add(player:get_pos(), vector.new(0,-.9,0))
                 local below_n_name = minetest.get_node(below_n_pos).name
