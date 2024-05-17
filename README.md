@@ -80,7 +80,7 @@ TODO:
 - [x]  increase pos save time to 45 s
 - [x]  replace transparent map borders with glass
 
-- []  replace hunger mod with hunger_ng
+- [x]  replace hunger mod with hunger_ng
 - []  limit hunger in lobby
 - []  fix hunger in arenas
 - []  increase movement speed in arenas

@@ -1,0 +1,163 @@
+[Settings]
+# By default the mod uses the bread from the farming mod
+# as hunger indicator. This value allows to change it to
+# any valid texture.
+hunger_ng_hunger_bar_image (Hunger bar image) string farming_bread.png
+
+# Interoperability files might want to set the hunger bar
+# icon to something else. With this option the image is
+# left untouched from any built-in interoperability files.
+hunger_ng_force_builtin_image (Force built-in hunger bar image) bool false
+
+# Enable debugging mode. This causes A LOT of date logged
+# and some date printed to the chat for every health or
+# hunger change. Do not use unless you want to debug
+# something within the mod and need to see all changes.
+hunger_ng_debug_mode (Debug mode) bool false
+
+# By default the hunger bar is shown and hidden based on
+# some circumstances. Some mods might have issues when
+# the hunger bar is shown.
+#
+# When set to `false` the default hunger bar won’t be
+# registered and all functions altering the hunger bar
+# are disabled.
+#
+# Hunger itself and mod interoperability functionality
+# work like before.
+hunger_ng_use_hunger_bar (Use the hunger bar) bool true
+
+
+[Effects]
+[* Heal]
+
+# When the hunger lvel is above this value health will
+# slowly be restored to maximum health. When the value
+# is set to higher than maximum hunger the functionality
+# is deisabled.
+hunger_ng_heal_above (Heal when hunger his above this value) float 16
+
+# When healing the player because the hunger level is
+# over the healing limit health will be restored using
+# this value for every restore cycle.
+hunger_ng_heal_amount (Heal this amount of health points) int 1
+
+
+[* Starve]
+
+# When the hunger is below this value the player starves
+# and loses health points. Set this value to -1 if you
+# want to disable this functionality.
+hunger_ng_starve_below (Starve when hunger is below this value) float 1
+
+# When starving the player because the hunger level is
+# below the starvation limit health will be reduced using
+# this value for every starving cycle.
+hunger_ng_starve_amount (Starve by this amount of health points) int 1
+
+# If the player starves the player will starve to death
+# if this value is true. Otherwise starvation will end
+# at 1 health point (0.5 hearts).
+hunger_ng_starve_die (Starve to death when hunger is below limit) bool false
+
+
+[Hunger]
+
+# This defines tha maximum hunger value. Higher values
+# result in more breads to be shown. By default it uses
+# 20, which is the same value as for health.
+hunger_ng_hunger_maximum (Maximum hunger value) float 20
+
+# When enabled the hunger value won’t be reset on new
+# logins but stay as it was when logging out.
+hunger_ng_hunger_persistent (Hunger stays the same between logins) bool true
+
+# When players log in for the first time or if players
+# die and respawn this value will be set for the hunger
+# value. This does not need to match maximum health but
+# cannot be above maximum health.
+hunger_ng_hunger_start_with (Start with this hunger value) float 20
+
+# Foods may have an eating timeout where the same food
+# can’t be eaten within a defined timeout in seconds.
+# When there is no timeout configured the default
+# timeout will be used.
+hunger_ng_hunger_timeout (Default eating timeout) int 0
+
+
+[Costs]
+
+# The “basal metabolism” is exactly that. Players lose
+# this amount of hunger on every basal metabolism cycle
+# regardless if they do anything or being idle.
+#
+# When this value and the basal metabolism timer are
+# left at their default values, players roughly loose
+# 2 hunger points during 1 ingame day. This allows
+# surviving around 10 days without food when no other
+# hunger costs are substracted.
+hunger_ng_cost_base (Basal metabolism) float 0.1
+
+# Digging a node (regardless of manual or with tools)
+# costs this amount of hunger to perform.
+#
+# If this value is left at it’s default, digging costs
+# 1 hunger point for 200 digged nodes.
+hunger_ng_cost_dig (Digging a node) float 0.005
+
+# Placing a node costs this amount of hunger to perform.
+#
+# If this value is left at it’s default, players lose
+# 1 hunger point for 100 placed nodes
+hunger_ng_cost_place (Placing a node) float 0.01
+
+# When moving around players lose this amount hof hunger
+# regardless if the do anything else. When not pressing
+# any movement buttons for the movement this does not
+# apply and nothing will be remnoved.
+#
+# When this value and the movement timer are left at
+# their default values, players can roughtly move for
+# one ingame day until the hunger value is at 0 when
+# nbot doing anything else than walking.
+hunger_ng_cost_movement (Moving around) float 0.008
+
+
+[Timers]
+
+# Heal a player that can heal (above healing limit and
+# not awash) every N seconds. Fractions are allowed.
+# 0.1 seconds is the minimum value.
+hunger_ng_timer_heal (Automatic healing) float 2
+
+# Make a player starve when the hunger value is below
+#the starvation limit every N seconds. Fractions are
+# allowed and 0.1 seconds is the minimum value
+hunger_ng_timer_starve (Starvation) float 2
+
+# Set the basal metabolism to be active every N
+# seconds. Fractions are allowed and 0.1 seconds is
+# the minimum value for this.
+#
+# When this value and the basal metabolism cost are
+# left at their default values, players roughly lose
+# 2 hunger points during 1 ingame day. This allows
+# surviving around 10 days without food when no other
+# hunger costs are substracted.
+hunger_ng_timer_base (Basal metabolism) float 60
+
+# Apoply movement-based hunger every N seconds.
+# Fractions are allowed and 0.1 seconds is the
+# minimum value for this. The higher the value is
+# the longer can players move without hunger being
+# applied.
+#
+# When set too high players can circumvent
+# movement-based hunger by not pressing a movement
+# key for too long.
+#
+# When this value and the movement cost are left at
+# their default values, players can roughtly move for
+# one ingame day until the hunger value is at 0 when
+# nbot doing anything else than walking.
+hunger_ng_timer_movement (Movement) float 0.5

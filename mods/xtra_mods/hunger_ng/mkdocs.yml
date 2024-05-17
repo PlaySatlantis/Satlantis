@@ -1,0 +1,16 @@
+site_name: Hunger NG Documentation
+site_url: https://4w.gitlab.io/hunger_ng
+
+use_directory_urls: false
+
+markdown_extensions:
+    - toc:
+        permalink: true
+
+theme:
+    # Since autodetecting of the correct code language is not deactivatable
+    # we need to turn off highlight.js because it can’t be properly themed
+    # and can’t be configured to not set code blocks to random languages it
+    # thinks that would be correct.
+    name: mkdocs
+    highlightjs: false
