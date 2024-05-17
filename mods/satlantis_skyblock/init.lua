@@ -165,7 +165,12 @@ skyblock.enter_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
     if player and skyblock.get_player_cel(name) then
         player:get_meta():set_int("skyblock:in_skyblock", 1)
+        local att = player:get_nametag_attributes()
+        player:get_meta():set_string("skyblock:nametag_att", minetest.serialize(att))
         player:set_pos(pos or skyblock.get_home(player))
+        -- disable nametag
+        att.color.a = 0
+        player:set_nametag_attributes(att)
         skyblock.current_players[name] = true
     end
 end
@@ -173,7 +178,12 @@ end
 skyblock.exit_cel = function(name, pos)
     local player = minetest.get_player_by_name(name)
     if player then
+
         player:get_meta():set_int("skyblock:in_skyblock", 0)
+        local att_str = player:get_meta():get_string("skyblock:nametag_att")
+        local att_tbl = minetest.deserialize(att_str)
+        local color = (att_tbl and att_tbl.color) or {a=255, r=255, g=255, b=255}
+        player:set_nametag_attributes({color = color})
         player:set_pos(pos)
     end
 

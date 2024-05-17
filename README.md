@@ -73,4 +73,14 @@ Note: you cannot use the mods that generate spawn and the fantasy brawl arenas (
 
 
 
+TODO: 
+- [x]  hide nametags in skyblock
+- []  fix protection of orbiters
+- []  last pos should not be saved when players are dead
+- []  increase pos save time to 45 s
+- []  fix hunger in arenas
+- []  increase movement speed in arenas
+- []  replace transparent map borders with glass
+- []  replace hunger mod with hunger_ng
+- []  limit hunger in lobby
 
