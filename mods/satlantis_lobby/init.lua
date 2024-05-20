@@ -340,3 +340,9 @@ minetest.register_on_mods_loaded(function()
 		end)
 	end
 end)
+
+minetest.register_on_joinplayer(function(player)
+    local player_name = player:get_player_name()
+    local meta = player:get_meta()
+    meta:set_string("3d_armor_inventory", "")
+end)
