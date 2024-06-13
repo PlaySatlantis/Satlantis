@@ -17,3 +17,6 @@
 [submodule "mods/xban2"]
 	path = mods/xban2
 	url = https://github.com/minetest-mods/xban2.git
+[submodule "mods/minigames/fantasy-brawl"]
+	path = mods/minigames/fantasy-brawl
+	url = https://gitlab.com/zughy-friends-minetest/fantasy-brawl.git
