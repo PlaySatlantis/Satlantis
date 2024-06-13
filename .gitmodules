@@ -20,3 +20,6 @@
 [submodule "mods/minigames/fantasy-brawl"]
 	path = mods/minigames/fantasy-brawl
 	url = https://gitlab.com/zughy-friends-minetest/fantasy-brawl.git
+[submodule "mods/minigames/arena_lib"]
+	path = mods/minigames/arena_lib
+	url = https://gitlab.com/zughy-friends-minetest/arena_lib.git
