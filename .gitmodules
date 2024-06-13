@@ -1,0 +1,19 @@
+[submodule "mods/a.e.s.-server-manager"]
+	path = mods/a.e.s.-server-manager
+	url = https://gitlab.com/zughy-friends-minetest/a.e.s.-server-custom-mods/a.e.s.-server-manager.git
+[submodule "mods/filter"]
+	path = mods/filter
+	url = https://github.com/minetest-mods/filter.git
+[submodule "mods/collectible-skins"]
+	path = mods/collectible-skins
+	url = https://gitlab.com/zughy-friends-minetest/collectible-skins.git
+	branch = technical
+[submodule "mods/afk_indicator"]
+	path = mods/afk_indicator
+	url = https://github.com/C-C-Minetest-Server/afk_indicator.git
+[submodule "mods/minetest-formspec_ast"]
+	path = mods/minetest-formspec_ast
+	url = https://gitlab.com/luk3yx/minetest-formspec_ast.git
+[submodule "mods/xban2"]
+	path = mods/xban2
+	url = https://github.com/minetest-mods/xban2.git

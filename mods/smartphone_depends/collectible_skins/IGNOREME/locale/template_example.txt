@@ -1,7 +1,0 @@
-# author(s):
-# reviewer(s):
-# textdomain: collectible_skins
-
-# example skins
-A simple skin with a red shirt=
-A simple skin with a blue shirt=
