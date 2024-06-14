@@ -1,5 +1,5 @@
 local function get_quest(y, quest, is_completed, show_box) end
-
+local function days_since_date(date_table) end
 
 local app_def = {
 	icon = "app_quests.png",
@@ -15,12 +15,12 @@ local app_def = {
 		-- filtering quests based on whether they must be weekly or daily
 		local quests = table.filter(awards.get_award_states(pl_name), function (quest)
 			local quests_to_show = {}
+			local day = days_since_date(phone_quests.start_day)
 			if type == "weekly" then
-				local week = math.ceil(os.date("*t").day / 7)
+				local week = math.ceil(day / 7)
 				local weekly_quests = phone_quests.weekly_quests
 				quests_to_show = weekly_quests[week] or weekly_quests[(week % #weekly_quests) + 1]
 			else
-				local day = os.date("*t").day
 				local daily_quests = phone_quests.daily_quests
 				quests_to_show = daily_quests[day] or daily_quests[(day % #daily_quests) + 1]
 			end
@@ -141,4 +141,33 @@ function get_quest(y, quest, is_completed, show_box)
 		icon .. name .. desc .. progress .. points_icon .. points .. completed .. [[
 		container_end[]
 	]]):format(y)
+end
+
+
+
+-- Function to calculate the number of days since a given date
+function days_since_date(date_table)
+    -- Create a table for the given date
+	date_table = date_table or {}
+    local given_date = {
+        year = date_table.year or 2024,
+        month = date_table.month or 1,
+        day = date_table.day or 1,
+        hour = date_table.hour or 0,
+        min = date_table.min or 0,
+        sec = date_table.sec or 0
+    }
+
+	
+    -- Convert the given date to a timestamp
+    local given_timestamp = os.time(given_date)
+    
+    -- Get the current timestamp
+    local current_timestamp = os.time()
+    
+    -- Calculate the difference in seconds and convert to days
+    local seconds_in_a_day = 86400
+    local difference_in_days = (current_timestamp - given_timestamp) / seconds_in_a_day
+    
+    return math.floor(difference_in_days)
 end

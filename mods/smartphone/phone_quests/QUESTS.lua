@@ -3,6 +3,7 @@
 --!
 --! if you want to modify any of these settings just edit the file in <YOUR_WORLD_FOLDER>/phone_quests/
 
+phone_quests.start_day =  {year = 2024, month = 6,	day = 8, hour = 0, min = 0, sec = 0}
 
 phone_quests.daily_quests = {
 	-- day one (max 31)
