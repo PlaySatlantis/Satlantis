@@ -62,17 +62,17 @@ Everness:register_ore({
     biomes = { 'everness:mineral_waters' }
 })
 
-Everness:register_ore({
-    ore_type = 'scatter',
-    ore = 'everness:mineral_stone_with_ceramic_sherds',
-    wherein = 'everness:mineral_stone',
-    clust_scarcity = 14 * 14 * 14,
-    clust_num_ores = 5,
-    clust_size = 3,
-    y_max = y_max,
-    y_min = y_min,
-    biomes = { 'everness:mineral_waters' }
-})
+-- Everness:register_ore({
+--     ore_type = 'scatter',
+--     ore = 'everness:mineral_stone_with_ceramic_sherds',
+--     wherein = 'everness:mineral_stone',
+--     clust_scarcity = 14 * 14 * 14,
+--     clust_num_ores = 5,
+--     clust_size = 3,
+--     y_max = y_max,
+--     y_min = y_min,
+--     biomes = { 'everness:mineral_waters' }
+-- })
 
 --
 -- Register decorations
@@ -200,7 +200,7 @@ local c_everness_mineral_sandstone = minetest.get_content_id('everness:mineral_s
 local c_everness_mineral_sandstone_block = minetest.get_content_id('everness:mineral_sandstone_block')
 local c_everness_chest = minetest.get_content_id('everness:chest')
 local c_everness_mineral_stone_with_coal = minetest.get_content_id('everness:mineral_stone_with_coal')
-local c_everness_mineral_stone_with_ceramic_sherds = minetest.get_content_id('everness:mineral_stone_with_ceramic_sherds')
+-- local c_everness_mineral_stone_with_ceramic_sherds = minetest.get_content_id('everness:mineral_stone_with_ceramic_sherds')
 local c_everness_lotus_flower_white = minetest.get_content_id('everness:lotus_flower_white')
 local c_everness_lotus_flower_purple = minetest.get_content_id('everness:lotus_flower_purple')
 local c_everness_lotus_flower_pink = minetest.get_content_id('everness:lotus_flower_pink')
@@ -469,28 +469,28 @@ Everness:add_to_queue_on_generated({
                                 or c_right == c_everness_mineral_water_source
                                 or c_right == c_everness_mineral_stone
                                 or c_right == c_everness_mineral_stone_with_coal
-                                or c_right == c_everness_mineral_stone_with_ceramic_sherds
+                                -- or c_right == c_everness_mineral_stone_with_ceramic_sherds
                             )
                             and (
                                 c_left == c_everness_mineral_sand
                                 or c_left == c_everness_mineral_water_source
                                 or c_left == c_everness_mineral_stone
                                 or c_left == c_everness_mineral_stone_with_coal
-                                or c_left == c_everness_mineral_stone_with_ceramic_sherds
+                                -- or c_left == c_everness_mineral_stone_with_ceramic_sherds
                             )
                             and (
                                 c_front == c_everness_mineral_sand
                                 or c_front == c_everness_mineral_water_source
                                 or c_front == c_everness_mineral_stone
                                 or c_front == c_everness_mineral_stone_with_coal
-                                or c_front == c_everness_mineral_stone_with_ceramic_sherds
+                                -- or c_front == c_everness_mineral_stone_with_ceramic_sherds
                             )
                             and (
                                 c_back == c_everness_mineral_sand
                                 or c_back == c_everness_mineral_water_source
                                 or c_back == c_everness_mineral_stone
                                 or c_back == c_everness_mineral_stone_with_coal
-                                or c_back == c_everness_mineral_stone_with_ceramic_sherds
+                                -- or c_back == c_everness_mineral_stone_with_ceramic_sherds
                             )
                         then
                             -- dig below
@@ -502,7 +502,7 @@ Everness:add_to_queue_on_generated({
                                     (
                                         data[while_index] == c_everness_mineral_stone
                                         or data[while_index] == c_everness_mineral_stone_with_coal
-                                        or data[while_index] == c_everness_mineral_stone_with_ceramic_sherds
+                                        -- or data[while_index] == c_everness_mineral_stone_with_ceramic_sherds
                                     )
                                     and (
                                         -- right
@@ -510,7 +510,7 @@ Everness:add_to_queue_on_generated({
                                         or data[while_index + 1 + area.ystride] == c_everness_mineral_water_source
                                         or data[while_index + 1 + area.ystride] == c_everness_mineral_stone
                                         or data[while_index + 1 + area.ystride] == c_everness_mineral_stone_with_coal
-                                        or data[while_index + 1 + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
+                                        -- or data[while_index + 1 + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
                                     )
                                     and (
                                         -- left
@@ -518,7 +518,7 @@ Everness:add_to_queue_on_generated({
                                         or data[while_index - 1 + area.ystride] == c_everness_mineral_water_source
                                         or data[while_index - 1 + area.ystride] == c_everness_mineral_stone
                                         or data[while_index - 1 + area.ystride] == c_everness_mineral_stone_with_coal
-                                        or data[while_index - 1 + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
+                                        -- or data[while_index - 1 + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
                                     )
                                     and (
                                         -- front
@@ -526,7 +526,7 @@ Everness:add_to_queue_on_generated({
                                         or data[while_index + area.zstride + area.ystride] == c_everness_mineral_water_source
                                         or data[while_index + area.zstride + area.ystride] == c_everness_mineral_stone
                                         or data[while_index + area.zstride + area.ystride] == c_everness_mineral_stone_with_coal
-                                        or data[while_index + area.zstride + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
+                                        -- or data[while_index + area.zstride + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
                                     )
                                     and (
                                         -- back
@@ -534,7 +534,7 @@ Everness:add_to_queue_on_generated({
                                         or data[while_index - area.zstride + area.ystride] == c_everness_mineral_water_source
                                         or data[while_index - area.zstride + area.ystride] == c_everness_mineral_stone
                                         or data[while_index - area.zstride + area.ystride] == c_everness_mineral_stone_with_coal
-                                        or data[while_index - area.zstride + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
+                                        -- or data[while_index - area.zstride + area.ystride] == c_everness_mineral_stone_with_ceramic_sherds
                                     )
                                 then
                                     data[while_index + area.ystride] = c_everness_mineral_water_source

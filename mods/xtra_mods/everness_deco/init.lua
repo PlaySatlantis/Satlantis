@@ -189,7 +189,7 @@ end
 if minetest.get_modpath('default') or minetest.global_exists('default') then
     if default.register_fence
         and default.register_fence_rail
-        and default.register_mesepost
+        -- and default.register_mesepost
     then
         dofile(path .. '/fences.lua')
     end
@@ -204,8 +204,8 @@ if not minetest.get_modpath('bucket') and not minetest.get_modpath('mcl_buckets'
 end
 
 -- dofile(path .. '/tools.lua')
--- dofile(path .. '/craftitems.lua')
--- dofile(path .. '/crafting.lua')
+dofile(path .. '/craftitems.lua')
+dofile(path .. '/crafting.lua')
 
 if Everness.settings.features.everness_feature_skybox then
     dofile(path .. '/skybox.lua')

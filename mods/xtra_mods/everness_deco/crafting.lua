@@ -637,30 +637,30 @@ minetest.register_craft({
     }
 })
 
-minetest.register_craft({
-    output = 'everness:shell_of_underwater_breathing',
-    recipe = {
-        { '', '', 'group:everness_crystal_forest_deep_ocean_coral' },
-        { '', 'group:everness_cursed_lands_deep_ocean_coral', '' },
-        { 'group:everness_coral_forest_deep_ocean_coral', '', '' },
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:shell_of_underwater_breathing',
+--     recipe = {
+--         { '', '', 'group:everness_crystal_forest_deep_ocean_coral' },
+--         { '', 'group:everness_cursed_lands_deep_ocean_coral', '' },
+--         { 'group:everness_coral_forest_deep_ocean_coral', '', '' },
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'default:mese_crystal_fragment',
-    recipe = {
-        { 'everness:mese_tree_fruit', 'everness:mese_tree_fruit', 'everness:mese_tree_fruit' },
-        { 'everness:mese_tree_fruit', 'everness:mese_tree_fruit', 'everness:mese_tree_fruit' },
-        { 'everness:mese_tree_fruit', 'everness:mese_tree_fruit', 'everness:mese_tree_fruit' },
-    }
-})
+-- minetest.register_craft({
+--     output = 'default:mese_crystal_fragment',
+--     recipe = {
+--         { 'everness:mese_tree_fruit', 'everness:mese_tree_fruit', 'everness:mese_tree_fruit' },
+--         { 'everness:mese_tree_fruit', 'everness:mese_tree_fruit', 'everness:mese_tree_fruit' },
+--         { 'everness:mese_tree_fruit', 'everness:mese_tree_fruit', 'everness:mese_tree_fruit' },
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'default:paper',
-    recipe = {
-        { 'everness:lotus_leaf_3', 'everness:lotus_leaf_3', 'everness:lotus_leaf_3' },
-    }
-})
+-- minetest.register_craft({
+--     output = 'default:paper',
+--     recipe = {
+--         { 'everness:lotus_leaf_3', 'everness:lotus_leaf_3', 'everness:lotus_leaf_3' },
+--     }
+-- })
 
 minetest.register_craft({
     output = 'everness:mineral_stone_block 9',
@@ -746,20 +746,20 @@ minetest.register_craft({
     }
 })
 
-minetest.register_craft({
-    output = 'everness:ceramic_pot_blank',
-    recipe = {
-        { '', 'everness:ceramic_pot_sherd_blank', ''},
-        { 'everness:ceramic_pot_sherd_blank', '', 'everness:ceramic_pot_sherd_blank'},
-        { '', 'everness:ceramic_pot_sherd_blank', ''},
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:ceramic_pot_blank',
+--     recipe = {
+--         { '', 'everness:ceramic_pot_sherd_blank', ''},
+--         { 'everness:ceramic_pot_sherd_blank', '', 'everness:ceramic_pot_sherd_blank'},
+--         { '', 'everness:ceramic_pot_sherd_blank', ''},
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'everness:ceramic_pot_sherd_blank 4',
-    type = 'shapeless',
-    recipe = { 'everness:ceramic_pot_blank' }
-})
+-- minetest.register_craft({
+--     output = 'everness:ceramic_pot_sherd_blank 4',
+--     type = 'shapeless',
+--     recipe = { 'everness:ceramic_pot_blank' }
+-- })
 
 -- Crystals
 
@@ -812,59 +812,59 @@ minetest.register_craft({
 -- Tools
 --
 
-minetest.register_craft({
-    output = 'everness:vine_shears',
-    recipe = {
-        { '', 'everness:pyrite_ingot', '' },
-        { 'group:stick', 'group:wood', 'everness:pyrite_ingot' },
-        { '', '', 'group:stick' }
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:vine_shears',
+--     recipe = {
+--         { '', 'everness:pyrite_ingot', '' },
+--         { 'group:stick', 'group:wood', 'everness:pyrite_ingot' },
+--         { '', '', 'group:stick' }
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'everness:pick_illuminating',
-    recipe = {
-        { 'everness:crystal_purple', 'everness:coral_tree_bioluminescent', 'everness:crystal_purple' },
-        { '', 'everness:sulfur_stone', '' },
-        { '', 'group:stick', '' }
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:pick_illuminating',
+--     recipe = {
+--         { 'everness:crystal_purple', 'everness:coral_tree_bioluminescent', 'everness:crystal_purple' },
+--         { '', 'everness:sulfur_stone', '' },
+--         { '', 'group:stick', '' }
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'everness:shovel_silk',
-    recipe = {
-        { 'everness:ancient_emerald_ice' },
-        { 'everness:glowing_pillar' },
-        { 'everness:crystal_purple' }
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:shovel_silk',
+--     recipe = {
+--         { 'everness:ancient_emerald_ice' },
+--         { 'everness:glowing_pillar' },
+--         { 'everness:crystal_purple' }
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'everness:hammer',
-    recipe = {
-        { 'group:everness_obsidian', 'group:everness_obsidian', 'group:everness_obsidian' },
-        { 'group:everness_obsidian', 'everness:pyriteblock_forged', 'group:everness_obsidian' },
-        { '', 'group:stick', '' }
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:hammer',
+--     recipe = {
+--         { 'group:everness_obsidian', 'group:everness_obsidian', 'group:everness_obsidian' },
+--         { 'group:everness_obsidian', 'everness:pyriteblock_forged', 'group:everness_obsidian' },
+--         { '', 'group:stick', '' }
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'everness:hammer_sharp',
-    recipe = {
-        { 'everness:pyriteblock_forged', 'everness:pyriteblock_forged', 'everness:pyriteblock_forged' },
-        { 'everness:pyriteblock_forged', 'everness:hammer', 'everness:pyriteblock_forged' },
-        { '', 'everness:hammer', '' }
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:hammer_sharp',
+--     recipe = {
+--         { 'everness:pyriteblock_forged', 'everness:pyriteblock_forged', 'everness:pyriteblock_forged' },
+--         { 'everness:pyriteblock_forged', 'everness:hammer', 'everness:pyriteblock_forged' },
+--         { '', 'everness:hammer', '' }
+--     }
+-- })
 
-minetest.register_craft({
-    output = 'everness:pick_archeological',
-    recipe = {
-        { 'group:stone', 'group:stone', 'group:stone' },
-        { '', 'group:stick', '' },
-        { 'group:stick', '', '' }
-    }
-})
+-- minetest.register_craft({
+--     output = 'everness:pick_archeological',
+--     recipe = {
+--         { 'group:stone', 'group:stone', 'group:stone' },
+--         { '', 'group:stick', '' },
+--         { 'group:stick', '', '' }
+--     }
+-- })
 
 --
 -- Fuels
@@ -921,7 +921,7 @@ minetest.register_craft({
 minetest.register_craft({
     type = 'fuel',
     recipe = 'everness:lava_tree_wood',
-    burntime = 30,
+    burntime = 15,
 })
 
 minetest.register_craft({
