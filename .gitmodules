@@ -23,3 +23,12 @@
 [submodule "mods/minigames/arena_lib"]
 	path = mods/minigames/arena_lib
 	url = https://gitlab.com/zughy-friends-minetest/arena_lib.git
+[submodule "mods/minigames/skills"]
+	path = mods/minigames/skills
+	url = https://gitlab.com/zughy-friends-minetest/skills.git
+[submodule "mods/minigames/panel_lib"]
+	path = mods/minigames/panel_lib
+	url = https://gitlab.com/zughy-friends-minetest/panel_lib.git
+[submodule "mods/minigames/audio_lib"]
+	path = mods/minigames/audio_lib
+	url = https://gitlab.com/zughy-friends-minetest/audio_lib.git
