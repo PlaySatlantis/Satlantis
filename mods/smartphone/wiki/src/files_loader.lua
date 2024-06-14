@@ -57,7 +57,7 @@ local function import_custom(file)
 
 	if not is_file_in_dir(settings_dir, file) then
 		local default_content = io.open(default_file, "r"):read("*all")
-		default_content = default_content:gsub("--!([^\n]*[\n]?)", "") -- remove warning comments
+		default_content = default_content:gsub("%-%-!([^\n]*[\n]?)", "") -- remove warning comments
 
 		minetest.safe_file_write(custom_file, default_content)
 	end

@@ -1,12 +1,13 @@
+
 -- CONFIGURE SETTINGS
 
-local mod = "phone_rewards"
+local mod = "satlantis_quests"
 
 -- folder where the settings files will be copied into the world directory (if specified, must end with "/")
 local settings_dir = ""
 
 local original_files = {
-	"REWARDS.lua",
+	"SATLANTIS_QUESTS.lua",
 }
 
 -----------------
@@ -67,6 +68,6 @@ end
 
 
 for i, file in ipairs(original_files) do
-	import_default(file)
+	--import_default(file)
 	import_custom(file)
 end

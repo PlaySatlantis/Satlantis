@@ -1,3 +1,8 @@
+local storage = minetest.get_mod_storage()
+
+
+
+
 minetest.register_privilege("premium", {
     give_to_singleplayer = false
 })
@@ -11,8 +16,17 @@ awards.register_trigger("premiumjoin", {
 
 
 minetest.register_on_joinplayer(function(player, last_login)
-    if minetest.check_player_privs(player, "premium") then
+    local pl_name = player:get_player_name()
+    local last_joined_day = storage:get_string("last_joined_day|"..pl_name)
+    local today = tostring(os.date("*t").yday)
+
+    if minetest.check_player_privs(player, "premium") and last_joined_day ~= today then
+        awards.remove(pl_name, "satlantis_quests:daily_login")
         awards.notify_premiumjoin(player)
+        storage:set_string("last_joined_day|"..pl_name, today)
+    elseif last_joined_day ~= today then
+        awards.remove(pl_name, "satlantis_quests:daily_login")
+        storage:set_string("last_joined_day|"..pl_name, "")
     end
 end)
 
@@ -56,3 +70,20 @@ arena_lib.register_on_celebration(function(mod, arena, winners)
         end
     end
 end)
+
+
+
+function awards.remove(name, award)
+	local data  = awards.player(name)
+	local awdef = awards.registered_awards[award]
+	assert(awdef, "Unable to remove an award which doesn't exist!")
+
+	if data.disabled or
+			(not data.unlocked[award]) then
+		return
+	end
+
+	minetest.log("action", "Award " .. award .." has been removed from ".. name)
+	data.unlocked[award] = nil
+	awards.save()
+end

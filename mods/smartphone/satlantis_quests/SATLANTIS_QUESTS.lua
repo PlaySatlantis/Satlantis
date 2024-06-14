@@ -1,3 +1,8 @@
+--!
+--! DON'T TOUCH THIS.
+--!
+--! if you want to modify any of these quests, or add more, just edit the file in <YOUR_WORLD_FOLDER>/satlantis_quests/
+
 awards.register_award("satlantis_quests:arena_win_fantasybrawl", {
 	title = "Win in Fantasy Brawl",
 	description = "Win 3 times in Fantasy Brawl",
@@ -38,11 +43,11 @@ awards.register_award("satlantis_quests:craft_afzelia_wood", {
 
 awards.register_award("satlantis_quests:place_steel", {
 	title = "Steel blocks",
-	description = "Place 10 steel blocks",
+	description = "Place 64 steel blocks",
 	trigger = {
 		type   = "place",
 		node   = "default:steelblock",
-		target = 10,
+		target = 64,
 	},
 	points = 50,
 })
