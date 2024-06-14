@@ -123,44 +123,7 @@ Everness:register_node('everness:stone_with_pyrite', {
     sounds = Everness.node_sound_stone_defaults(),
 })
 
-Everness:register_node('everness:mineral_stone_with_ceramic_sherds', {
-    description = S('Ceramic Sherds. Use archeological pickaxe to have a chance of getting various different sherds.'),
-    short_description = S('Ceramic Sherds'),
-    tiles = { 'everness_mineral_stone.png^[sheet:2x2:1,1^everness_ceramic_sherds_ore.png' },
-    groups = {
-        cracky = 3,
-        -- MCL
-        pickaxey = 1,
-        building_block = 1,
-        material_stone = 1,
-        xp = 1,
-        blast_furnace_smeltable = 1
-    },
-    drop = {
-        max_items = 1,
-        items = {
-            {
-                tool_groups = { 'archeological_drop' },
-                items = { 'everness:ceramic_pot_sherd_flowers' },
-                rarity = 20
-            },
-            {
-                tool_groups = { 'archeological_drop' },
-                items = { 'everness:ceramic_pot_sherd_lines' },
-                rarity = 10
-            },
-            {
-                tool_groups = { 'archeological_drop' },
-                items = { 'everness:ceramic_pot_sherd_tribal' },
-                rarity = 5
-            },
-            {
-                items = { 'everness:ceramic_pot_sherd_blank' }
-            }
-        }
-    },
-    sounds = Everness.node_sound_stone_defaults(),
-})
+
 
 Everness:register_node('everness:pyriteblock', {
     description = S('Pyrite Block'),
@@ -11668,7 +11631,7 @@ Everness:register_node('everness:water_geyser_active', {
 
 for i, v in ipairs({ 'blank', 'flowers', 'lines', 'tribal' }) do
     Everness:register_node('everness:ceramic_pot_' .. v, {
-        description = S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v) .. '. ' .. S('If destroyed by archelogical pick axe, it will drop ceramic sherds instead of ceramic pot item.'),
+        description = S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v),
         short_description = S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v),
         drawtype = 'mesh',
         mesh = 'everness_ceramic_pot.obj',
@@ -11693,182 +11656,9 @@ for i, v in ipairs({ 'blank', 'flowers', 'lines', 'tribal' }) do
         _mcl_hardness = 1.5,
         _mcl_silk_touch_drop = true,
         sounds = Everness.node_sound_ceramic_defaults(),
-        drop = {
-            max_items = 1,
-            items = {
-                {
-                    tool_groups = { 'archeological_drop' },
-                    items = {
-                        'everness:ceramic_pot_sherd_blank',
-                        'everness:ceramic_pot_sherd_blank',
-                        'everness:ceramic_pot_sherd_blank',
-                        'everness:ceramic_pot_sherd_blank',
-                        'everness:ceramic_pot_sherd_' .. v,
-                    }
-                },
-                {
-                    items = { 'everness:ceramic_pot_' .. v }
-                }
-            }
-        },
-        on_construct = function(pos)
-            local meta = minetest.get_meta(pos)
-            local inv = meta:get_inventory()
-            meta:set_string('infotext', S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v))
-            meta:set_string('owner', '')
-            inv:set_size('main', 1)
-        end,
-        after_place_node = function(pos, placer, itemstack, pointed_thing)
-            local meta = minetest.get_meta(pos)
-
-            meta:set_string('owner', placer:get_player_name() or '')
-        end,
-        on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-            local p_name = clicker:get_player_name()
-
-            if minetest.is_protected(pos, p_name) then
-                return itemstack
-            end
-
-            local meta = minetest.get_meta(pos)
-            local inv = meta:get_inventory()
-            local inv_stack = inv:get_stack('main', 1)
-            local label_copy = {
-                S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v)
-            }
-
-            if meta:get_string('owner') ~= '' then
-                label_copy[#label_copy + 1] = ' (' .. S('owned by') .. ' ' .. meta:get_string('owner') .. ')'
-            end
-
-            label_copy[#label_copy + 1] = '\n' .. inv_stack:get_description()
-
-            label_copy = table.concat(label_copy, '')
-
-            minetest.show_formspec(p_name, 'everness:ceramic_pot_' .. v, Everness.get_pot_formspec(pos, label_copy, 'everness_ceramic_pot_' .. v .. '_mesh.png'))
-
-            minetest.sound_play('everness_ceramic_hit', { gain = 1.0, pos = pos, max_hear_distance = 10 }, true)
-        end,
-        on_blast = function(pos, intensity)
-            if minetest.is_protected(pos, '') then
-                return
-            end
-
-            local drops = {}
-            local inv = minetest.get_meta(pos):get_inventory()
-            local n = #drops
-
-            for j = 1, inv:get_size('main') do
-                local stack = inv:get_stack('main', j)
-                if stack:get_count() > 0 then
-                    drops[n + 1] = stack:to_table()
-                    n = n + 1
-                end
-            end
-
-            drops[#drops + 1] = 'everness:ceramic_pot_' .. v
-            minetest.remove_node(pos)
-            return drops
-        end,
-        on_destruct = function(pos)
-            local inv = minetest.get_meta(pos):get_inventory()
-
-            for j = 1, inv:get_size('main') do
-                local stack = inv:get_stack('main', j)
-
-                if stack:get_count() > 0 then
-                    local obj = minetest.add_item(pos, stack)
-
-                    if obj then
-                        obj:get_luaentity().collect = true
-                        obj:set_acceleration({ x = 0, y = -10, z = 0 })
-                        obj:set_velocity({
-                            x = 0,
-                            y = 5,
-                            z = 0
-                        })
-                    end
-                end
-            end
-        end,
-
-        allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-            if minetest.is_protected(pos, player:get_player_name()) then
-                return 0
-            end
-
-            return stack:get_count()
-        end,
-
-        allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-            if minetest.is_protected(pos, player:get_player_name()) then
-                return 0
-            end
-
-            return stack:get_count()
-        end,
-
-        on_metadata_inventory_put = function(pos, listname, index, stack, player)
-            local meta = minetest.get_meta(pos)
-            local inv = meta:get_inventory()
-            local inv_stack = inv:get_stack('main', 1)
-            local label_copy = {
-                S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v)
-            }
-
-            if meta:get_string('owner') ~= '' then
-                label_copy[#label_copy + 1] = ' (' .. S('owned by') .. ' ' .. meta:get_string('owner') .. ')'
-            end
-
-            label_copy[#label_copy + 1] = '\n' .. inv_stack:get_description()
-
-            label_copy = table.concat(label_copy, '')
-
-            minetest.show_formspec(player:get_player_name(), 'everness:ceramic_pot_' .. v, Everness.get_pot_formspec(pos, label_copy, 'everness_ceramic_pot_' .. v .. '_mesh.png'))
-        end,
-
-        on_metadata_inventory_take = function(pos, listname, index, stack, player)
-            local meta = minetest.get_meta(pos)
-            local inv = meta:get_inventory()
-            local inv_stack = inv:get_stack('main', 1)
-            local label_copy = {
-                S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v)
-            }
-
-            if meta:get_string('owner') ~= '' then
-                label_copy[#label_copy + 1] = ' (' .. S('owned by') .. ' ' .. meta:get_string('owner') .. ')'
-            end
-
-            label_copy[#label_copy + 1] = '\n' .. inv_stack:get_description()
-
-            label_copy = table.concat(label_copy, '')
-
-            minetest.show_formspec(player:get_player_name(), 'everness:ceramic_pot_' .. v, Everness.get_pot_formspec(pos, label_copy, 'everness_ceramic_pot_' .. v .. '_mesh.png'))
-        end
     })
 
-    Everness:register_craftitem('everness:ceramic_pot_sherd_' .. v, {
-        description = S('Ceramic') .. ' ' .. S('Pot') .. ' ' .. S(v) .. ' ' .. S('Sherd'),
-        inventory_image = 'everness_ceramic_pot_' .. v .. '_sherd.png',
-    })
 
-    if v ~= 'blank' then
-        -- recipes for 'blank' are in `crafting.lua`
-        minetest.register_craft({
-            output = 'everness:ceramic_pot_' .. v,
-            recipe = {
-                { '', 'everness:ceramic_pot_sherd_blank', ''},
-                { 'everness:ceramic_pot_sherd_blank', 'everness:ceramic_pot_sherd_' .. v, 'everness:ceramic_pot_sherd_blank'},
-                { '', 'everness:ceramic_pot_sherd_blank', ''},
-            }
-        })
-
-        minetest.register_craft({
-            output = 'everness:ceramic_pot_' .. v,
-            type = 'shapeless',
-            recipe = { 'everness:ceramic_pot_blank', 'everness:ceramic_pot_sherd_' .. v }
-        })
-    end
 end
 
 local fence_collision_extra = minetest.settings:get_bool('enable_fence_tall') and 3/8 or 0

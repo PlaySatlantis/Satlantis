@@ -42,11 +42,11 @@ default.register_fence_rail('everness:fence_rail_dry_wood', {
     sounds = Everness.node_sound_wood_defaults()
 })
 
-default.register_mesepost('everness:mese_post_light_dry_wood', {
-    description = S('Dry Wood Mese Post Light'),
-    texture = 'everness_fence_dry_wood.png',
-    material = 'everness:dry_wood',
-})
+-- default.register_mesepost('everness:mese_post_light_dry_wood', {
+--     description = S('Dry Wood Mese Post Light'),
+--     texture = 'everness_fence_dry_wood.png',
+--     material = 'everness:dry_wood',
+-- })
 
 -- Bamboo Wood
 
@@ -74,11 +74,11 @@ default.register_fence_rail('everness:fence_rail_bamboo_wood', {
     sounds = Everness.node_sound_wood_defaults()
 })
 
-default.register_mesepost('everness:mese_post_light_bamboo_wood', {
-    description = S('Bamboo Wood Mese Post Light'),
-    texture = 'everness_fence_bamboo_wood.png^[transformFY',
-    material = 'everness:bamboo_wood',
-})
+-- default.register_mesepost('everness:mese_post_light_bamboo_wood', {
+--     description = S('Bamboo Wood Mese Post Light'),
+--     texture = 'everness_fence_bamboo_wood.png^[transformFY',
+--     material = 'everness:bamboo_wood',
+-- })
 
 -- Crystal Wood
 
@@ -106,11 +106,11 @@ default.register_fence_rail('everness:fence_rail_crystal_wood', {
     sounds = Everness.node_sound_wood_defaults()
 })
 
-default.register_mesepost('everness:mese_post_light_crystal_wood', {
-    description = S('Crystal Wood Mese Post Light'),
-    texture = 'everness_fence_crystal_wood.png^[transformFY',
-    material = 'everness:crystal_wood',
-})
+-- default.register_mesepost('everness:mese_post_light_crystal_wood', {
+--     description = S('Crystal Wood Mese Post Light'),
+--     texture = 'everness_fence_crystal_wood.png^[transformFY',
+--     material = 'everness:crystal_wood',
+-- })
 
 -- Palm Wood
 
@@ -138,11 +138,11 @@ default.register_fence_rail('everness:fence_rail_palm_wood', {
     sounds = Everness.node_sound_wood_defaults()
 })
 
-default.register_mesepost('everness:mese_post_light_palm_wood', {
-    description = S('Palm Wood Mese Post Light'),
-    texture = 'everness_fence_palm_wood.png^[transformFY',
-    material = 'everness:palm_tree_wood',
-})
+-- default.register_mesepost('everness:mese_post_light_palm_wood', {
+--     description = S('Palm Wood Mese Post Light'),
+--     texture = 'everness_fence_palm_wood.png^[transformFY',
+--     material = 'everness:palm_tree_wood',
+-- })
 
 -- Coral Wood
 
@@ -170,11 +170,11 @@ default.register_fence_rail('everness:fence_rail_coral_wood', {
     sounds = Everness.node_sound_wood_defaults()
 })
 
-default.register_mesepost('everness:mese_post_light_coral_wood', {
-    description = S('Coral Wood Mese Post Light'),
-    texture = 'everness_fence_coral_wood.png^[transformFY',
-    material = 'everness:coral_wood',
-})
+-- default.register_mesepost('everness:mese_post_light_coral_wood', {
+--     description = S('Coral Wood Mese Post Light'),
+--     texture = 'everness_fence_coral_wood.png^[transformFY',
+--     material = 'everness:coral_wood',
+-- })
 
 -- Lava Tree Wood
 
@@ -202,8 +202,8 @@ default.register_fence_rail('everness:fence_rail_lava_tree_wood', {
     sounds = Everness.node_sound_wood_defaults()
 })
 
-default.register_mesepost('everness:mese_post_light_lava_tree_wood', {
-    description = S('Lava Tree Wood Mese Post Light'),
-    texture = 'everness_fence_lava_tree_wood.png^[transformFY',
-    material = 'everness:lava_tree_wood',
-})
+-- default.register_mesepost('everness:mese_post_light_lava_tree_wood', {
+--     description = S('Lava Tree Wood Mese Post Light'),
+--     texture = 'everness_fence_lava_tree_wood.png^[transformFY',
+--     material = 'everness:lava_tree_wood',
+-- })
