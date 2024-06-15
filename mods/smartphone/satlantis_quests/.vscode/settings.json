@@ -1,8 +1,0 @@
-{
-    "Lua.diagnostics.globals": [
-        "minetest",
-        "awards",
-        "arena_lib",
-        "satlantis_quests"
-    ]
-}
