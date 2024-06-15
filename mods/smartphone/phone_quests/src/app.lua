@@ -17,12 +17,12 @@ local app_def = {
 			local quests_to_show = {}
 			local day = days_since_date(phone_quests.start_day)
 			if type == "weekly" then
-				local week = math.ceil(day / 7)
+				local week = math.floor(day / 7)
 				local weekly_quests = phone_quests.weekly_quests
-				quests_to_show = weekly_quests[week] or weekly_quests[(week % #weekly_quests) + 1]
+				quests_to_show = weekly_quests[((week) % #weekly_quests) + 1]
 			else
 				local daily_quests = phone_quests.daily_quests
-				quests_to_show = daily_quests[day] or daily_quests[(day % #daily_quests) + 1]
+				quests_to_show = daily_quests[((day) % #daily_quests) + 1]
 			end
 
 			return table.find(quests_to_show, function (valid_quest_name)
@@ -167,7 +167,7 @@ function days_since_date(date_table)
     
     -- Calculate the difference in seconds and convert to days
     local seconds_in_a_day = 86400
-    local difference_in_days = (current_timestamp - given_timestamp) / seconds_in_a_day
+    local difference_in_days = math.abs((current_timestamp - given_timestamp) / seconds_in_a_day)
     
     return math.floor(difference_in_days)
 end
