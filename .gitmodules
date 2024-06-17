@@ -35,9 +35,6 @@
 [submodule "mods/smartphone_depends/awards"]
 	path = mods/smartphone_depends/awards
 	url = https://gitlab.com/rubenwardy/awards.git
-[submodule "mods/mods/minigames/smartphone"]
-	path = mods/mods/minigames/smartphone
-	url = https://gitlab.com/zughy-friends-minetest/smartphone.git
 [submodule "mods/smartphone"]
 	path = mods/smartphone
 	url = https://gitlab.com/zughy-friends-minetest/smartphone.git
