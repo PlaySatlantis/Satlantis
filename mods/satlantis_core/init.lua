@@ -212,6 +212,35 @@ function satlantis.make_purchase(player, amount, callback)
     end)
 end
 
+function satlantis.transfer_sats(player_src, player_dst, amount, callback)
+    local payload = "{ \"from\":\"" .. tostring(player_src) .. "\", \"to\": \"" .. tostring(player_dst) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
+    local request = {
+        url = backend_api.transfer_sats,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
 minetest.register_chatcommand("link", {
     description = "Confirm your Discord account by entering token",
     func = function(name, param)
@@ -418,6 +447,31 @@ minetest.register_chatcommand("verify_code", {
             end)
         else
             minetest.chat_send_player(name, "verify_code command only takes a single argument. Found " .. tostring(#args))
+        end
+    end
+})
+
+minetest.register_chatcommand("send_sats", {
+    description = "Send sats to another player",
+    func = function(name, params)
+        local args = parse_args(params)
+        if #args == 2 then
+            local player = args[1]
+            local amount = tonumber(args[2])
+            if amount and player then
+                satlantis.transfer_sats(name, player, amount, function(succeeded, message, updated_record)
+                    if succeeded then
+                        minetest.chat_send_player(name, "Successfully transferred " .. tostring(amount) .. " sats to " .. player)
+                        minetest.chat_send_player(name, "Remaining balance: " .. tostring(updated_record.amount))
+                    else
+                        minetest.chat_send_player(name, "Failed make transfer. Reason: " .. tostring(message))
+                    end
+                end)
+            else
+                minetest.chat_send_player(name, "Invalid command arguments `send_sats <username> <amount>`")
+            end
+        else
+            minetest.chat_send_player(name, "send_sats expects 2 argument. Found " .. tostring(#args))
         end
     end
 })
