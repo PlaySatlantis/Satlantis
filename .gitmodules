@@ -32,6 +32,3 @@
 [submodule "mods/minigames/audio_lib"]
 	path = mods/minigames/audio_lib
 	url = https://gitlab.com/zughy-friends-minetest/audio_lib.git
-[submodule "mods/smartphone_depends/awards"]
-	path = mods/smartphone_depends/awards
-	url = https://gitlab.com/rubenwardy/awards.git
