@@ -25,8 +25,12 @@ if not http_api then
     return
 end
 
-local function sleep(seconds)
+function satlantis.sleep(seconds)
     ie.os.execute("sleep " .. tostring(seconds))
+end
+
+local function sleep(seconds)
+    satlantis.sleep(seconds)
 end
 
 function satlantis.give_player_joules(player, amount, callback)
@@ -94,6 +98,38 @@ function satlantis.get_user_data(player, callback)
     local request = {
         url = backend_api.get_user .. player,
         method = "GET",
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
+function satlantis.withdraw_sats(player, percent, callback)
+    if percent > 100 or percent <= 0.0 then
+        core.log("error", "Invalid percentage value to withdraw: " .. tostring(percent))
+        return
+    end
+    local request = {
+        url = backend_api.withdraw_sats,
+        method = "POST",
+        data = " ",
         extra_headers = {
             "Accept-Charset: utf-8",
             "Content-Type: application/json",
@@ -285,6 +321,71 @@ local deposit_qr_formspec = [[
     textarea[1,8.0;14,2;;%s;]
     button_exit[14,9;1.5,0.8;;Close]
 ]]
+
+function satlantis.request_deposit_code(player_name, callback)
+    local payload = "{\"user\":\"" .. tostring(player_name) .. "\"}"
+    local request = {
+        url = backend_api.deposit,
+        timeout = 4,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            if response_json and response_json.status then
+                if response_json.status == "success" then
+                    local request_code = response_json.data.request
+                    local qr_image = response_json.data.qr_image
+                    if request_code and qr_image then
+                        local inner_request = {
+                            url = qr_image,
+                            timeout = 4,
+                            method = "GET",
+                            extra_headers = {
+                                "Accept-Charset: utf-8",
+                                "Content-Type: image/png",
+                                "API-KEY: " .. config.API_KEY
+                            },
+                        }
+                        http_api.fetch(inner_request, function(inner_response)
+                            if inner_response.succeeded then
+                                local qr_image_file_path = MODPATH .. "/textures/" .. tostring(player_name) .. "_qr_image.png"
+                                local qr_image_file = ie.io.open(qr_image_file_path, "w")
+                                qr_image_file:write(inner_response.data)
+                                qr_image_file:close()
+                                -- Seems like there's a race condition here, where the formspec fails to load the
+                                -- image without this delay
+                                sleep(0.1)
+                                callback(true, qr_image_file_path, request_code, nil)
+                            else
+                                callback(false, nil, nil)
+                            end
+                        end)
+                    else
+                        callback(false, nil, nil)
+                    end
+                else
+                    callback(false, nil, nil)
+                end
+            end
+        elseif response.timeout then
+            callback(false, nil, nil, "Timed out")
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, nil, nil, reason)
+        end
+    end)
+end
 
 minetest.register_chatcommand("deposit", {
     description = "Request QR link for making deposit",
@@ -643,8 +744,10 @@ minetest.register_on_joinplayer(function(player, last_joined)
                 local inner_request = {
                     url = backend_api.create_user .. player_name,
                     method = "POST",
+                    data = " ",
                     extra_headers = {
                         "Accept-Charset: utf-8",
+                        "Content-Type: application/json",
                         "API-KEY: " .. config.API_KEY
                     },
                 }
