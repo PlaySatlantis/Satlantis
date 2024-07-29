@@ -107,7 +107,7 @@ function satlantis.get_user_data(player, callback)
     http_api.fetch(request, function(response)
         if response.succeeded and response.code == 200 then
             local response_json = core.parse_json(response.data or "")
-            callback(true, "Success", response_json)
+            callback(true, "Success", response_json.data)
         elseif response.timeout then
             callback(false, "Timed out", nil)
         else
@@ -166,7 +166,7 @@ function satlantis.get_asics(player, callback)
     http_api.fetch(request, function(response)
         if response.succeeded and response.code == 200 then
             local response_json = core.parse_json(response.data or "")
-            callback(true, "Success", response_json)
+            callback(true, "Success", response_json.data)
         elseif response.timeout then
             callback(false, "Timed out", nil)
         else
