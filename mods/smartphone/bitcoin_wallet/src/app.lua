@@ -37,7 +37,7 @@ local app_def = {
 					smartphone.open_app(player, "bitcoin_wallet:wallet")
 					return
 				end
-				self.balance[player_name] = tonumber(json_data.data.balance) or 0.0
+				self.balance[player_name] = tonumber(json_data.balance) or 0.0
 				satlantis.request_deposit_code(player_name, function(succeeded, qr_image_file_path, request_code, error_message)
 					if succeeded then
 						self.deposit_qr_code[player_name] = filename(qr_image_file_path)
