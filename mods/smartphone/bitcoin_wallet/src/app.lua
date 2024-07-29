@@ -15,11 +15,11 @@ local app_def = {
 	name = "Bitcoin Wallet",
 	bg_color = "#112554",
 
-	balance = nil,
-	error_message = nil,
-	success_message = nil,
-	deposit_qr_code = nil,
-	deposit_code = nil,
+	balance = {},
+	error_message = {},
+	success_message = {},
+	deposit_qr_code = {},
+	deposit_code = {},
 
 	get_height = function (self, player, page, type)
 		return 4.0
@@ -27,24 +27,24 @@ local app_def = {
 
 	get_content = function (self, player, page, user_data)
 
-		if not self.balance then 
-			satlantis.get_user_data(player:get_player_name(), function(succeeded, message, json_data)
+		local player_name = player:get_player_name()
+
+		if not self.balance[player_name] then
+			satlantis.get_user_data(player_name, function(succeeded, message, json_data)
 				if not succeeded then
 					local error_message = "Failed to get user data for user. Reason: " .. tostring(message)
-					self.error_message = error_message
+					self.error_message[player_name] = error_message
 					smartphone.open_app(player, "bitcoin_wallet:wallet")
 					return
 				end
-				self.balance = tonumber(json_data.data.balance) or 0.0
-				satlantis.request_deposit_code(player:get_player_name(), function(succeeded, qr_image_file_path, request_code, error_message)
+				self.balance[player_name] = tonumber(json_data.data.balance) or 0.0
+				satlantis.request_deposit_code(player_name, function(succeeded, qr_image_file_path, request_code, error_message)
 					if succeeded then
-						self.deposit_qr_code = filename(qr_image_file_path)
-						self.deposit_code = request_code
-						self.error_message = nil
-						smartphone.open_app(player, "bitcoin_wallet:wallet")
+						self.deposit_qr_code[player_name] = filename(qr_image_file_path)
+						self.deposit_code[player_name] = request_code
+						self.error_message[player_name] = nil
 					else
-						self.error_message = error_message
-						smartphone.open_app(player, "bitcoin_wallet:wallet")
+						self.error_message[player_name] = error_message
 					end
 				end)
 				smartphone.open_app(player, "bitcoin_wallet:wallet")
@@ -56,11 +56,26 @@ local app_def = {
 			]]
 		end
 
+		if self.balance[player_name] then
+			if not (self.deposit_code[player_name] or self.deposit_qr_code[player_name]) then
+				satlantis.request_deposit_code(player:get_player_name(), function(succeeded, qr_image_file_path, request_code, error_message)
+					if succeeded then
+						self.deposit_qr_code[player_name] = filename(qr_image_file_path)
+						self.deposit_code[player_name] = request_code
+						self.error_message[player_name] = nil
+						smartphone.open_app(player, "bitcoin_wallet:wallet")
+					else
+						self.error_message[player_name] = error_message
+					end
+				end)
+			end
+		end
+
 		local formspec = [[
 			container[0.5,0.0]
 			hypertext[0,0;5.3,1;bitcoin_wallet_title;<global size=20 valign=middle><style color=#abc0c0><b>Bitcoin Wallet</b>]
 			container[0.1,1.5]
-			hypertext[0.2,0;3,1;btcw_balance;<global size=16> <style color=#ffffff><normal>Balance: ]] .. tostring(self.balance) .. [[</normal></style>]
+			hypertext[0.2,0;3,1;btcw_balance;<global size=16> <style color=#ffffff><normal>Balance: ]] .. tostring(self.balance[player_name]) .. [[</normal></style>]
 			field[0.25,0.5;4,0.75;withdraw_amount;;0.0]
 			button[4.5,0.5;2.5,0.75;withdraw_btn;Withdraw]
 			container[0,1.75]
@@ -78,22 +93,22 @@ local app_def = {
 		local deposit_formspec = ""
 		local content_width = 7
 
-		if self.deposit_code then
+		if self.deposit_code[player_name] then
 			local qr_size = 4
 			local qr_margin = (content_width - qr_size) / 2
 			deposit_formspec = "hypertext[0.0,3.75;9.5,1;btcw_deposit_label;<global size=16> <style color=#abc0c0><b>Deposit:</b>]"
-			deposit_formspec = deposit_formspec .. "image[" .. tostring(qr_margin) .. ",4.5;" .. tostring(qr_size) .. "," .. tostring(qr_size) .. ";" .. self.deposit_qr_code .. ";]"
-			deposit_formspec = deposit_formspec .. "textarea[0.25,9;6.7,2;;;" .. self.deposit_code .. "]"
+			deposit_formspec = deposit_formspec .. "image[" .. tostring(qr_margin) .. ",4.5;" .. tostring(qr_size) .. "," .. tostring(qr_size) .. ";" .. self.deposit_qr_code[player_name] .. ";]"
+			deposit_formspec = deposit_formspec .. "textarea[0.25,9;6.7,2;;;" .. self.deposit_code[player_name] .. "]"
 		end
 
 		local notification_message = ""
 
-		if self.success_message then
+		if self.success_message[player_name] then
 			local y = smartphone.content_y
-			notification_message = "hypertext[0.25,9.5;7,1;btcw_err_message;<global size=16> <style color=#abc0c0><normal>" .. self.success_message .. "</normal>]"
-		elseif self.error_message then
+			notification_message = "hypertext[0.25,9.5;7,1;btcw_err_message;<global size=16> <style color=#abc0c0><normal>" .. self.success_message[player_name] .. "</normal>]"
+		elseif self.error_message[player_name] then
 			local y = smartphone.content_y
-			notification_message = "hypertext[0.25,9.5;7,1;btcw_err_message;<global size=16> <style color=#d40606><normal>" .. self.error_message .. "</normal>]"
+			notification_message = "hypertext[0.25,9.5;7,1;btcw_err_message;<global size=16> <style color=#d40606><normal>" .. self.error_message[player_name] .. "</normal>]"
 		end
 
 		return string.format(formspec, deposit_formspec, notification_message)
@@ -110,11 +125,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return false 
 	end
 
-	if fields.tx_btn then
-		app.success_message = nil
-		app.error_message = nil
+	local player_name = player:get_player_name()
 
-		local src_player = player:get_player_name()
+	if fields.tx_btn then
+		app.success_message[player_name] = nil
+		app.error_message[player_name] = nil
+
+		local src_player = player_name
 		local dst_player = fields.tx_user
 		local amount_field = fields.tx_amount
 
@@ -127,28 +144,28 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 							fields.tx_user = ""
 							fields.tx_amount = "0.0"
 							if succeeded then
-								app.error_message = nil
-								app.success_message = "Transfer successful"
-								app.balance = app.balance - amount
+								app.error_message[player_name] = nil
+								app.success_message[player_name] = "Transfer successful"
+								app.balance[player_name] = app.balance[player_name] - amount
 							else
-								app.error_message = message
+								app.error_message[player_name] = message
 							end
 							smartphone.open_app(player, "bitcoin_wallet:wallet")
 						end)
 					else
-						app.error_message = "Amount needs to be > 0"
+						app.error_message[player_name] = "Amount needs to be > 0"
 						smartphone.open_app(player, "bitcoin_wallet:wallet")
 					end
 				else
-					app.error_message = "Cannot send money to self"
+					app.error_message[player_name] = "Cannot send money to self"
 					smartphone.open_app(player, "bitcoin_wallet:wallet")
 				end
 			else
-				app.error_message = "Please specify player to transfer to"
+				app.error_message[player_name] = "Please specify player to transfer to"
 				smartphone.open_app(player, "bitcoin_wallet:wallet")
 			end
 		else
-			app.error_message = "Enter a valid amount of sats to transfer"
+			app.error_message[player_name] = "Enter a valid amount of sats to transfer"
 			smartphone.open_app(player, "bitcoin_wallet:wallet")
 		end
 
@@ -156,34 +173,34 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	if fields.withdraw_btn then
-		app.success_message = nil
-		app.error_message = nil
+		app.success_message[player_name] = nil
+		app.error_message[player_name] = nil
 
 		if fields.withdraw_amount and fields.withdraw_amount ~= "" then
 			local amount = tonumber(fields.withdraw_amount)
 			if amount > 0.0 then
-				if amount <= app.balance then
-					local percent = (amount / app.balance) * 100.0
+				if amount <= app.balance[player_name] then
+					local percent = (amount / app.balance[player_name]) * 100.0
 					satlantis.withdraw_sats(player:get_player_name(), percent, function(succeeded, message, json_data)
 						if succeeded then
-							app.error_message = nil
-							app.success_message = "Successfully withdraw " .. tostring(amount) .. "sats"
+							app.error_message[player_name] = nil
+							app.success_message[player_name] = "Successfully withdraw " .. tostring(amount) .. "sats"
 						else
-							app.error_message = message
+							app.error_message[player_name] = message
 						end
-						fields.withdraw_amount = "0.0"
+						fields.withdraw_amount[player_name] = "0.0"
 						smartphone.open_app(player, "bitcoin_wallet:wallet")
 					end)
 				else
-					app.error_message = "Cannot withdraw more than the current balance"
+					app.error_message[player_name] = "Cannot withdraw more than the current balance"
 					smartphone.open_app(player, "bitcoin_wallet:wallet")
 				end
 			else
-				app.error_message = "Enter in a valid amount to withdraw"
+				app.error_message[player_name] = "Enter in a valid amount to withdraw"
 				smartphone.open_app(player, "bitcoin_wallet:wallet")
 			end
 		else
-			app.error_message = "Enter in a valid amount to withdraw"
+			app.error_message[player_name] = "Enter in a valid amount to withdraw"
 			smartphone.open_app(player, "bitcoin_wallet:wallet")
 		end
 		return true
