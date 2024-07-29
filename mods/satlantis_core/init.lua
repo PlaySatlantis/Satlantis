@@ -25,6 +25,11 @@ if not http_api then
     return
 end
 
+if not minetest.has_feature({dynamic_add_media_table = true}) then
+    core.log("error", "Missing required feature: dynamic_add_media")
+    return
+end
+
 function satlantis.sleep(seconds)
     ie.os.execute("sleep " .. tostring(seconds))
 end
@@ -358,15 +363,18 @@ function satlantis.request_deposit_code(player_name, callback)
                                 local qr_image_file_path = MODPATH .. "/textures/" .. tostring(player_name) .. "_qr_image.png"
                                 local qr_image_file = ie.io.open(qr_image_file_path, "w")
                                 qr_image_file:write(inner_response.data)
+                                qr_image_file:flush()
                                 qr_image_file:close()
                                 local media_options = {
                                     filepath = qr_image_file_path,
                                     to_player = player_name,
                                     ephemeral = false
                                 }
-                                minetest.dynamic_add_media(media_options, function(player_name)
+                                if not minetest.dynamic_add_media(media_options, function(player_name)
                                     callback(true, qr_image_file_path, request_code, nil)
-                                end)
+                                end) then
+                                    core.log("error: Failed to add QR code to clients dynamic media")
+                                end
                             else
                                 callback(false, nil, nil)
                             end
