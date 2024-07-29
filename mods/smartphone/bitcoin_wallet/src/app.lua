@@ -38,16 +38,6 @@ local app_def = {
 					return
 				end
 				self.balance[player_name] = tonumber(json_data.balance) or 0.0
-				satlantis.request_deposit_code(player_name, function(succeeded, qr_image_file_path, request_code, error_message)
-					if succeeded then
-						self.deposit_qr_code[player_name] = filename(qr_image_file_path)
-						self.deposit_code[player_name] = request_code
-						self.error_message[player_name] = nil
-					else
-						self.error_message[player_name] = error_message
-					end
-					smartphone.open_app(player, "bitcoin_wallet:wallet")
-				end)
 				smartphone.open_app(player, "bitcoin_wallet:wallet")
 			end)
 			return [[
