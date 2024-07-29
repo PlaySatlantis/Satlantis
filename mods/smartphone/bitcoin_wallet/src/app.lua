@@ -46,6 +46,7 @@ local app_def = {
 					else
 						self.error_message[player_name] = error_message
 					end
+					smartphone.open_app(player, "bitcoin_wallet:wallet")
 				end)
 				smartphone.open_app(player, "bitcoin_wallet:wallet")
 			end)
