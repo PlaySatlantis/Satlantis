@@ -359,10 +359,14 @@ function satlantis.request_deposit_code(player_name, callback)
                                 local qr_image_file = ie.io.open(qr_image_file_path, "w")
                                 qr_image_file:write(inner_response.data)
                                 qr_image_file:close()
-                                -- Seems like there's a race condition here, where the formspec fails to load the
-                                -- image without this delay
-                                sleep(0.1)
-                                callback(true, qr_image_file_path, request_code, nil)
+                                local media_options = {
+                                    filepath = qr_image_file_path,
+                                    to_player = player_name,
+                                    ephemeral = false
+                                }
+                                minetest.dynamic_add_media(media_options, function(player_name)
+                                    callback(true, qr_image_file_path, request_code, nil)
+                                end)
                             else
                                 callback(false, nil, nil)
                             end
