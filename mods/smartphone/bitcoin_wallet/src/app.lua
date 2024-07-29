@@ -199,3 +199,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	return false
 end)
+
+minetest.register_on_leaveplayer(function(player, timed_out)
+	local player_name = player:get_player_name()
+	app_def.balance[player_name] = nil
+	app_def.error_message[player_name] = nil
+	app_def.success_message[player_name] = nil
+	app_def.deposit_qr_code[player_name] = nil
+	app_def.deposit_code[player_name] = nil
+end)

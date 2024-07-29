@@ -361,7 +361,7 @@ function satlantis.request_deposit_code(player_name, callback)
                         http_api.fetch(inner_request, function(inner_response)
                             if inner_response.succeeded then
                                 local qr_image_file_path = MODPATH .. "/textures/" .. tostring(player_name) .. "_qr_image.png"
-                                local qr_image_file = ie.io.open(qr_image_file_path, "w")
+                                local qr_image_file = ie.io.open(qr_image_file_path, "w+")
                                 qr_image_file:write(inner_response.data)
                                 qr_image_file:flush()
                                 qr_image_file:close()
