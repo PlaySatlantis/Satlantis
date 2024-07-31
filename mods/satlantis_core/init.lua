@@ -282,6 +282,33 @@ function satlantis.transfer_sats(player_src, player_dst, amount, callback)
     end)
 end
 
+function satlantis.get_auction_house_listings(callback)
+    local request = {
+        url = backend_api.auction_house_listings,
+        method = "GET",
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
 minetest.register_chatcommand("link", {
     description = "Confirm your Discord account by entering token",
     func = function(name, param)
@@ -1139,5 +1166,22 @@ minetest.register_node(":satlantis:header", {
 --         else
 --             minetest.chat_send_player(name, "make_purchase expects 1 argument. Found " .. tostring(#args))
 --         end
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.get_auction_house_listings`
+--
+
+-- minetest.register_chatcommand("auction_house_list", {
+--     description = "List entries in Auction House",
+--     func = function(name, params)
+--         satlantis.get_auction_house_listings(function(succeeded, message, data)
+--             if succeeded then
+--                 core.log("error", dump(data))
+--             else
+--                 minetest.chat_send_player(name, "Failed to list auction house listings. Reason: " .. tostring(message))
+--             end
+--         end)
 --     end
 -- })
