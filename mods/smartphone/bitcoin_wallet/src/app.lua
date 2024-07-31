@@ -112,7 +112,7 @@ smartphone.register_app("bitcoin_wallet:wallet", app_def)
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local app = smartphone.get_app(formname)
 
-	if not app or not app.technical_name == "bitcoin_wallet:wallet" then 
+	if not app or app.technical_name ~= "bitcoin_wallet:wallet" then
 		return false 
 	end
 

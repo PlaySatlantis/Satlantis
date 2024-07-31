@@ -90,7 +90,7 @@ smartphone.register_app("phone_skins:skins", app_def)
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local app = smartphone.get_app(formname)
 
-	if not app or not app.technical_name == "phone_skins:skins" then return false end
+	if not app or app.technical_name ~= "phone_skins:skins" then return false end
 
 	for field, _ in pairs(fields) do
 		if string.find(field, "skin_btn") then

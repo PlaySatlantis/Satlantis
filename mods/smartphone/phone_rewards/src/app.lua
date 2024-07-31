@@ -112,7 +112,7 @@ smartphone.register_app("phone_rewards:rewards", app_def)
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local app = smartphone.get_app(formname)
 
-	if not app or not app.technical_name == "phone_rewards:rewards" then return false end
+	if not app or app.technical_name ~= "phone_rewards:rewards" then return false end
 
 	if fields.quests_btn then
 		smartphone.open_app(player, "phone_quests:quests")

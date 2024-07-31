@@ -162,25 +162,28 @@ smartphone.register_app("asics:asics", app_def)
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local app = smartphone.get_app(formname)
 
-	if not app or not app.technical_name == "asics:asics" then 
+	if not app or app.technical_name ~= "asics:asics" then
 		return false 
 	end
 
 	local player_name = player:get_player_name()
+	local handled_action = false
 
 	if fields.asics_refresh then
 		app.hibernate_status[player_name] = nil
 		app.asics[player_name] = nil
 		smartphone.open_app(player, "asics:asics")
-		return
+		return true
 	end
 
 	if fields.asics_fill then
 		-- TODO: Implement
+		handled_action = true
 	end
 
 	if fields.asics_fill_all then
 		-- TODO: Implement
+		handled_action = true
 	end
 
 	local updated = false
@@ -190,6 +193,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields[field_name] then
 			app.hibernate_status[player_name][i] = not app.hibernate_status[player_name][i]
 			updated = true
+			handled_action = true
 		end
 	end
 
@@ -197,5 +201,5 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		smartphone.open_app(player, "asics:asics")
 	end
 
-	return true
+	return handled_action
 end)
