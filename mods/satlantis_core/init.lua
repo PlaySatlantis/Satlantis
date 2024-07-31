@@ -309,6 +309,35 @@ function satlantis.get_auction_house_listings(callback)
     end)
 end
 
+function satlantis.purchase_auction_listing(player_name, item_id, callback)
+    local payload = "{ \"from\":\"" .. tostring(player_name) .. "\""
+    local request = {
+        url = backend_api.auction_house_purchase .. item_id,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown"
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
 minetest.register_chatcommand("link", {
     description = "Confirm your Discord account by entering token",
     func = function(name, param)
