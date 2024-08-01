@@ -1,15 +1,3 @@
-local filename = function(str)
-	local i = #str
-	while i >= 1 do
-		local ch = string.sub(str, i, i)
-		if ch == '\\' or ch == '/' then
-			return string.sub(str, i + 1)
-		end
-		i = i - 1
-	end
-	return str
-end
-
 local app_def = {
 	icon = "app_wiki.png",
 	name = "Bitcoin Wallet",
@@ -49,9 +37,9 @@ local app_def = {
 
 		if self.balance[player_name] then
 			if not (self.deposit_code[player_name] or self.deposit_qr_code[player_name]) then
-				satlantis.request_deposit_code(player:get_player_name(), function(succeeded, qr_image_file_path, request_code, error_message)
+				satlantis.request_deposit_code(player:get_player_name(), function(succeeded, qr_image_file_name, request_code, error_message)
 					if succeeded then
-						self.deposit_qr_code[player_name] = filename(qr_image_file_path)
+						self.deposit_qr_code[player_name] = qr_image_file_name
 						self.deposit_code[player_name] = request_code
 						self.error_message[player_name] = nil
 						smartphone.open_app(player, "bitcoin_wallet:wallet")

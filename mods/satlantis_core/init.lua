@@ -38,6 +38,18 @@ local function sleep(seconds)
     satlantis.sleep(seconds)
 end
 
+local filename = function(str)
+	local i = #str
+	while i >= 1 do
+		local ch = string.sub(str, i, i)
+		if ch == '\\' or ch == '/' then
+			return string.sub(str, i + 1)
+		end
+		i = i - 1
+	end
+	return str
+end
+
 function satlantis.give_player_joules(player, amount, callback)
     local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
     local request = {
@@ -427,19 +439,20 @@ function satlantis.request_deposit_code(player_name, callback)
                                     ephemeral = false
                                 }
                                 if not minetest.dynamic_add_media(media_options, function(player_name)
-                                    callback(true, qr_image_file_path, request_code, nil)
+                                    local qr_image_file_name = filename(qr_image_file_path)
+                                    callback(true, qr_image_file_name, request_code, nil)
                                 end) then
                                     core.log("error: Failed to add QR code to clients dynamic media")
                                 end
                             else
-                                callback(false, nil, nil)
+                                callback(false, nil, nil, "Failed to fetch QR image")
                             end
                         end)
                     else
-                        callback(false, nil, nil)
+                        callback(false, nil, nil, "Missing request code or QR image link values")
                     end
                 else
-                    callback(false, nil, nil)
+                    callback(false, nil, nil, "Failed for deposit information failed")
                 end
             end
         elseif response.timeout then
@@ -458,63 +471,12 @@ end
 minetest.register_chatcommand("deposit", {
     description = "Request QR link for making deposit",
     func = function(name, param)
-        local payload = "{\"user\":\"" .. tostring(name) .. "\"}"
-        local request = {
-            url = backend_api.deposit,
-            timeout = 4,
-            method = "POST",
-            data = payload,
-            extra_headers = {
-                "Accept-Charset: utf-8",
-                "Content-Type: application/json",
-                "API-KEY: " .. config.API_KEY
-            },
-        }
-        http_api.fetch(request, function(response)
-            if response.succeeded and response.code == 200 then
-                local response_json = core.parse_json(response.data or "")
-                if response_json and response_json.status then
-                    if response_json.status == "success" then
-                        local request_code = response_json.data.request
-                        local qr_image = response_json.data.qr_image
-                        if request_code and qr_image then
-                            local inner_request = {
-                                url = qr_image,
-                                timeout = 4,
-                                method = "GET",
-                                extra_headers = {
-                                    "Accept-Charset: utf-8",
-                                    "Content-Type: image/png",
-                                    "API-KEY: " .. config.API_KEY
-                                },
-                            }
-                            http_api.fetch(inner_request, function(inner_response)
-                                if inner_response.succeeded then
-                                    local qr_image_file_path = MODPATH .. "/textures/qr_image.png"
-                                    local qr_image_file = ie.io.open(qr_image_file_path, "w")
-                                    qr_image_file:write(inner_response.data)
-                                    qr_image_file:close()
-                                    -- Seems like there's a race condition here, where the formspec fails to load the
-                                    -- image without this delay
-                                    sleep(0.1)
-                                    local formspec = deposit_qr_formspec:format("qr_image.png", request_code);
-                                    minetest.show_formspec(name, "Deposit", formspec)
-                                end
-                            end)
-                        end
-                    else
-                        minetest.chat_send_player(name, "Error: " .. tostring(response_json.status))
-                    end
-                end
-            elseif response.timeout then
-                minetest.chat_send_player(name, "Failed to generate deposit details due to timeout. Please try again")
+        satlantis.request_deposit_code(name, function(succeeded, qr_image_name, request_code, message)
+            if succeeded then
+                local formspec = deposit_qr_formspec:format(qr_image_name, request_code);
+                minetest.show_formspec(name, "Deposit", formspec)
             else
-                local response_json = core.parse_json(response.data or "")
-                local reason = "Unknown"
-                if response_json and response_json.status then
-                    reason = tostring(response_json.status)
-                end
-                minetest.chat_send_player(name, "Failed to generate deposit details. Reason: " .. reason )
+                minetest.chat_send_player(name, "Failed to fetch deposit details")
             end
         end)
     end
