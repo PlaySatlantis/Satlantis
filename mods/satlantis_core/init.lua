@@ -19,6 +19,7 @@ local backend_api = minetest.parse_json(api_file:read("*a"))
 api_file:close()
 
 local http_api = minetest.request_http_api();
+local player_backend_ids = {}
 
 if not http_api then
     core.log("error", "HTTP access hasn't been granted to Satlantis. Cannot start")
@@ -876,6 +877,13 @@ minetest.register_on_joinplayer(function(player, last_joined)
                         --
                         -- Success: New player got created in the backend
                         --
+                        local inner_response_json = core.parse_json(inner_response.data).data
+                        if inner_response_json.id then
+                            player_backend_ids[player_name] = inner_response_json.id
+                        else
+                            core.log("error", "Response for user get request doesn't contain ID")
+                            core.log("error", dump(inner_response_json))
+                        end
                     else
                         core.log("error", "Failed to create user " .. player_name .. " in the backend. Response: " .. inner_response.data)
                     end
@@ -896,51 +904,77 @@ minetest.register_on_joinplayer(function(player, last_joined)
         -- Player already exists on the server, in this case we expect to find a record
         -- for them in the backend
         --
-        local request = {
-            url = backend_api.get_user .. player_name,
-            method = "GET",
-            extra_headers = {
-                "Accept-Charset: utf-8",
-                "Content-Type: application/json",
-                "API-KEY: " .. config.API_KEY
-            },
-        }
-        http_api.fetch(request, function(response)
-            if response.succeeded and response.code == 200 then
+
+        if player_backend_ids[player_name] then
             --
-            -- Success: Record for existing player found in backend
+            -- Player has a backend ID, which means they already have an account
             --
-            elseif response.code == 400 then
-                core.log("warning", "Record doesn't exist in backend for exising user: " .. player_name)
-                local inner_request = {
-                    url = backend_api.create_user .. player_name,
-                    method = "POST",
-                    -- Without this dummy post data, request will get permentently stuck in queue
-                    -- (On Ubuntu)
-                    data = " ",
-                    timeout = 10,
-                    extra_headers = {
-                        "Accept-Charset: utf-8",
-                        "Content-Type: application/json",
-                        "API-KEY: " .. config.API_KEY
-                    },
-                }
-                http_api.fetch(inner_request, function(inner_response)
-                    if inner_response.succeeded and inner_response.code == 200 then
-                        core.log("info", "Record in backend successfully created for: " .. player_name)
-                        --
-                        -- Success: New player got created in the backend
-                        --
+        else
+            --
+            -- No account details on the minetest server. Let's check to see if one exists, and if not
+            -- we'll create one for the user
+            --
+            core.log("warning", "No backend ID found for returning user. Player name: " .. player_name)
+            local request = {
+                url = backend_api.get_user .. player_name,
+                method = "GET",
+                extra_headers = {
+                    "Accept-Charset: utf-8",
+                    "Content-Type: application/json",
+                    "API-KEY: " .. config.API_KEY
+                },
+            }
+            http_api.fetch(request, function(response)
+                if response.succeeded and response.code == 200 then
+                    --
+                    -- Success: Record for existing player found in backend
+                    --
+                    local response_json = core.parse_json(response.data).data
+                    if response_json.id then
+                        player_backend_ids[player_name] = response_json.id
                     else
-                        core.log("error", "Failed to create user " .. player_name .. " in the backend. Response: " .. inner_response.data)
+                        core.log("error", "Response for user get request doesn't contain ID")
+                        core.log("error", dump(response_json))
                     end
-                end)
-            elseif response.timeout then
-                core.log("error", "Failed to validate record in backend due to timeout. Username: " .. player_name)
-            else
-                core.log("error", "Failed to validate record in backend due to unknown error. Username: " .. player_name)
-            end
-        end)
+                elseif response.code == 400 then
+                    core.log("warning", "Record doesn't exist in backend for exising user: " .. player_name)
+                    local inner_request = {
+                        url = backend_api.create_user .. player_name,
+                        method = "POST",
+                        -- Without this dummy post data, request will get permentently stuck in queue
+                        -- (On Ubuntu)
+                        data = " ",
+                        timeout = 10,
+                        extra_headers = {
+                            "Accept-Charset: utf-8",
+                            "Content-Type: application/json",
+                            "API-KEY: " .. config.API_KEY
+                        },
+                    }
+                    http_api.fetch(inner_request, function(inner_response)
+                        if inner_response.succeeded and inner_response.code == 200 then
+                            core.log("info", "Record in backend successfully created for: " .. player_name)
+                            --
+                            -- Success: New player got created in the backend
+                            --
+                            local inner_response_json = core.parse_json(inner_response.data).data
+                            if inner_response_json.id then
+                                player_backend_ids[player_name] = inner_response_json.id
+                            else
+                                core.log("error", "Response for user get request doesn't contain ID")
+                                core.log("error", dump(inner_response_json))
+                            end
+                        else
+                            core.log("error", "Failed to create user " .. player_name .. " in the backend. Response: " .. inner_response.data)
+                        end
+                    end)
+                elseif response.timeout then
+                    core.log("error", "Failed to validate record in backend due to timeout. Username: " .. player_name)
+                else
+                    core.log("error", "Failed to validate record in backend due to unknown error. Username: " .. player_name)
+                end
+            end)
+        end
     end
 end)
 
