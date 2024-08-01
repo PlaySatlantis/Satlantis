@@ -350,10 +350,70 @@ function satlantis.purchase_auction_listing(player_name, item_id, callback)
     end)
 end
 
-function satlantis.auction_sell_joules(player_name, quanity, price, callback)
-    local payload = "{ \"from\":\"" .. tostring(player_name) .. "\", \"quantity\": " .. tostring(quanity) .. ", \"price\": " .. tostring(price) .. "}"
+function satlantis.auction_sell_joules(player_name, quantity, price, callback)
+    local payload = "{ \"from\":\"" .. tostring(player_name) .. "\", \"quantity\": " .. tostring(quantity) .. ", \"price\": " .. tostring(price) .. "}"
     local request = {
         url = backend_api.auction_house_sell_joules,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown. Response code: " .. tostring(response.code)
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
+local asic_types = {
+	"s10",
+	"s25+",
+	"s25",
+	"s30+",
+	"s30",
+	"s35+",
+	"s35",
+	"s40+",
+	"s40",
+	"s45+",
+	"s45",
+	"s50+",
+	"s50"
+}
+local asic_types_len = 13
+
+function satlantis.auction_sell_asics(player_name, quantity, price, asics_type, callback)
+    local valid_asics_type = false
+    for i = 1, asic_types_len do
+        if asic_types[i] == asics_type then
+            valid_asics_type = true
+            break
+        end
+    end
+
+    if not valid_asics_type then
+        callback(false, "Invalid ASICs Type", nil)
+        return
+    end
+
+    local payload_format = "{ \"from\":\"%s\", \"quantity\": %d, \"price\": %d, \"asicsValue\": \"%s\"}"
+    local payload = string.format(payload_format, player_name, quantity, price, asics_type)
+    local request = {
+        url = backend_api.auction_house_sell_asics,
         method = "POST",
         data = payload,
         extra_headers = {
@@ -1220,15 +1280,42 @@ minetest.register_node(":satlantis:header", {
 --     func = function(name, params)
 --         local args = parse_args(params)
 --         if #args == 2 then
---             local quanity = tonumber(args[1])
+--             local quantity = tonumber(args[1])
 --             local price = tonumber(args[2])
---             satlantis.auction_sell_joules(name, quanity, price, function(succeeded, message, data)
+--             satlantis.auction_sell_joules(name, quantity, price, function(succeeded, message, data)
 --                 if succeeded then
---                     minetest.chat_send_player(name, "Listing for " .. tostring(quanity) .. " joules successfully added to auction house")
+--                     minetest.chat_send_player(name, "Listing for " .. tostring(quantity) .. " joules successfully added to auction house")
 --                 else
 --                     minetest.chat_send_player(name, "Failed to list auction house listings. Reason: " .. tostring(message))
 --                 end
 --             end)
+--         end
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.auction_sell_asics`
+--
+
+-- minetest.register_chatcommand("auction_asics", {
+--     description = "Add a listing to sell asics to Auction House",
+--     func = function(name, params)
+--         local args = parse_args(params)
+--         if #args == 3 then
+--             local quantity = tonumber(args[1])
+--             local price = tonumber(args[2])
+--             local asics_type = args[3]
+--             satlantis.auction_sell_asics(name, quantity, price, asics_type, function(succeeded, message, data)
+--                 if succeeded then
+--                     local message_format = "Listing for %d asics of type %s successfully added to auction house"
+--                     local message = string.format(message_format, quantity, asics_type)
+--                     minetest.chat_send_player(name, message)
+--                 else
+--                     minetest.chat_send_player(name, "Failed to ASICs in Auction House. Reason: " .. tostring(message))
+--                 end
+--             end)
+--         else
+--             minetest.chat_send_player(name, "Invalid arguments. auction_asics <quantity> <price> <asics_type>")
 --         end
 --     end
 -- })
