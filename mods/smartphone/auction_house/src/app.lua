@@ -50,6 +50,15 @@ local app_def = {
 
 		local player_name = player:get_player_name()
 
+		local backend_id = satlantis.backend_id_from_player_name(player_name)
+		if not backend_id then
+			return [[
+				container[0.5,1.0]
+				label[0,0.0;Account not connected to Satlantis backend]
+				container_end[]
+			]]
+		end
+
 		if not self.auction_listings then
 			satlantis.get_auction_house_listings(function(succeeded, message, auction_listings)
 				if not succeeded then
@@ -160,6 +169,8 @@ local app_def = {
 			local type_name =  item.type
 			local quantity = item.quantity
 			local price = item.price
+			local seller_backend_id = item.sellerId
+			local seller_name = satlantis.player_name_from_backend_id(seller_backend_id) or "unknown"
 
 			local x = base_x
 
@@ -168,7 +179,6 @@ local app_def = {
 			-- Amount <amount>            Price: <price>
 			--
 
-			local seller_name = "Example User"
 			formspec_format = "hypertext[%d,%d;5,1;listing_%d_seller;<global size=16> <style color=#ffffff><b>Seller:</b><normal> %s</normal>]"
 			formspec = string.format(formspec_format, x, y, i, seller_name)
 			listings_formspec = listings_formspec .. formspec
