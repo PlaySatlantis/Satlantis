@@ -350,6 +350,35 @@ function satlantis.purchase_auction_listing(player_name, item_id, callback)
     end)
 end
 
+function satlantis.auction_sell_joules(player_name, quanity, price, callback)
+    local payload = "{ \"from\":\"" .. tostring(player_name) .. "\", \"quantity\": " .. tostring(quanity) .. ", \"price\": " .. tostring(price) .. "}"
+    local request = {
+        url = backend_api.auction_house_sell_joules,
+        method = "POST",
+        data = payload,
+        extra_headers = {
+            "Accept-Charset: utf-8",
+            "Content-Type: application/json",
+            "API-KEY: " .. config.API_KEY
+        },
+    }
+    http_api.fetch(request, function(response)
+        if response.succeeded and response.code == 200 then
+            local response_json = core.parse_json(response.data or "")
+            callback(true, "Success", response_json)
+        elseif response.timeout then
+            callback(false, "Timed out", nil)
+        else
+            local response_json = core.parse_json(response.data or "")
+            local reason = "Unknown. Response code: " .. tostring(response.code)
+            if response_json and response_json.status then
+                reason = tostring(response_json.status)
+            end
+            callback(false, reason, nil)
+        end
+    end)
+end
+
 minetest.register_chatcommand("link", {
     description = "Confirm your Discord account by entering token",
     func = function(name, param)
@@ -719,7 +748,7 @@ minetest.register_globalstep(function(dtime)
                 if response_json and response_json.status then
                     reason = tostring(response_json.status)
                 end
-                core.log("warning", "Update request to backend failed. Reason: " .. reason)
+                core.log("warning", "Update request to backend failed with code " .. tostring(response.code) .. ". Reason: " .. reason)
             end
         end)
     end
@@ -1094,14 +1123,19 @@ minetest.register_node(":satlantis:header", {
 -- minetest.register_chatcommand("add_joules", {
 --     description = "Add Joules",
 --     func = function(name, params)
---         local amount = 44
---         satlantis.give_player_joules(name, amount, function(succeeded, message)
---             if succeeded then
---                 core.log("error", "Successfully added joules to user")
---             else
---                 core.log("error", "Failed to add joules to user. Reason: " .. tostring(message))
---             end
---         end)
+--         local args = parse_args(params)
+--         if #args == 1 then
+--             local amount = tonumber(args[1])
+--             satlantis.give_player_joules(name, amount, function(succeeded, message)
+--                 if succeeded then
+--                     core.log("error", "Successfully added joules to user")
+--                 else
+--                     core.log("error", "Failed to add joules to user. Reason: " .. tostring(message))
+--                 end
+--             end)
+--         else
+--             minetest.chat_send_player(name, "Invalid arguments: add_joules <amount>")
+--         end
 --     end
 -- })
 
@@ -1174,5 +1208,27 @@ minetest.register_node(":satlantis:header", {
 --                 minetest.chat_send_player(name, "Failed to list auction house listings. Reason: " .. tostring(message))
 --             end
 --         end)
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.auction_sell_joules`
+--
+
+-- minetest.register_chatcommand("auction_joules", {
+--     description = "Add a listing to sell joules to Auction House",
+--     func = function(name, params)
+--         local args = parse_args(params)
+--         if #args == 2 then
+--             local quanity = tonumber(args[1])
+--             local price = tonumber(args[2])
+--             satlantis.auction_sell_joules(name, quanity, price, function(succeeded, message, data)
+--                 if succeeded then
+--                     minetest.chat_send_player(name, "Listing for " .. tostring(quanity) .. " joules successfully added to auction house")
+--                 else
+--                     minetest.chat_send_player(name, "Failed to list auction house listings. Reason: " .. tostring(message))
+--                 end
+--             end)
+--         end
 --     end
 -- })
