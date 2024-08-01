@@ -322,7 +322,7 @@ function satlantis.get_auction_house_listings(callback)
 end
 
 function satlantis.purchase_auction_listing(player_name, item_id, callback)
-    local payload = "{ \"from\":\"" .. tostring(player_name) .. "\""
+    local payload = "{ \"from\":\"" .. tostring(player_name) .. "\"}"
     local request = {
         url = backend_api.auction_house_purchase .. item_id,
         method = "POST",
@@ -1229,6 +1229,46 @@ minetest.register_node(":satlantis:header", {
 --                     minetest.chat_send_player(name, "Failed to list auction house listings. Reason: " .. tostring(message))
 --                 end
 --             end)
+--         end
+--     end
+-- })
+
+--
+-- Can be used to test `satlantis.auction_purchase_item`
+--
+
+-- minetest.register_chatcommand("auction_purchase_item", {
+--     description = "Purchase an item listed in the auction",
+--     func = function(player_name, params)
+--         local args = parse_args(params)
+--         if #args == 1 then
+--             local item_index = tonumber(args[1])
+--             satlantis.get_auction_house_listings(function(succeeded, message, listings)
+--                 if succeeded then
+--                     local listing_count = #listings
+--                     if listing_count < item_index then
+--                         minetest.chat_send_player(player_name, "Invalid item index " .. tostring(item_index) .. ". Found " .. tostring(listing_count) .. " items listed")
+--                         return
+--                     end
+--                     local listing = listings[item_index]
+--                     local item_id = listing.id
+--                     if item_id then
+--                         satlantis.purchase_auction_listing(player_name, item_id, function(succeeded, message, data)
+--                             if succeeded then
+--                                 local message_format = "Successfully purchased item \"%s\" for %d. Auction house id: %s"
+--                                 local message = string.format(message_format, data.name, data.cost, data.auction_house_item_id)
+--                                 minetest.chat_send_player(player_name, message)
+--                             else
+--                                 minetest.chat_send_player(player_name, "Request to purchase item failed. Reason: " .. tostring(message))
+--                             end
+--                         end)
+--                     end
+--                 else
+--                     minetest.chat_send_player(player_name, "Failed to update auction listings. Reason: " .. tostring(message))
+--                 end
+--             end)
+--         else
+--             minetest.chat_send_player(player_name, "Invalid arguments: auction_purchase_item <listing_index>")
 --         end
 --     end
 -- })
