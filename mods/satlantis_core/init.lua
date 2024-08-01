@@ -51,6 +51,28 @@ local filename = function(str)
 	return str
 end
 
+--
+-- Given a players Minetest name, return the ID string for the user on the backend
+--
+function satlantis.backend_id_from_player_name(player_name)
+    if not player_name then
+        return nil
+    end
+    return player_backend_ids[player_name]
+end
+
+function satlantis.player_name_from_backend_id(backend_id)
+    if not backend_id then
+        return nil
+    end
+    for key, value in pairs(player_backend_ids) do
+        if value == backend_id then
+            return key
+        end
+    end
+    return nil
+end
+
 function satlantis.give_player_joules(player, amount, callback)
     local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
     local request = {
