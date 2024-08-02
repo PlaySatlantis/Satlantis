@@ -21,6 +21,23 @@ api_file:close()
 local http_api = minetest.request_http_api();
 local player_backend_ids = {}
 
+local asic_types = {
+	"s10",
+	"s25+",
+	"s25",
+	"s30+",
+	"s30",
+	"s35+",
+	"s35",
+	"s40+",
+	"s40",
+	"s45+",
+	"s45",
+	"s50+",
+	"s50"
+}
+local asic_types_len = 13
+
 if not http_api then
     core.log("error", "HTTP access hasn't been granted to Satlantis. Cannot start")
     return
@@ -73,6 +90,10 @@ function satlantis.player_name_from_backend_id(backend_id)
     return nil
 end
 
+function satlantis.get_asic_types()
+    return asic_types;
+end
+
 function satlantis.give_player_joules(player, amount, callback)
     local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"amount\": \"" .. tostring(amount) .. "\"}"
     local request = {
@@ -106,7 +127,7 @@ function satlantis.create_asic(player, hashrate, kind, callback)
     if kind == nil then
         kind = "REGULAR"
     end
-    local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"hashrate\": \"" .. tostring(hashrate) .. "\", \"type\": \"" .. tostring(kind) .. "\"}"
+    local payload = "{ \"user\":\"" .. tostring(player) .. "\", \"hashrate\": " .. tostring(hashrate) .. ", \"type\": \"" .. tostring(kind) .. "\"}"
     local request = {
         url = backend_api.create_asic,
         method = "POST",
@@ -401,23 +422,6 @@ function satlantis.auction_sell_joules(player_name, quantity, price, callback)
         end
     end)
 end
-
-local asic_types = {
-	"s10",
-	"s25+",
-	"s25",
-	"s30+",
-	"s30",
-	"s35+",
-	"s35",
-	"s40+",
-	"s40",
-	"s45+",
-	"s45",
-	"s50+",
-	"s50"
-}
-local asic_types_len = 13
 
 function satlantis.auction_sell_asics(player_name, quantity, price, asics_type, callback)
     local valid_asics_type = false
