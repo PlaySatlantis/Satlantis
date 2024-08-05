@@ -218,10 +218,16 @@ local app_def = {
 			for i = 1, #self.auction_listings do
 				local listing = self.auction_listings[i]
 				if listing.sellerId == backend_id then
-					formspec_format = "hypertext[0,%d;5,0.5;ah_user_joule_listing_%d;<global size=16 valign=middle><style color=#ffffff><normal>%02d %s @ %d sats</normal>]"
-					formspec = string.format(formspec_format, y, i, tonumber(listing.quantity), listing.type, tonumber(listing.price));
+					formspec_format = "hypertext[0,%d;5,0.5;ah_user_joule_listing_%d;<global size=16 valign=middle><style color=#ffffff><normal>%dx %s @ %d sats</normal>]"
+					local item_desc = "unknown"
+					if listing.type == "asics" then
+						item_desc = listing.asicsType .. " ASICs"
+					elseif listing.type == "joules" then
+						item_desc = "Joules"
+					end
+					formspec = string.format(formspec_format, y, i, tonumber(listing.quantity), item_desc, tonumber(listing.price));
 					user_joule_listings_formspec = user_joule_listings_formspec .. formspec
-					formspec_format = "button[3.5,%d;2,0.5;rm_joule_listing_%d_button;Remove]"
+					formspec_format = "button[4,%d;2,0.5;rm_joule_listing_%d_button;Remove]"
 					formspec = string.format(formspec_format, y, i);
 					user_joule_listings_formspec = user_joule_listings_formspec .. formspec
 					y = y + user_listing_entry_height
@@ -272,8 +278,8 @@ local app_def = {
 			if seller_backend_id ~= backend_id then
 				local x = base_x
 				--
-				-- Seller <seller_name        <item_image>
-				-- Amount <amount>            Price: <price>
+				-- <seller> is selling <type>   <item_image>
+				-- Amount <amount>              Price: <price>
 				--
 
 				local item_type_image = "smartphone_auction_house_item_unknown.jpg"
