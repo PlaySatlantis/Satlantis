@@ -69,7 +69,7 @@ local function user_sell_item_page(user_name, user_joules, user_asics)
 			local item_format = asics_types[i].type .. " (x%d)"
 			local item = string.format(item_format, asics_types[i].amount)
 			if i > 1 then
-				dropdown_contents = dropdown_contents + ","
+				dropdown_contents = dropdown_contents .. ","
 			end
 			dropdown_contents = dropdown_contents .. item
 		end
