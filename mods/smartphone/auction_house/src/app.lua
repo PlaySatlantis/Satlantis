@@ -157,7 +157,7 @@ local app_def = {
 			]]
 		end
 
-		if not self.user_joules[player_name] then
+		if not (self.user_joules[player_name] or self.user_balance[player_name]) then
 			satlantis.get_user_data(player_name, function(succeeded, message, json_data)
 				if succeeded then
 					self.user_joules[player_name] = json_data.joules
@@ -190,12 +190,17 @@ local app_def = {
 			hypertext[0,0;5.3,1;auction_house_title;<global size=20 valign=middle><style color=#ffffff><b>Auction House</b>]
 			container[0,1]
 			%s
+			container[0,1]
 			%s
 			%s
+			%s
+			container_end[]
 			container_end[]
 			container_end[]
 		]]
 
+		local info_formspec_format = "hypertext[0,0;5,1;auction_house_user_info;<global size=16 valign=middle><style color=#abc0c0><style color=#ffffff><b>Balance: </b></style><style color=#abc0c0><normal>%d</normal></style>]"
+		local info_formspec = string.format(info_formspec_format, self.user_balance[player_name] or 0)
 		
 		local sell_items_formspec = "hypertext[0,0;5,1;auction_house_user_sales;<global size=18 valign=middle><style color=#abc0c0><b>Your Offers</b>]"
 		local formspec_format = ""
@@ -318,7 +323,7 @@ local app_def = {
 			notification_message = "hypertext[0.25,9.5;7,1;btcw_err_message;<global size=16> <style color=#d40606><normal>" .. self.error_message .. "</normal>]"
 		end
 
-		return string.format(page_formspec, sell_items_formspec, listings_formspec, notification_message)
+		return string.format(page_formspec, info_formspec, sell_items_formspec, listings_formspec, notification_message)
 	end
 
 }
