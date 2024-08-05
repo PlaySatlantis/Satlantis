@@ -111,7 +111,7 @@ local app_def = {
 	get_height = function (self, player, page, type)
 		if self.auction_listings then
 			local player_name = player:get_player_name()
-			local base_height = 4
+			local base_height = 5
 			local user_listing_count = self.user_listing_count[player_name] or 0
 			local users_listings_height = user_listing_count * user_listing_entry_height
 			local listings_height = listing_entry_height * #self.auction_listings
@@ -446,6 +446,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 					if succeeded then
 						app.auction_listings = nil
 						app.user_balance[player_name] = app.user_balance[player_name] - item.price
+						--
+						-- Force refresh user data
+						--
+						if item.type == "joules" then
+							app.user_joules[player_name] = nil
+						elseif item.type == "asics" then
+							app.user_asics[player_name] = nil
+						end
 					else
 						app.user_error_message[player_name] = "Failed to purchace item. Reason: " .. tostring(message)
 						minetest.chat_send_player(player_name, app.user_error_message[player_name])
