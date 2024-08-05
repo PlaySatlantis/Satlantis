@@ -271,19 +271,22 @@ local app_def = {
 				-- Amount <amount>            Price: <price>
 				--
 
-				formspec_format = string.format("box[0,%d;7.5,%d;#00284d]container[0.25,0.25]", y, listing_entry_height - 0.5)
-				formspec_format = formspec_format .. "hypertext[%d,%d;5,1;listing_%d_seller;<global size=16> <style color=#ffffff><b>Seller:</b><normal> %s</normal>]"
-				formspec = string.format(formspec_format, x, y, i, seller_name)
-				listings_formspec = listings_formspec .. formspec
-
 				local item_type_image = "smartphone_auction_house_item_unknown.jpg"
+				local item_type = ""
 				if type_name == "joules" then
 					item_type_image = "smartphone_auction_house_item_joule.jpg"
+					item_type = "Joules"
 				elseif type_name == "asics" then
 					item_type_image = "smartphone_auction_house_item_asic.jpg"
+					item_type = item.asicsType .. " ASICs"
 				else
 					core.log("error", "Invalid item type. " .. tostring(type_name))
 				end
+
+				formspec_format = string.format("box[0,%d;7.5,%d;#00284d]container[0.25,0.25]", y, listing_entry_height - 0.5)
+				formspec_format = formspec_format .. "hypertext[%d,%d;5,1;listing_%d_seller;<global size=16> <style color=#ffffff><b>%s</b><normal> is selling </normal><b>%s</b>]"
+				formspec = string.format(formspec_format, x, y, i, seller_name, item_type)
+				listings_formspec = listings_formspec .. formspec
 
 				local item_image_x = base_x + 6
 				formspec_format = "image[%d,%d;0.75,0.75;%s;]"
@@ -367,6 +370,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 						-- Force reload auction listings
 						--
 						app.auction_listings = nil
+						app.user_joules[player_name] = nil
 						smartphone.open_app(player, "auction_house:main")
 					else
 						minetest.chat_send_player(player_name, "Backend rejected request to list items for sale. Reason: " .. tostring(message))
@@ -406,6 +410,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 						-- Force reload auction listings
 						--
 						app.auction_listings = nil
+						app.user_asics[player_name] = nil
 						smartphone.open_app(player, "auction_house:main")
 					else
 						minetest.chat_send_player(player_name, "Failed to ASICs in Auction House. Reason: " .. tostring(message))
