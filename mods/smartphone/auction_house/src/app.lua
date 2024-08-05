@@ -401,7 +401,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				-- 's50+ (x44)' -> 's50+'
 				--
 				local asics_type = string.sub(fields["sell_asics_drop"], 1, 4)
-				local is_plus = (asics_type[4] == '+')
+				local is_plus = (string.sub(asics_type, 4, 4) == '+')
 				if not is_plus then
 					asics_type = string.sub(fields["sell_asics_drop"], 1, 3)
 				end
