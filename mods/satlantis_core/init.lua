@@ -68,6 +68,22 @@ local filename = function(str)
 	return str
 end
 
+local user_cache = {}
+
+function satlantis.cache_entry_for_user(player_name)
+    if user_cache[player_name] == nil then
+        user_cache[player_name] = {}
+    end
+    return user_cache[player_name]
+end
+
+function satlantis.cache_invalidate_field_for_user(player_name, field_name)
+    if user_cache[player_name] == nil then
+        user_cache[player_name] = {}
+    end
+    user_cache[player_name][field_name] = nil
+end
+
 --
 -- Given a players Minetest name, return the ID string for the user on the backend
 --
@@ -168,6 +184,33 @@ function satlantis.get_user_data(player, callback)
     http_api.fetch(request, function(response)
         if response.succeeded and response.code == 200 then
             local response_json = core.parse_json(response.data or "")
+            --
+            -- Example JSON Payload
+            --
+            -- {
+            --     "id": "52d59282-d363-4650-8d74-2d586d8955c5",
+            --     "joules": 1000459,
+            --     "balance": 2302289.0426216624,
+            --     "emailConfirmed": true,
+            --     "hashrate": 50,
+            --     "premium": {
+            --         "active": true,
+            --         "valid_for": "29 days,23 hours,59 minutes,32 seconds"
+            --     },
+            --     "minetest_name": "sema"
+            -- }
+
+            if not user_cache[player] then
+                user_cache[player] = {}
+            end
+
+            user_cache[player].id = response_json.data.id
+            user_cache[player].joules = response_json.data.joules
+            user_cache[player].balance = response_json.data.balance
+            user_cache[player].email_confirmed = response_json.data.emailConfirmed
+            user_cache[player].hashrate = response_json.data.hashrate
+            user_cache[player].premium = response_json.data.premium
+
             callback(true, "Success", response_json.data)
         elseif response.timeout then
             callback(false, "Timed out", nil)
@@ -227,6 +270,8 @@ function satlantis.get_asics(player, callback)
     http_api.fetch(request, function(response)
         if response.succeeded and response.code == 200 then
             local response_json = core.parse_json(response.data or "")
+            local user_cache_entry = satlantis.cache_entry_for_user(player)
+            user_cache_entry.asics = response_json.data
             callback(true, "Success", response_json.data)
         elseif response.timeout then
             callback(false, "Timed out", nil)
@@ -1270,11 +1315,11 @@ minetest.register_node(":satlantis:header", {
 --         if #args == 1 then
 --             local amount = tonumber(args[1])
 --             if amount then
---                 satlantis.add_balance(name, amount, function(succeeded, message, user_balance)
+--                 satlantis.transfer_sats("Activated", name, amount, function(succeeded, message, updated_record)
 --                     if succeeded then
---                         minetest.chat_send_player(name, "Successfully added " .. tostring(amount) .. " to account. Current balance: " .. tostring(user_balance.current))
+--                         minetest.chat_send_player(name, "Successfully transferred sats")
 --                     else
---                         minetest.chat_send_player(name, "Failed add balance. Reason: " .. tostring(message))
+--                         minetest.chat_send_player(name, "Failed to transfer sats. Reason: " .. tostring(message))
 --                     end
 --                 end)
 --             else
