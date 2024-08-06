@@ -3,7 +3,6 @@ local app_def = {
 	name = "Bitcoin Wallet",
 	bg_color = "#112554",
 
-	balance = {},
 	error_message = {},
 	success_message = {},
 	deposit_qr_code = {},
@@ -16,8 +15,9 @@ local app_def = {
 	get_content = function (self, player, page, user_data)
 
 		local player_name = player:get_player_name()
+		local player_cache_entry = satlantis.cache_entry_for_user(player_name)
 
-		if not self.balance[player_name] then
+		if not player_cache_entry.balance then
 			satlantis.get_user_data(player_name, function(succeeded, message, json_data)
 				if not succeeded then
 					local error_message = "Failed to get user data for user. Reason: " .. tostring(message)
@@ -25,7 +25,6 @@ local app_def = {
 					smartphone.open_app(player, "bitcoin_wallet:wallet")
 					return
 				end
-				self.balance[player_name] = tonumber(json_data.balance) or 0.0
 				smartphone.open_app(player, "bitcoin_wallet:wallet")
 			end)
 			return [[
@@ -35,9 +34,12 @@ local app_def = {
 			]]
 		end
 
-		if self.balance[player_name] then
+		local player_balance = 0
+
+		if player_cache_entry.balance then
+			player_balance = player_cache_entry.balance
 			if not (self.deposit_code[player_name] or self.deposit_qr_code[player_name]) then
-				satlantis.request_deposit_code(player:get_player_name(), function(succeeded, qr_image_file_name, request_code, error_message)
+				satlantis.request_deposit_code(player_name, function(succeeded, qr_image_file_name, request_code, error_message)
 					if succeeded then
 						self.deposit_qr_code[player_name] = qr_image_file_name
 						self.deposit_code[player_name] = request_code
@@ -54,7 +56,7 @@ local app_def = {
 			container[0.5,0.0]
 			hypertext[0,0;5.3,1;bitcoin_wallet_title;<global size=20 valign=middle><style color=#abc0c0><b>Bitcoin Wallet</b>]
 			container[0.1,1.5]
-			hypertext[0.2,0;3,1;btcw_balance;<global size=16> <style color=#ffffff><normal>Balance: ]] .. tostring(self.balance[player_name]) .. [[</normal></style>]
+			hypertext[0.2,0;3,1;btcw_balance;<global size=16> <style color=#ffffff><normal>Balance: ]] .. tostring(player_balance) .. [[</normal></style>]
 			field[0.25,0.5;4,0.75;withdraw_amount;;0.0]
 			button[4.5,0.5;2.5,0.75;withdraw_btn;Withdraw]
 			container[0,1.75]
@@ -92,7 +94,6 @@ local app_def = {
 
 		return string.format(formspec, deposit_formspec, notification_message)
 	end
-
 }
 
 smartphone.register_app("bitcoin_wallet:wallet", app_def)
@@ -126,8 +127,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 								--
 								-- Force reload both players balances from backend
 								--
-								app.balance[player_name] = nil
-								app.balance[dst_player] = nil
+								satlantis.cache_invalidate_field_for_user(player_name, "balance")
+								satlantis.cache_invalidate_field_for_user(dst_player, "balance")
 								fields.btcw_tx_user = ""
 								fields.btcw_tx_amount = "0.0"
 							else
@@ -162,8 +163,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields.withdraw_amount and fields.withdraw_amount ~= "" then
 			local amount = tonumber(fields.withdraw_amount)
 			if amount > 0.0 then
-				if amount <= app.balance[player_name] then
-					local percent = (amount / app.balance[player_name]) * 100.0
+				local player_cache_entry = satlantis.cache_entry_for_user(player_name)
+				local player_balance = player_cache_entry.balance
+				if amount <= player_balance then
+					local percent = (amount / player_balance) * 100.0
 					satlantis.withdraw_sats(player:get_player_name(), percent, function(succeeded, message, json_data)
 						if succeeded then
 							app.error_message[player_name] = nil
@@ -194,7 +197,6 @@ end)
 
 minetest.register_on_leaveplayer(function(player, timed_out)
 	local player_name = player:get_player_name()
-	app_def.balance[player_name] = nil
 	app_def.error_message[player_name] = nil
 	app_def.success_message[player_name] = nil
 	app_def.deposit_qr_code[player_name] = nil
