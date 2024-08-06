@@ -59,9 +59,9 @@ local app_def = {
 			button[4.5,0.5;2.5,0.75;withdraw_btn;Withdraw]
 			container[0,1.75]
 			hypertext[0,0;3,1;btcw_send_user;<global size=16> <style color=#abc0c0><b>Transfers</b>]
-			field[0.25,1.0;4,0.75;tx_user;User;]
-			field[0.25,2.5;4,0.75;tx_amount;Amount;0.0]
-			button[4.5,2.5;2.5,0.75;tx_btn;Transfer]
+			field[0.25,1.0;4,0.75;btcw_tx_user;User;]
+			field[0.25,2.5;4,0.75;btcw_tx_amount;Amount;0.0]
+			button[4.5,2.5;2.5,0.75;btcw_tx_btn;Transfer]
 			%s
 			%s
 			container_end[]
@@ -106,13 +106,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	local player_name = player:get_player_name()
 
-	if fields.tx_btn then
+	if fields.btcw_tx_btn then
 		app.success_message[player_name] = nil
 		app.error_message[player_name] = nil
 
 		local src_player = player_name
-		local dst_player = fields.tx_user
-		local amount_field = fields.tx_amount
+		local dst_player = fields.btcw_tx_user
+		local amount_field = fields.btcw_tx_amount
 
 		if amount_field then
 			if dst_player and dst_player ~= "" then
@@ -120,12 +120,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				if src_player ~= dst_player then
 					if amount > 0 then
 						satlantis.transfer_sats(src_player, dst_player, amount, function(succeeded, message, json_data)
-							fields.tx_user = ""
-							fields.tx_amount = "0.0"
 							if succeeded then
 								app.error_message[player_name] = nil
 								app.success_message[player_name] = "Transfer successful"
-								app.balance[player_name] = app.balance[player_name] - amount
+								--
+								-- Force reload both players balances from backend
+								--
+								app.balance[player_name] = nil
+								app.balance[dst_player] = nil
+								fields.btcw_tx_user = ""
+								fields.btcw_tx_amount = "0.0"
 							else
 								app.error_message[player_name] = message
 							end
