@@ -20,8 +20,6 @@ local app_def = {
 	name = "ASICs",
 	bg_color = "#112554",
 
-	asics = {},
-	joule_count = {},
 	hibernate_status = {},
 	error_message = {},
 	notification = {},
@@ -33,11 +31,11 @@ local app_def = {
 	get_content = function (self, player, page, user_data)
 
 		local player_name = player:get_player_name()
+		local user_cache_entry = satlantis.cache_entry_for_user(player_name)
 
-		if not self.asics[player_name] then 
+		if not user_cache_entry.asics then
 			satlantis.get_asics(player_name, function(succeeded, message, json_data)
 				if succeeded then
-					self.asics[player_name] = json_data
 					self.hibernate_status[player_name] = {}
 					local i = 1
 					while i <= group_count do
@@ -51,28 +49,25 @@ local app_def = {
 			end)
 		end
 
-		if not self.joule_count[player_name] then
+		if not user_cache_entry.joules then
 			satlantis.get_user_data(player_name, function(succeeded, message, json_data)
-				if succeeded then
-					self.joule_count[player_name] = json_data.joules
-				else
+				if not succeeded then
 					core.log("error", "Failed to get user data. User: " .. player_name .. " Server message: " .. message)
 					self.notification[player_name] = nil
 					self.error_message[player_name] = "Failed to get user data. Response: " .. tostring(message)
-					self.joule_count[player_name] = -1
 				end
 				smartphone.open_app(player, "asics:asics")
 			end)
 		end
 
-		if self.asics[player_name] then
+		if user_cache_entry.asics then
 			local formspec_string = [[
 				container[0.5,0.0]
 				hypertext[0,0;5.3,1;asics_app_title;<global size=20 valign=middle><style color=#abc0c0><b>ASICs</b>]
 				container[0.1,1]
 			]]
 
-			local asics = self.asics[player_name]
+			local asics = user_cache_entry.asics
 
 			local asic_count = #asics
 
@@ -132,9 +127,9 @@ local app_def = {
 				y = y + 0.5
 			end
 
-			if self.joule_count[player_name] then
+			if user_cache_entry.joules then
 				y = y + 0.5
-				formspec_string = formspec_string .. "label[" .. tostring(x) .. "," .. tostring(y) .. ";Your Joules: " .. tostring(self.joule_count[player_name]) .. "]"
+				formspec_string = formspec_string .. "label[" .. tostring(x) .. "," .. tostring(y) .. ";Your Joules: " .. tostring(user_cache_entry.joules) .. "]"
 				y = y + line_height
 				formspec_string = formspec_string .."field[" .. tostring(x) .. ", " .. tostring(y) .. ";1.5,0.65;fill_amount;;0]"
 				x = x + 2.0
@@ -171,7 +166,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	if fields.asics_refresh then
 		app.hibernate_status[player_name] = nil
-		app.asics[player_name] = nil
+		satlantis.cache_invalidate_field_for_user(player_name, "asics")
 		smartphone.open_app(player, "asics:asics")
 		return true
 	end
