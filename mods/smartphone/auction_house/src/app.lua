@@ -98,10 +98,6 @@ local app_def = {
 	bg_color = "#001a33",
 
 	auction_listings = nil,
-	user_id = {},
-	user_joules = {},
-	user_balance = {},
-	user_asics = {},
 	user_error_message = {},
 	user_page = {},
 	user_joule_listings = {},
@@ -133,9 +129,11 @@ local app_def = {
 			]]
 		end
 
+		local user_cache_entry = satlantis.cache_entry_for_user(player_name)
+
 		if self.user_page[player_name] == "sell" then
-			if self.user_joules[player_name] and self.user_asics[player_name] then
-				return user_sell_item_page(player_name, self.user_joules[player_name], self.user_asics[player_name])
+			if user_cache_entry.joules and user_cache_entry.asics then
+				return user_sell_item_page(player_name, user_cache_entry.joules, user_cache_entry.asics)
 			end
 		end
 
@@ -157,27 +155,17 @@ local app_def = {
 			]]
 		end
 
-		if not (self.user_joules[player_name] or self.user_balance[player_name]) then
+		if not (user_cache_entry.joules or user_cache_entry.balance) then
 			satlantis.get_user_data(player_name, function(succeeded, message, json_data)
-				if succeeded then
-					self.user_joules[player_name] = json_data.joules
-					self.user_balance[player_name] = json_data.balance
-					self.user_id[player_name] = json_data.id
-				else
+				if not succeeded then
 					core.log("error", "Failed to get user data for user. Reason: " .. tostring(message))
-					self.user_joules[player_name] = 0
-					self.user_balance[player_name] = 0
-					self.user_id[player_name] = ""
 				end
 			end)
 		end
 
-		if not self.user_asics[player_name] then 
+		if not user_cache_entry.asics then
 			satlantis.get_asics(player_name, function(succeeded, message, json_data)
-				if succeeded then
-					self.user_asics[player_name] = json_data
-				else
-					self.user_asics[player_name] = {}
+				if not succeeded then
 					self.user_error_message[player_name] = tostring(message)
 				end
 				smartphone.open_app(player, "auction_house:main")
@@ -200,7 +188,7 @@ local app_def = {
 		]]
 
 		local info_formspec_format = "hypertext[0,0;5,1;auction_house_user_info;<global size=16 valign=middle><style color=#abc0c0><style color=#ffffff><b>Balance: </b></style><style color=#abc0c0><normal>%d</normal></style>]"
-		local info_formspec = string.format(info_formspec_format, self.user_balance[player_name] or 0)
+		local info_formspec = string.format(info_formspec_format, user_cache_entry.balance or 0)
 		
 		local sell_items_formspec = "hypertext[0,0;5,1;auction_house_user_sales;<global size=18 valign=middle><style color=#abc0c0><b>Your Offers</b>]"
 		local formspec_format = ""
@@ -247,7 +235,7 @@ local app_def = {
 
 		sell_items_formspec = sell_items_formspec .. user_joule_listings_formspec
 
-		if self.user_asics[player_name] and self.auction_listings then
+		if user_cache_entry.asics and self.auction_listings then
 			y = y + 1
 			formspec_format = "button[%d,%d;2,0.5;open_sell_item_button;Add Listing]"
 			formspec = string.format(formspec_format, 0, y)
@@ -344,6 +332,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	local player_name = player:get_player_name()
+	local user_cache_entry = satlantis.cache_entry_for_user(player_name)
 
 	if fields.smtphone_back and app.user_page[player_name] == "sell" then
 		app.user_page[player_name] = nil
@@ -373,7 +362,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields["sell_joules_button"] then
 			local quantity = tonumber(fields["sell_joules_amount"]) or 0
 			local price = tonumber(fields["sell_joules_price"]) or 0
-			if quantity > 0 and quantity <= app.user_joules[player_name] and price and price > 0 then
+			local user_joules = tonumber(user_cache_entry.joules or 0)
+			if quantity > 0 and quantity <= user_joules and price and price > 0 then
 				satlantis.auction_sell_joules(player_name, quantity, price, function(succeeded, message, data)
 					if succeeded then
 						minetest.chat_send_player(player_name, "Listing for " .. tostring(quantity) .. " joules successfully added to auction house")
@@ -381,7 +371,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 						-- Force reload auction listings
 						--
 						app.auction_listings = nil
-						app.user_joules[player_name] = nil
+						satlantis.cache_invalidate_field_for_user(player_name, "joules")
 						smartphone.open_app(player, "auction_house:main")
 					else
 						minetest.chat_send_player(player_name, "Backend rejected request to list items for sale. Reason: " .. tostring(message))
@@ -421,7 +411,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 						-- Force reload auction listings
 						--
 						app.auction_listings = nil
-						app.user_asics[player_name] = nil
+						satlantis.cache_invalidate_field_for_user(player_name, "asics")
 						smartphone.open_app(player, "auction_house:main")
 					else
 						minetest.chat_send_player(player_name, "Failed to ASICs in Auction House. Reason: " .. tostring(message))
@@ -445,14 +435,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				satlantis.purchase_auction_listing(player_name, item.id, function(succeeded, message, data)
 					if succeeded then
 						app.auction_listings = nil
-						app.user_balance[player_name] = app.user_balance[player_name] - item.price
+						satlantis.cache_invalidate_field_for_user(player_name, "balance")
 						--
 						-- Force refresh user data
 						--
 						if item.type == "joules" then
-							app.user_joules[player_name] = nil
+							satlantis.cache_invalidate_field_for_user(player_name, "joules")
 						elseif item.type == "asics" then
-							app.user_asics[player_name] = nil
+							satlantis.cache_invalidate_field_for_user(player_name, "asics")
 						end
 					else
 						app.user_error_message[player_name] = "Failed to purchace item. Reason: " .. tostring(message)
