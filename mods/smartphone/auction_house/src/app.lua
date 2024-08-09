@@ -166,6 +166,7 @@ local app_def = {
 				if not succeeded then
 					core.log("error", "Failed to get user data for user. Reason: " .. tostring(message))
 				end
+				smartphone.open_app(player, "auction_house:main")
 			end)
 		end
 
