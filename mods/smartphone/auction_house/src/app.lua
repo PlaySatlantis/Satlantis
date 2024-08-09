@@ -110,10 +110,11 @@ local app_def = {
 			local base_height = 5
 			local user_listing_count = self.user_listing_count[player_name] or 0
 			local users_listings_height = user_listing_count * user_listing_entry_height
-			local listings_height = listing_entry_height * #self.auction_listings
-			return math.max(smartphone.content_height, base_height + users_listings_height + listings_height)
+			local listing_count = self.auction_listings and #self.auction_listings or 0
+			local listings_height = listing_entry_height * listing_count
+			return math.max(smartphone.content_height or 0, base_height + users_listings_height + listings_height)
 		end
-		return smartphone.content_height
+		return smartphone.content_height or 2
 	end,
 
 	get_content = function (self, player, page, user_data)
