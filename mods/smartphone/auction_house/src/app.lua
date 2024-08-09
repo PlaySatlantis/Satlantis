@@ -112,7 +112,12 @@ local app_def = {
 			local users_listings_height = user_listing_count * user_listing_entry_height
 			local listing_count = self.auction_listings and #self.auction_listings or 0
 			local listings_height = listing_entry_height * listing_count
-			return math.max(smartphone.content_height or 0, base_height + users_listings_height + listings_height)
+			assert(base_height, "base_height not nil")
+			assert(users_listings_height, "users_listings_height not nil")
+			assert(listings_height, "listings_height not nil")
+			local total_height = base_height + users_listings_height + listings_height
+			assert(math.max, "Have math.max")
+			return math.max(smartphone.content_height or 0, total_height)
 		end
 		return smartphone.content_height or 2
 	end,

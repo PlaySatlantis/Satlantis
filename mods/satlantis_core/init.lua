@@ -271,6 +271,7 @@ function satlantis.get_asics(player, callback)
         if response.succeeded and response.code == 200 then
             local response_json = core.parse_json(response.data or "")
             local user_cache_entry = satlantis.cache_entry_for_user(player)
+            assert(user_cache_entry)
             user_cache_entry.asics = response_json.data
             callback(true, "Success", response_json.data)
         elseif response.timeout then

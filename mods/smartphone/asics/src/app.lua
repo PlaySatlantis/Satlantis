@@ -35,18 +35,21 @@ local app_def = {
 
 		if not user_cache_entry.asics then
 			satlantis.get_asics(player_name, function(succeeded, message, json_data)
-				if succeeded then
-					self.hibernate_status[player_name] = {}
-					local i = 1
-					while i <= group_count do
-						self.hibernate_status[player_name][i] = false
-						i = i + 1
-					end
-				else
+				if not succeeded then
 					self.error_message[player_name] = tostring(message)
 				end
 				smartphone.open_app(player, "asics:asics")
 			end)
+		end
+
+		--
+		-- Initialize hibernate_status
+		--
+		if not self.hibernate_status[player_name] then
+			self.hibernate_status[player_name] = {}
+			for i = 1, group_count do
+				self.hibernate_status[player_name][i] = false
+			end
 		end
 
 		if not user_cache_entry.joules then
@@ -113,6 +116,9 @@ local app_def = {
 						local fill_image_name = "phone_icon_checkmark.png"
 						local hibernate_image_name = "phone_icon_locked.png"
 
+						assert(self.hibernate_status[player_name] ~= nil)
+						assert(self.hibernate_status[player_name][group_i] ~= nil)
+
 						local texture_name = (self.hibernate_status[player_name][group_i] and hibernate_image_name or fill_image_name)
 						formspec_string = formspec_string .. "image_button[" .. tostring(x) .. "," .. tostring(y - 0.25) .. ";" .. "0.5,0.5;" .. texture_name .. ";fill_image_" .. tostring(group_i) .. ";]"
 						x = x + 0.75
@@ -165,7 +171,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local handled_action = false
 
 	if fields.asics_refresh then
-		app.hibernate_status[player_name] = nil
 		satlantis.cache_invalidate_field_for_user(player_name, "asics")
 		smartphone.open_app(player, "asics:asics")
 		return true
