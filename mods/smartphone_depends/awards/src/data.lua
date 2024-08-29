@@ -110,3 +110,15 @@ end
 function awards.clear_player(name)
 	__player_data[name] = {}
 end
+
+
+function awards.increment_item_counter_data(field, itemname, count)
+	itemname = minetest.registered_aliases[itemname] or itemname
+	__player_data[field][itemname] = (__player_data[field][itemname] or 0) + (count or 1)
+	awards.save()
+end
+
+function awards.get_item_count_data(field, itemname)
+	itemname = minetest.registered_aliases[itemname] or itemname
+	return __player_data[field][itemname] or 0
+end

@@ -12,7 +12,7 @@ local app_def = {
 	end,
 
 	get_quests = function (self, pl_name, type)
-		-- filtering quests based on whether they must be weekly or daily
+		-- filtering quests based on whether they must be weekly or daily + reset previous quests
 		local quests = table.filter(awards.get_award_states(pl_name), function (quest)
 			local quests_to_show = {}
 			local day = days_since_date(phone_quests.start_day)
@@ -20,9 +20,55 @@ local app_def = {
 				local week = math.floor(day / 7)
 				local weekly_quests = phone_quests.weekly_quests
 				quests_to_show = weekly_quests[((week) % #weekly_quests) + 1]
+
+				--reset previous weekly quests
+				local quests_modify_number
+				if (week) % #weekly_quests == 0 then
+					quests_modify_number = ((week) % #weekly_quests) + 1
+				else
+					quests_modify_number = #weekly_quests
+				end
+
+				local quests_to_modify
+				for i = 1, quests_modify_number do
+					quests_to_modify = weekly_quests[i]
+					for index, quest in pairs(quests_to_modify) do
+							local data = awards.player(pl_name)
+							data.unlocked[quest] = nil
+														
+							if awards.registered_awards[quest].trigger.node and awards.registered_awards[quest].trigger.type then
+								local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+								awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+							end
+							awards.save()
+					end
+				end
 			else
 				local daily_quests = phone_quests.daily_quests
 				quests_to_show = daily_quests[((day) % #daily_quests) + 1]
+
+				--reset previous daily quests
+				local quests_modify_number
+				if (day) % #daily_quests == 0 then
+					quests_modify_number = ((day) % #daily_quests) + 1
+				else
+					quests_modify_number = #daily_quests
+				end
+
+				local quests_to_modify
+				for i = 1, quests_modify_number do
+					quests_to_modify = daily_quests[i]
+					for index, quest in pairs(quests_to_modify) do
+							local data = awards.player(pl_name)
+							data.unlocked[quest] = nil
+
+							if awards.registered_awards[quest].trigger.node then
+								local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+								awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+							end
+							awards.save()
+					end
+				end
 			end
 
 			return table.find(quests_to_show, function (valid_quest_name)
