@@ -28,7 +28,61 @@ minetest.register_on_joinplayer(function(player, last_login)
         awards.remove(pl_name, "satlantis_quests:daily_login")
         storage:set_string("last_joined_day|"..pl_name, "")
     end
+
+    local daily_quests = phone_quests.daily_quests
+
+    local day = (phone_quests.days_since_date(phone_quests.start_day) % #daily_quests) + 1
+    local last_joined_day_quest = tonumber(storage:get_string("last_joined_day_quest|"..pl_name))
+
+    if last_joined_day_quest ~= day then
+        local quests_modify_number = #daily_quests
+
+        local quests_to_modify
+        for i = 1, quests_modify_number do
+            quests_to_modify = daily_quests[i]
+            for index, quest in pairs(quests_to_modify) do
+                    local data = awards.player(pl_name)
+                    data.unlocked[quest] = nil
+
+                    if awards.registered_awards[quest].trigger.node then
+                        local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                        awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+                    end
+                    awards.save()
+            end
+        end
+    end
+
+    storage:set_string("last_joined_day_quest|"..pl_name, tostring(day))
+
+    local week = math.floor(day / 7)
+    local last_joined_week_quest = storage:get_string("last_joined_week_quest|"..pl_name)
+
+    if last_joined_week_quest ~= week then
+
+        local weekly_quests = phone_quests.weekly_quests
+        local quests_modify_number = #weekly_quests
+
+        local quests_to_modify
+        for i = 1, quests_modify_number do
+            quests_to_modify = weekly_quests[i]
+            for index, quest in pairs(quests_to_modify) do
+                    local data = awards.player(pl_name)
+                    data.unlocked[quest] = nil
+
+                    if awards.registered_awards[quest].trigger.node then
+                        local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                        awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+                    end
+                    awards.save()
+            end
+        end
+    end
+
+    storage:set_string("last_joined_week_quest|"..pl_name, week)
 end)
+
+
 
 
 
