@@ -1,6 +1,18 @@
 local storage = minetest.get_mod_storage()
 
+minetest.register_on_joinplayer(function(player, last_login)
+	local weekly_quests = phone_quests.weekly_quests
+	local day = (phone_quests.days_since_date(phone_quests.start_day) % #weekly_quests) + 1
+	local week = math.floor(day / 7)
 
+	local last_joined_week_rewards_player = storage:get_int("last_joined_week_rewards")
+
+	if last_joined_week_rewards ~= week then
+		phone_rewards.reset_levels()
+	end
+
+	storage:set_int("last_joined_week_rewards", week)
+end)
 
 --[[
 	Gets the current points for a given player name.
