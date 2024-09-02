@@ -31,12 +31,11 @@ minetest.register_on_joinplayer(function(player, last_login)
 
     local daily_quests = phone_quests.daily_quests
 
-    local days_since_start = phone_quests.days_since_date(phone_quests.start_day)
-    local day = (days_since_start % #daily_quests) + 1
+    local day = phone_quests.days_since_date(phone_quests.start_day)
     local last_joined_day_quest = tonumber(storage:get_string("last_joined_day_quest|"..pl_name))
 
     if last_joined_day_quest ~= day then
-        local quests_to_modify = daily_quests[day]
+        local quests_to_modify = daily_quests[(day % #daily_quests) + 1]
         for index, quest in pairs(quests_to_modify) do
                 local data = awards.player(pl_name)
                 data.unlocked[quest] = nil
@@ -51,12 +50,13 @@ minetest.register_on_joinplayer(function(player, last_login)
 
     storage:set_string("last_joined_day_quest|"..pl_name, tostring(day))
 
-    local week = math.floor(days_since_start / 7)
+    local week = math.floor(day / 7)
     local last_joined_week_quest = storage:get_string("last_joined_week_quest|"..pl_name)
 
     if last_joined_week_quest ~= week then
         local weekly_quests = phone_quests.weekly_quests
-        local quests_to_modify = weekly_quests[week]
+        local quests_to_modify = weekly_quests[((week) % #weekly_quests) + 1]
+        minetest.log("warning", tostring(week))
         for index, quest in pairs(quests_to_modify) do
                 local data = awards.player(pl_name)
                 data.unlocked[quest] = nil
