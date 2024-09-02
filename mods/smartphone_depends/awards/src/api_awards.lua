@@ -54,10 +54,6 @@ function awards.unlock(name, award)
 	local awdef = awards.registered_awards[award]
 	assert(awdef, "Unable to unlock an award which doesn't exist!")
 
-	local award_counter = awards.get_item_count(data, awards.registered_awards[award].trigger.type, awards.registered_awards[award].trigger.node) * -1
-	awards.increment_item_counter(data, awards.registered_awards[award].trigger.type, awards.registered_awards[award].trigger.node, award_counter)
-	awards.save()
-
 	if data.disabled or
 			(data.unlocked[award] and data.unlocked[award] == award) then
 		return
