@@ -12,10 +12,10 @@ local app_def = {
 	end,
 
 	get_quests = function (self, pl_name, type)
-		-- filtering quests based on whether they must be weekly or daily
+		-- filtering quests based on whether they must be weekly or daily + reset previous quests
 		local quests = table.filter(awards.get_award_states(pl_name), function (quest)
 			local quests_to_show = {}
-			local day = days_since_date(phone_quests.start_day)
+			local day = phone_quests.days_since_date(phone_quests.start_day)
 			if type == "weekly" then
 				local week = math.floor(day / 7)
 				local weekly_quests = phone_quests.weekly_quests
@@ -146,7 +146,7 @@ end
 
 
 -- Function to calculate the number of days since a given date
-function days_since_date(date_table)
+function phone_quests.days_since_date(date_table)
     -- Create a table for the given date
 	date_table = date_table or {}
     local given_date = {

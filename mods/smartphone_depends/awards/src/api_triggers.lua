@@ -72,6 +72,7 @@ function awards.register_trigger(tname, tdef)
 			-- Increment counter
 			local currentVal = (data[tname] or 0) + 1
 			data[tname] = currentVal
+			
 
 			tdef:run_callbacks(player, data, function(entry)
 				if entry.target and entry.award and currentVal and
@@ -79,6 +80,7 @@ function awards.register_trigger(tname, tdef)
 					return entry.award
 				end
 			end)
+
 		end
 
 		awards["notify_" .. tname] = tdef.notify
