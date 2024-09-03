@@ -56,7 +56,6 @@ minetest.register_on_joinplayer(function(player, last_login)
     if last_joined_week_quest ~= week then
         local weekly_quests = phone_quests.weekly_quests
         local quests_to_modify = weekly_quests[((week) % #weekly_quests) + 1]
-        minetest.log("warning", tostring(week))
         for index, quest in pairs(quests_to_modify) do
                 local data = awards.player(pl_name)
                 data.unlocked[quest] = nil

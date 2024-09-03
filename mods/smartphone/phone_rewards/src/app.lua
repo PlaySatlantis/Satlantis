@@ -123,6 +123,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			local premium = (string.split(field, "|")[2] or "") == "premium" and true or false
 			local level = tonumber(string.split(field, "|")[3] or 0)
 			phone_rewards.give_reward(player:get_player_name(), premium, level)
+			smartphone.open_app(player, "phone_rewards:rewards")
 			return true
 		end
 	end
