@@ -35,18 +35,36 @@ minetest.register_on_joinplayer(function(player, last_login)
     local last_joined_day_quest = tonumber(storage:get_string("last_joined_day_quest|"..pl_name))
 
     if last_joined_day_quest ~= day then
-        local quests_to_modify = daily_quests[(day % #daily_quests) + 1]
-        for index, quest in pairs(quests_to_modify) do
-                local data = awards.player(pl_name)
-                data.unlocked[quest] = nil
+        local data  = awards.player(pl_name)
+        for index, quests in pairs(daily_quests) do
+            if index ~= day then
+                for i, quest in pairs(quests) do
+                    if awards.registered_awards[quest].trigger.node then
+                        local data = awards.player(pl_name)
+                        data.unlocked[quest] = quest
 
-                if awards.registered_awards[quest].trigger.node then
-                    local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
-                    awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+                        local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                        awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+                        awards.save()
+                    end
                 end
-                awards.save()
             end
         end
+    end
+
+    if last_joined_day_quest ~= day then
+        local quests_to_modify = daily_quests[(day % #daily_quests) + 1]
+        for index, quest in pairs(quests_to_modify) do
+            local data = awards.player(pl_name)
+            data.unlocked[quest] = nil
+
+            if awards.registered_awards[quest].trigger.node then
+                local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
+            end
+            awards.save()
+        end
+    end
 
     storage:set_string("last_joined_day_quest|"..pl_name, tostring(day))
 
