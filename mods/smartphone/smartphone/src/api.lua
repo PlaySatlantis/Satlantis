@@ -11,6 +11,7 @@ smartphone.apps_ordered = {}  -- alphabetically ordered apps list ( {idx = def, 
 --[[
 	def: {
 		icon: string,
+		cmd_name: array,
 		name: string,
 		priv_to_visualize: string,
 		priv_to_open: string,

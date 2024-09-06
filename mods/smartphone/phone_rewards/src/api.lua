@@ -5,7 +5,7 @@ minetest.register_on_joinplayer(function(player, last_login)
 	local day = (phone_quests.days_since_date(phone_quests.start_day) % #weekly_quests) + 1
 	local week = math.floor(day / 7)
 
-	local last_joined_week_rewards_player = storage:get_int("last_joined_week_rewards")
+	local last_joined_week_rewards = storage:get_int("last_joined_week_rewards")
 
 	if last_joined_week_rewards ~= week then
 		phone_rewards.reset_levels()

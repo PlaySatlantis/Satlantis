@@ -5,6 +5,7 @@ wiki.fmspecs_cache = {} -- ["file.md"] = formspec
 local app_def = {
 	icon = "app_wiki.png",
 	name = "Wiki",
+	cmd_name = {"wiki",},
 	bg_color = "#7a9090",
 
 	get_height = function (self, player, page)

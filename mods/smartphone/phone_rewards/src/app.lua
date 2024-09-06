@@ -4,6 +4,7 @@ local function get_quest(y, quest, is_completed) end
 local app_def = {
 	icon = "app_rewards.png",
 	name = "Rewards",
+	cmd_name = {"rewards", "battlepass", "bp"},
 	bg_color = "#283c8c",
 
 	get_height = function (self, player)
