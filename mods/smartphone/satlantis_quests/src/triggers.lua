@@ -61,9 +61,7 @@ minetest.register_on_joinplayer(function(player, last_login)
     storage:set_string("last_joined_day_quest|"..pl_name, tostring(day))
 
     local week = math.floor(day / 7)
-    local last_joined_week_quest = storage:get_string("last_joined_week_quest|"..pl_name)
-
-    if last_joined_week_quest == week then return end
+    local last_joined_week_quest = tonumber(storage:get_string("last_joined_week_quest|"..pl_name))
 
     if last_joined_week_quest ~= week then
         local weekly_quests = phone_quests.weekly_quests
@@ -89,7 +87,7 @@ minetest.register_on_joinplayer(function(player, last_login)
         end
     end
 
-    storage:set_string("last_joined_week_quest|"..pl_name, week)
+    storage:set_string("last_joined_week_quest|"..pl_name, tostring(week))
 end)
 
 
