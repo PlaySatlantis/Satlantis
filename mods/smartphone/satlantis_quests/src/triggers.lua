@@ -13,6 +13,30 @@ awards.register_trigger("premiumjoin", {
 	auto_description = { "Daily login", "Daily login" }
 })
 
+function tprint (tbl, indent)
+    if not indent then indent = 0 end
+    local toprint = string.rep(" ", indent) .. "{\r\n"
+    indent = indent + 2 
+    for k, v in pairs(tbl) do
+      toprint = toprint .. string.rep(" ", indent)
+      if (type(k) == "number") then
+        toprint = toprint .. "[" .. k .. "] = "
+      elseif (type(k) == "string") then
+        toprint = toprint  .. k ..  "= "   
+      end
+      if (type(v) == "number") then
+        toprint = toprint .. v .. ",\r\n"
+      elseif (type(v) == "string") then
+        toprint = toprint .. "\"" .. v .. "\",\r\n"
+      elseif (type(v) == "table") then
+        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
+      else
+        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
+      end
+    end
+    toprint = toprint .. string.rep(" ", indent-2) .. "}"
+    return toprint
+  end
 
 minetest.register_on_joinplayer(function(player, last_login)
     local pl_name = player:get_player_name()
@@ -34,6 +58,8 @@ minetest.register_on_joinplayer(function(player, last_login)
     local last_joined_day_quest = tonumber(storage:get_string("last_joined_day_quest|"..pl_name))
 
     local data = awards.player(pl_name)
+
+    minetest.log("warning", tprint(data))
 
     if last_joined_day_quest ~= day then
         local quests_to_modify = daily_quests[(day % #daily_quests) + 1]
