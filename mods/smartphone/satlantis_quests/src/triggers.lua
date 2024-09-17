@@ -71,7 +71,7 @@ minetest.register_on_joinplayer(function(player, last_login)
             data.unlocked[quest] = nil
             
             if awards.registered_awards[quest].trigger.type == "fantasybrawl_kills" and data[awards.registered_awards[quest].trigger.type] ~= nil then
-                local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                local award_counter = awards.get_fantasy_brawl_kills(data) * -1
                 awards.notify_fantasybrawl_kills(player, "Fantasy Brawl", award_counter)
                 awards.save()
             elseif awards.registered_awards[quest].trigger.type == "arenalib_wins" and data[awards.registered_awards[quest].trigger.type] ~= nil then
