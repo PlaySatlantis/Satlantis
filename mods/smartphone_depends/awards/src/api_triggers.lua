@@ -219,6 +219,11 @@ function awards.get_fantasy_brawl_kills(data)
 	return data["fantasybrawl_kills"] or 0
 end
 
+function awards.increment_fantasy_brawl_kills(data, count)
+	return data["fantasybrawl_kills"] or 0
+	data["fantasybrawl_kills"] = (data["fantasybrawl_kills"] or 0) + (count or 1)
+end
+
 function awards.get_total_keyed_count(data, field)
 	return data[field].__total or 0
 end
