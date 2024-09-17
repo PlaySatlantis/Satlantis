@@ -21,6 +21,7 @@ awards.register_award("satlantis_quests:arena_kills_fantasybrawl", {
 	description = "Perform 30 kills in Fantasy Brawl",
 	trigger = {
 		type   = "fantasybrawl_kills",
+		game   = "Fantasy Brawl",
 		target = 21
 	},
 	points = 50,
