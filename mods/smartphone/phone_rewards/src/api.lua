@@ -2,8 +2,8 @@ local storage = minetest.get_mod_storage()
 
 minetest.register_on_joinplayer(function(player, last_login)
 	local weekly_quests = phone_quests.weekly_quests
-	local day = (phone_quests.days_since_date(phone_quests.start_day) % #weekly_quests) + 1
-	local week = math.floor(day / 7)
+	local day = (phone_quests.days_since_date(phone_quests.start_day)) + 1
+	local week = math.floor((day-1) / 7)
 
 	local last_joined_week_rewards = storage:get_int("last_joined_week_rewards")
 
