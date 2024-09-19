@@ -209,6 +209,7 @@ function awards.increment_item_counter(data, field, itemname, count)
 	itemname = minetest.registered_aliases[itemname] or itemname
 	if type(data[field]) == "number" then
 		data[field] = (data[field] or 0) + (count or 1)
+		return
 	end
 	data[field][itemname] = (data[field][itemname] or 0) + (count or 1)
 end
