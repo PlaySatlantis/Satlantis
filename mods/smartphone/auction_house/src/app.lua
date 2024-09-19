@@ -95,6 +95,7 @@ end
 local app_def = {
 	icon = "app_wiki.png",
 	name = "Auction House",
+	cmd_name = {"ah", "auctionhouse", "auction_house"},
 	bg_color = "#001a33",
 
 	auction_listings = nil,

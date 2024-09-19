@@ -4,6 +4,7 @@ local function get_collection(collect_name, index, txt, x, selected) end
 local app_def = {
 	icon = "app_skins.png",
 	name = "Skins",
+	cmd_name = {"skins",},
 	bg_color = "#3153b7",
 
 	get_content = function (self, player, page, collection_name, skin_name)

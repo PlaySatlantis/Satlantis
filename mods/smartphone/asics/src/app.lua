@@ -18,6 +18,7 @@ local group_count = 13
 local app_def = {
 	icon = "app_wiki.png",
 	name = "ASICs",
+	cmd_name = {"asics",},
 	bg_color = "#112554",
 
 	hibernate_status = {},

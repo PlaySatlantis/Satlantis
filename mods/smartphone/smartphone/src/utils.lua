@@ -7,3 +7,8 @@ end
 function smartphone.print(pl_name, msg)
 	minetest.chat_send_player(pl_name, msg)
 end
+
+
+keybinding.register_on_press("zoom", function(player)
+	smartphone.open_smartphone(player)
+end)

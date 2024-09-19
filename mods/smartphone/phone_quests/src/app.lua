@@ -4,6 +4,7 @@ local function days_since_date(date_table) end
 local app_def = {
 	icon = "app_quests.png",
 	name = "Quests",
+	cmd_name = {"quests",},
 	bg_color = "#4116a2",
 
 	get_height = function (self, player, page, type)

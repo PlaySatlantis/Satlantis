@@ -14,7 +14,6 @@ awards.register_trigger("premiumjoin", {
 })
 
 
-
 minetest.register_on_joinplayer(function(player, last_login)
     local pl_name = player:get_player_name()
     local last_joined_day = storage:get_string("last_joined_day|"..pl_name)
@@ -34,46 +33,62 @@ minetest.register_on_joinplayer(function(player, last_login)
     local day = phone_quests.days_since_date(phone_quests.start_day)
     local last_joined_day_quest = tonumber(storage:get_string("last_joined_day_quest|"..pl_name))
 
+    local data = awards.player(pl_name)
+
     if last_joined_day_quest ~= day then
         local quests_to_modify = daily_quests[(day % #daily_quests) + 1]
         for index, quest in pairs(quests_to_modify) do
-                local data = awards.player(pl_name)
-                data.unlocked[quest] = nil
-
-                if awards.registered_awards[quest].trigger.node then
+            data.unlocked[quest] = nil
+            
+            if awards.registered_awards[quest].trigger.type == "fantasybrawl_kills" and data[awards.registered_awards[quest].trigger.type] ~= nil then
+                local award_counter = awards.get_fantasy_brawl_kills(data) * -1
+                awards.increment_fantasy_brawl_kills(data, award_counter)
+                awards.save()
+            elseif awards.registered_awards[quest].trigger.type == "arenalib_wins" and data[awards.registered_awards[quest].trigger.type] ~= nil then
+                local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                awards.notify_arenalib_wins(player, "Fantasy Brawl", award_counter)
+                awards.save()
+            else
+                if data[awards.registered_awards[quest].trigger.type] ~= nil then
                     local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
                     awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
                 end
                 awards.save()
             end
         end
+    end
 
     storage:set_string("last_joined_day_quest|"..pl_name, tostring(day))
 
     local week = math.floor(day / 7)
-    local last_joined_week_quest = storage:get_string("last_joined_week_quest|"..pl_name)
+    local last_joined_week_quest = tonumber(storage:get_string("last_joined_week_quest|"..pl_name))
 
     if last_joined_week_quest ~= week then
         local weekly_quests = phone_quests.weekly_quests
         local quests_to_modify = weekly_quests[((week) % #weekly_quests) + 1]
-        minetest.log("warning", tostring(week))
         for index, quest in pairs(quests_to_modify) do
-                local data = awards.player(pl_name)
-                data.unlocked[quest] = nil
-
-                if awards.registered_awards[quest].trigger.node then
+            data.unlocked[quest] = nil
+            
+            if awards.registered_awards[quest].trigger.type == "fantasybrawl_kills" and data[awards.registered_awards[quest].trigger.type] ~= nil then
+                local award_counter = awards.get_fantasy_brawl_kills(data) * -1
+                awards.increment_fantasy_brawl_kills(data, award_counter)
+                awards.save()
+            elseif awards.registered_awards[quest].trigger.type == "arenalib_wins" and data[awards.registered_awards[quest].trigger.type] ~= nil then
+                local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
+                awards.notify_arenalib_wins(player, "Fantasy Brawl", award_counter)
+                awards.save()
+            else
+                if data[awards.registered_awards[quest].trigger.type] ~= nil then
                     local award_counter = awards.get_item_count(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node) * -1
                     awards.increment_item_counter(data, awards.registered_awards[quest].trigger.type, awards.registered_awards[quest].trigger.node, award_counter)
                 end
                 awards.save()
+            end
         end
     end
 
-    storage:set_string("last_joined_week_quest|"..pl_name, week)
+    storage:set_string("last_joined_week_quest|"..pl_name, tostring(week))
 end)
-
-
-
 
 
 
@@ -95,6 +110,9 @@ awards.register_trigger("fantasybrawl_kills", {
     progress         = "@1/@2 kills",
 	auto_description = { "Kill @2", "Kill @2 @1 times"},
 	auto_description_total = { "Kill one player", "Kill @1 players"},
+    get_key = function(self, def)
+		return def.trigger.game
+	end
 })
 
 
@@ -110,7 +128,7 @@ arena_lib.register_on_celebration(function(mod, arena, winners)
         local player = minetest.get_player_by_name(pl_name)
 
         for i = 1, pl_data.kills do
-            awards.notify_fantasybrawl_kills(player)
+            awards.notify_fantasybrawl_kills(player, "Fantasy Brawl")
         end
     end
 end)

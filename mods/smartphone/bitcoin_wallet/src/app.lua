@@ -1,6 +1,7 @@
 local app_def = {
 	icon = "app_wiki.png",
 	name = "Bitcoin Wallet",
+	cmd_name = {"wallet", "balance"},
 	bg_color = "#112554",
 
 	error_message = {},
