@@ -1,6 +1,6 @@
 local storage = minetest.get_mod_storage()
 local lobby_pos = minetest.string_to_pos(storage:get("lobby_pos") or "0,0,0")
-local skyblock, space = satlantis.skyblock, satlantis.space
+local skyblock, space = satlantis_skyblock.skyblock(), satlantis_space.space()
 
 
 local is_player_in_lobby = function(p_name)

@@ -1,7 +1,10 @@
-satlantis.skyblock = {}
-local skyblock = satlantis.skyblock
-
+satlantis_skyblock = {}
 local storage = minetest.get_mod_storage()
+
+local skyblock = {}
+function satlantis_skyblock.skyblock()
+    return skyblock
+end
 
 local CEL_SIZE = 256
 local CEL_PADDING = 256
