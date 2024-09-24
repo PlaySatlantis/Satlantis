@@ -1,11 +1,3 @@
-satlantis_space = {}
-
-local space = {}
-function satlantis_space.space()
-    return space
-end
-
-
 local SPACE_Y = 20000
 
 local SPACE_SKY = {
@@ -72,6 +64,8 @@ local function set_player_location_default(player)
     player:override_day_night_ratio()
 end
 
+satlantis.space = {}
+local space = satlantis.space
 space.in_space = {}
 
 function space.set_player_space(name, in_space)
