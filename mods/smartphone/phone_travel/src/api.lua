@@ -135,8 +135,10 @@ minetest.register_on_joinplayer(function(player, last_login)
 end)
 
 minetest.register_chatcommand("add", {func = function(name, param)
-	if minetest.get_player_by_name == nil then
+	local json = storage:get_string("destinations|"..param)
+	if json == "" or json == nil or json == "null" then
 		minetest.chat_send_player(name, "The name you provided is not valid or does not exist!")
+		return
 	end
 	phone_travel.add_destination(param, "external_island", name, "This is the island of "..name.."!")
 	minetest.chat_send_player(name, "Added "..param.." to your island!")
