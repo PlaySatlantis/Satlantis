@@ -83,7 +83,7 @@ function phone_travel.go_to(pl_name, island_type, island_name)
 	elseif island_type == "personal_island" then
 		minetest.registered_chatcommands["home"].func(pl_name, "")
 	else
-		local skyblock = satlantis.skyblock()
+		local skyblock = satlantis.skyblock
 		local destinations = phone_travel.get_destinations(pl_name)
 		local i = index_destination(destinations, island_name)
 		local pos = phone_travel.get_destinations(pl_name)[i]
@@ -103,7 +103,7 @@ function phone_travel.is_pos_allowed(pl)
 
 	table.insert(checklist, pl:get_player_name())
 
-	local skyblock = satlantis.skyblock()
+	local skyblock = satlantis.skyblock
 
 	for i, player in pairs(checklist) do
 		local cel = skyblock.get_player_cel(player)
