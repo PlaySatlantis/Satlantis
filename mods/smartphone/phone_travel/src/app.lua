@@ -60,26 +60,26 @@ local app_def = {
 			local icon
 			local name
 			local desc
-			local button
 			
 			icon = "image[0,0.32;1.8,1.8;app_travel.png^[mask:phone_app_mask.png]"
-			name = "hypertext[2,0.1;5.3,1;pname_txt;<global size=20 valign=middle><b>"..i.."</b>]"
-			desc = "hypertext[2,0.85;3.2,1.1;pname_txt;<global size=14><style color=#cfc6b8><i>"..i.." has access to your island!</i>]"
-			button = ("image_button_exit[4.2,1.25;1.5,1.2;phone_button_yellow.png;remove_access_"..i.."_btn;Remove]")
+			name = "hypertext[2,0.1;5.3,1;pname_txt;<global size=20 valign=middle><b>Instruction</b>]"
+			desc = "hypertext[2,0.85;6,1.7;pname_txt;<global size=14><style color=#cfc6b8><i>You can invite players to your island with "..
+			"/add (username) or /invite (username). Make sure to trust the people you invite, because they will have access to everything "..
+			"on your island!</i>]"
 
-			local invite_instruction = [[
+			local invite_instruction = ([[
 				container[0.5,%f] ]] ..
 				box ..
-				icon .. name .. desc .. button .. [[
+				icon .. name .. desc .. [[
 				container_end[]
-			]]:format(y)
+				]]):format(y)
 
 			return [[
 			container[0.5,0]
 			image_button[0,0;3.3,1.2;phone_button_blue2.png;destinations_btn;Destinations]
 			image_button[4.2,0;3.3,1.2;phone_button_yellow.png;manage_btn;Manage Island]
-			container_end[] ]] .. invite_instruction ..
-			invite_elements
+			container_end[] ]] .. invite_elements ..
+			invite_instruction
 		end
 	end
 }
@@ -125,7 +125,7 @@ function get_invite(y, invite, show_box)
 	icon = "image[0,0.32;1.8,1.8;app_travel.png^[mask:phone_app_mask.png]"
 	name = "hypertext[2,0.1;5.3,1;pname_txt;<global size=20 valign=middle><b>"..i.."</b>]"
 	desc = "hypertext[2,0.85;3.2,1.1;pname_txt;<global size=14><style color=#cfc6b8><i>"..i.." has access to your island!</i>]"
-	button = ("image_button_exit[4.2,1.25;1.5,1.2;phone_button_yellow.png;remove_access_"..i.."_btn;Remove]")
+	button = ("image_button_exit[5,1.1;2.5,1.2;phone_button_yellow.png;remove_access_"..i.."_btn;Remove]")
 
 	return ([[
 		container[0.5,%f] ]] ..
