@@ -151,6 +151,12 @@ minetest.register_chatcommand("trust", {func = function(name, param)
 	end
 
 	phone_travel.add_destination(param, "external_island", name, "This is the island of "..name.."!")
+
+	if minetest.get_player_by_name(param) then
+		minetest.chat_send_player(param, "Island Invite: "..name.." invited you to your island! You can teleport to their island with the "..
+	"Travel app on your smartphone!")
+	end
+
 	minetest.chat_send_player(name, "Added "..param.." to your island!")
 	end,
 	description = "Add an player to your personal island!",
