@@ -97,7 +97,7 @@ function phone_travel.is_pos_allowed(pl)
 	if has then
 		return true
 	end
-	
+
 	local checklist = {}
 
     local destinations = phone_travel.get_destinations(pl:get_player_name())
@@ -173,6 +173,14 @@ minetest.register_privilege("travel_mod", {
 })
 
 minetest.register_chatcommand("reset_travel", {func = function(name, param)
+	local json = storage:get_string("destinations|"..param)
+	local pl_name = param
+
+	if json == "" or json == nil or json == "null" then
+		minetest.chat_send_player(pl_name, "The name you provided is not valid or does not exist!")
+		return
+	end
+
 	storage:set_string("destinations|"..param, "")
 
 	phone_travel.add_destination(pl_name, "lobby", "Lobby", "The lobby!")
