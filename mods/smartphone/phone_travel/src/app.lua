@@ -64,7 +64,7 @@ local app_def = {
 			icon = "image[0,0.32;1.8,1.8;app_travel.png^[mask:phone_app_mask.png]"
 			name = "hypertext[2,0.1;5.3,1;pname_txt;<global size=20 valign=middle><b>Instructions</b>]"
 			desc = "hypertext[2,0.85;6,1.7;pname_txt;<global size=14><style color=#cfc6b8><i>You can invite players to your island with "..
-			"/add (username) or /invite (username). Make sure to trust the people you invite, because they will have access to everything "..
+			"/trust (username). Make sure to trust the people you invite, because they will have access to everything "..
 			"on your island!</i>]"
 
 			local invite_instruction = ([[

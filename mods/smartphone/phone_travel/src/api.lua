@@ -135,7 +135,7 @@ minetest.register_on_joinplayer(function(player, last_login)
 	end
 end)
 
-minetest.register_chatcommand("add", {func = function(name, param)
+minetest.register_chatcommand("trust", {func = function(name, param)
 	local json = storage:get_string("destinations|"..param)
 	if json == "" or json == nil or json == "null" then
 		minetest.chat_send_player(name, "The name you provided is not valid or does not exist!")
@@ -155,5 +155,3 @@ minetest.register_chatcommand("add", {func = function(name, param)
 	end,
 	description = "Add an player to your personal island!",
 })
-
-minetest.registered_chatcommands["invite"] = minetest.registered_chatcommands["add"]
