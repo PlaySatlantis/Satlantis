@@ -42,7 +42,7 @@ function phone_travel.add_destination(pl_name, island_type, island_name, descrip
 
 	storage:set_string("destinations|"..pl_name, minetest.write_json(destinations))
 
-	local invites = phone_travel.get_invites(pl_name)
+	local invites = phone_travel.get_invites(island_name)
 	table.insert(invites, pl_name)
 	storage:set_string("invites|"..island_name, minetest.write_json(invites))
 end
@@ -67,10 +67,10 @@ end
 
 function phone_travel.remove_access(pl_name, island_name)
 	local destinations = phone_travel.get_destinations(pl_name)
-	table.remove(destinations, index(destinations, island_name))
+	table.remove(destinations, index_destination(destinations, island_name))
 	storage:set_string("destinations|"..pl_name, minetest.write_json(destinations))
 
-	local invites = phone_travel.get_invites(pl_name)
+	local invites = phone_travel.get_invites(island_name)
 	table.remove(invites, index(invites, pl_name))
 	storage:set_string("invites|"..island_name, minetest.write_json(invites))
 end
@@ -86,8 +86,8 @@ function phone_travel.go_to(pl_name, island_type, island_name)
 		local skyblock = satlantis.skyblock
 		local destinations = phone_travel.get_destinations(pl_name)
 		local i = index_destination(destinations, island_name)
-		local pos = phone_travel.get_destinations(pl_name)[i]
-		skyblock.enter_cel(pl_name, pos.pos)
+		local island = phone_travel.get_destinations(pl_name)[i]
+		skyblock.enter_cel(pl_name, island.pos)
 	end
 end
 
@@ -153,8 +153,7 @@ minetest.register_chatcommand("trust", {func = function(name, param)
 	phone_travel.add_destination(param, "external_island", name, "This is the island of "..name.."!")
 
 	if minetest.get_player_by_name(param) then
-		minetest.chat_send_player(param, "Island Invite: "..name.." invited you to your island! You can teleport to their island with the "..
-	"Travel app on your smartphone!")
+		minetest.chat_send_player(param, "Invite Received: "..name.." invited you to their Orbiter! Open the Travel app to accept and visit their Orbiter.")
 	end
 
 	minetest.chat_send_player(name, "Added "..param.." to your island!")
