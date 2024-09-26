@@ -92,6 +92,12 @@ function phone_travel.go_to(pl_name, island_type, island_name)
 end
 
 function phone_travel.is_pos_allowed(pl)
+	local has, missing = minetest.check_player_privs(name, {travel_mod = true })
+	
+	if has then
+		return true
+	end
+	
 	local checklist = {}
 
     local destinations = phone_travel.get_destinations(pl:get_player_name())
@@ -159,4 +165,22 @@ minetest.register_chatcommand("trust", {func = function(name, param)
 	minetest.chat_send_player(name, "Added "..param.." to your island!")
 	end,
 	description = "Add an player to your personal island!",
+})
+
+minetest.register_privilege("travel_mod", {
+    description = "Can bypass security features and reset the travel app",
+    give_to_singleplayer = false
+})
+
+minetest.register_chatcommand("reset_travel", {func = function(name, param)
+	storage:set_string("destinations|"..param, "")
+
+	phone_travel.add_destination(pl_name, "lobby", "Lobby", "The lobby!")
+	phone_travel.add_destination(pl_name, "overworld", "Overworld", "The overworld where you can get resources!")
+	phone_travel.add_destination(pl_name, "personal_island", "Orbiter", "Your personal island!")
+
+	end,
+	privs = {
+        travel_mod = true,
+    },
 })
