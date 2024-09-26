@@ -131,6 +131,7 @@ minetest.register_on_joinplayer(function(player, last_login)
 		phone_travel.add_destination(pl_name, "lobby", "Lobby", "The lobby!")
 		phone_travel.add_destination(pl_name, "overworld", "Overworld", "The overworld where you can get resources!")
 		phone_travel.add_destination(pl_name, "personal_island", "Orbiter", "Your personal island!")
+		storage:set_int("warning_message|"..pl_name, 0)
 	end
 end)
 
@@ -140,6 +141,15 @@ minetest.register_chatcommand("add", {func = function(name, param)
 		minetest.chat_send_player(name, "The name you provided is not valid or does not exist!")
 		return
 	end
+	local has_recieved_message = storage:get_int("warning_message|"..name)
+	if has_recieved_message == 0 then
+		minetest.chat_send_player(name, "WARNING: inviting players to your island means they will have access to EVERYTHING on your island! "..
+	"Make sure that you trust the players you're inviting. If you are sure you want to invite players, run this command again. "..
+	"(This message only gets shown once)")
+	storage:set_int("warning_message|"..name, 1)
+		return
+	end
+
 	phone_travel.add_destination(param, "external_island", name, "This is the island of "..name.."!")
 	minetest.chat_send_player(name, "Added "..param.." to your island!")
 	end,
