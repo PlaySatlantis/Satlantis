@@ -39,7 +39,7 @@ local app_def = {
 			return [[
 			container[0.5,0]
 			image_button[0,0;3.3,1.2;phone_button_blue2.png;destinations_btn;Destinations]
-			image_button[4.2,0;3.3,1.2;phone_button_yellow.png;manage_btn;Manage Island]
+			image_button[4.2,0;3.3,1.2;phone_button_yellow.png;manage_btn;Manage Orbiter]
 			container_end[] ]] ..
 			destination_elements
 		else
@@ -77,7 +77,7 @@ local app_def = {
 			return [[
 			container[0.5,0]
 			image_button[0,0;3.3,1.2;phone_button_blue2.png;destinations_btn;Destinations]
-			image_button[4.2,0;3.3,1.2;phone_button_yellow.png;manage_btn;Manage Island]
+			image_button[4.2,0;3.3,1.2;phone_button_yellow.png;manage_btn;Manage Orbiter]
 			container_end[] ]] .. invite_elements ..
 			invite_instruction
 		end

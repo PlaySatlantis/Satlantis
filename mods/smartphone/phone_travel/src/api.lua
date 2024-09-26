@@ -92,9 +92,7 @@ function phone_travel.go_to(pl_name, island_type, island_name)
 end
 
 function phone_travel.is_pos_allowed(pl)
-	local has, missing = minetest.check_player_privs(pl, {travel_mod = true })
-	
-	if has then
+	if minetest.check_player_privs(pl, {travel_bypass=true}) then
 		return true
 	end
 
@@ -167,7 +165,7 @@ minetest.register_chatcommand("trust", {func = function(name, param)
 	description = "Add an player to your personal island!",
 })
 
-minetest.register_privilege("travel_mod", {
+minetest.register_privilege("travel_bypass", {
     description = "Can bypass security features and reset the travel app",
     give_to_singleplayer = false
 })
@@ -189,6 +187,6 @@ minetest.register_chatcommand("reset_travel", {func = function(name, param)
 
 	end,
 	privs = {
-        travel_mod = true,
+        travel_bypass = true,
     },
 })
