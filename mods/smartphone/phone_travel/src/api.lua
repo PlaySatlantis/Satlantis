@@ -31,6 +31,10 @@ function phone_travel.add_destination(pl_name, island_type, island_name, descrip
 	local pos
 	if player ~= nil then
 		local skyblock = satlantis.skyblock
+		if not skyblock.get_player_cel(pl_name) then
+			minetest.chat_send_player(pl_name, "Could not find an orbiter that belongs to you! Please enter your orbiter first and try again!")
+			return
+		end
 		pos = skyblock.get_home(player)
 	end
 
