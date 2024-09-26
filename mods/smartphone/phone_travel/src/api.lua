@@ -92,7 +92,7 @@ function phone_travel.go_to(pl_name, island_type, island_name)
 end
 
 function phone_travel.is_pos_allowed(pl)
-	local has, missing = minetest.check_player_privs(name, {travel_mod = true })
+	local has, missing = minetest.check_player_privs(pl, {travel_mod = true })
 	
 	if has then
 		return true
