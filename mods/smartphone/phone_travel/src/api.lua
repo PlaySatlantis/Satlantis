@@ -31,10 +31,6 @@ function phone_travel.add_destination(pl_name, island_type, island_name, descrip
 	local pos
 	if player ~= nil then
 		local skyblock = satlantis.skyblock
-		if not skyblock.get_player_cel(pl_name) then
-			minetest.chat_send_player(pl_name, "Could not find an orbiter that belongs to you! Please enter your orbiter first and try again!")
-			return
-		end
 		pos = skyblock.get_home(player)
 	end
 
@@ -144,11 +140,19 @@ minetest.register_on_joinplayer(function(player, last_login)
 end)
 
 minetest.register_chatcommand("trust", {func = function(name, param)
+	-- Check if username exists
 	local json = storage:get_string("destinations|"..param)
 	if json == "" or json == nil or json == "null" then
 		minetest.chat_send_player(name, "The name you provided is not valid or does not exist!")
 		return
 	end
+	-- Check if skyblock exists for player
+	local skyblock = satlantis.skyblock
+	if skyblock.get_player_cel(name) == nil then
+		minetest.chat_send_player(name, "You do not own an Orbiter yet! Join your Orbiter at least once to invite people to it.")
+		return
+	end
+
 	local has_recieved_message = storage:get_int("warning_message|"..name)
 	if has_recieved_message == 0 then
 		minetest.chat_send_player(name, "WARNING: inviting players to your island means they will have access to EVERYTHING on your island! "..
