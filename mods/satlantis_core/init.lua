@@ -2,13 +2,18 @@ satlantis = {}
 
 local ie = minetest.request_insecure_environment()
 
-if not ie or not ie.require then
+if not ie or not ie.dofile then
     core.log("error", "satlantis_core hasn't been given access to insecure environment. "
                    .. "Please add it to `secure.trusted_mods` in minetest.conf")
     return
 end
 
 local MODPATH = minetest.get_modpath(minetest.get_current_modname())
+
+local math = ie.require("math")
+ie.require("libtotp")
+
+local qrencode = ie.dofile(MODPATH .. "/qrencode.lua")
 
 local config_file = io.open(MODPATH .. "/config.json", "r")
 local config = minetest.parse_json(config_file:read("*a"))
@@ -68,6 +73,8 @@ local filename = function(str)
 	return str
 end
 
+math.randomseed(os.time())
+
 local user_cache = {}
 
 function satlantis.cache_entry_for_user(player_name)
@@ -82,6 +89,93 @@ function satlantis.cache_invalidate_field_for_user(player_name, field_name)
         user_cache[player_name] = {}
     end
     user_cache[player_name][field_name] = nil
+end
+
+local user_2fa_keys = {}
+
+function satlantis.qrcode_from_base32(str)
+    local ok, tab_or_message = qrencode.qrcode(str:upper())
+    if not ok then
+        return ok, tab_or_message
+    end
+
+    local padding = 4
+    local width = #tab_or_message + (padding * 2)
+    local data = {}
+
+    -- Top border
+    for _ = 1, width * padding do
+        table.insert(data, 0xFFFFFFFF)
+    end
+
+    for _, col in ipairs(tab_or_message) do
+        for _ = 1, padding do
+            table.insert(data, 0xFFFFFFFF) -- Left border
+        end
+
+        for _, row in ipairs(col) do
+            table.insert(data, row < 0 and 0xFFFFFFFF or 0xFF000000)
+        end
+
+        for _ = 1, padding do
+            table.insert(data, 0xFFFFFFFF) -- Right border
+        end
+    end
+
+    -- Bottom border
+    for _ = 1, width * padding do
+        table.insert(data, 0xFFFFFFFF)
+    end
+
+    local png = minetest.encode_png(width, width, data)
+    return ok, minetest.encode_base64(png)
+end
+
+function satlantis.create_2fa_auth_key(player_name)
+    --
+    -- Generate secret key for user
+    --
+    user_2fa_keys[player_name] = ""
+    for i = 1, 16 do
+        user_2fa_keys[player_name] = user_2fa_keys[player_name] .. string.char(math.random(65, 90))
+    end
+
+    return user_2fa_keys[player_name]
+end
+
+function satlantis.gen_otp_code(player_name, time_value)
+    local user_secret_key = user_2fa_keys[player_name]
+    if user_secret_key then
+        local totp_code = libtotp.gen_totp_code(tostring(user_secret_key));
+        if totp_code then
+            return totp_code
+        else
+            core.log("Failed to generate TOTP code")
+            return nil
+        end
+    else
+        return nil
+    end
+end
+
+function satlantis.check_otp_code(player_name, otp_code)
+    local user_secret_key = user_2fa_keys[player_name]
+    if user_secret_key then
+        local totp_code = libtotp.gen_totp_code(tostring(user_secret_key));
+        if totp_code then
+            if totp_code == otp_code then
+                return true
+            end
+        else
+            core.log("Failed to generate TOTP code")
+        end
+    else
+        return false
+    end
+end
+
+function satlantis.player_has_2fa_enabled(player_name)
+    return user_2fa_keys[player_name] ~= nil
 end
 
 --
