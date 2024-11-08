@@ -208,7 +208,7 @@ skyblock.handle_bounds = function(player)
     local min = cel.bounds.min - vector.new(1, 1.5, 1)
     local max = cel.bounds.max + vector.new(1, -0.5, 1)
 
-    if not skyblock.pos_in_bounds(player:get_pos(), min, max) then
+    if not phone_travel.is_pos_allowed(player) then
         player:set_pos(skyblock.get_home(player))
     end
 end
