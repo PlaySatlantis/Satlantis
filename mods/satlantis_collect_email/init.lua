@@ -27,7 +27,7 @@ function satlantis_collect_email.get_formspec(error_msg)
         "field[0.375,2;5.25,0.8;email1;E-mail:;]",
         "field[0.375,3.5;5.25,0.8;email2;Enter your e-mail again:;]",
 
-        "button[1.5,5;3,0.8;save;Save]"
+        "button_exit[1.5,5;3,0.8;save;Save]"
     }
 
     if error_msg then
@@ -41,12 +41,18 @@ function satlantis_collect_email.show_collect_email_form(p_name)
     core.show_formspec(p_name, form_name, satlantis_collect_email.get_formspec())
 end
 
-function satlantis_collect_email.get_player_email(player)
-    return storage:get_string("email")
+function satlantis_collect_email.get_player_email(p_name)
+    return storage:get_string(p_name)
 end
 
 function satlantis_collect_email.set_player_email(p_name, email)
-    storage:set_string("email", p_name)
+    storage:set_string(email, p_name)
+    storage:set_string(p_name, email)
+end
+
+function satlantis_collect_email.is_taken_by_another_user(p_name, email)
+  local usr = storage:get_string(email)
+  return usr ~= "" and usr ~= p_name
 end
 
 local function validate_email(str)
@@ -111,7 +117,7 @@ end
 
 core.register_on_joinplayer(function(player)
 	local p_name = player:get_player_name()
-    local email = satlantis_collect_email.get_player_email(player)
+  local email = satlantis_collect_email.get_player_email(p_name)
 
 	if email == "" then
 		core.after(1, function()
@@ -126,17 +132,23 @@ core.register_on_player_receive_fields(function(player, formname, fields)
     end
 
     local p_name = player:get_player_name()
+    local email = fields.email1
 
-    if not validate_email(fields.email1) then
+    if not validate_email(email) then
         core.show_formspec(p_name, form_name, satlantis_collect_email.get_formspec("Invalid email address"))
         return true
     end
 
-    if fields.email1 ~= fields.email2 then
+    if email ~= fields.email2 then
         core.show_formspec(p_name, form_name, satlantis_collect_email.get_formspec("Please check if both fields match"))
         return true
     end
 
-    satlantis_collect_email.set_player_email(player, fields.email1)
+    if satlantis_collect_email.is_taken_by_another_user(email) then
+      core.show_formspec(p_name, form_name, satlantis_collect_email.get_formspec("This e-mail address is already in use"))
+      return true
+    end
+
+    satlantis_collect_email.set_player_email(p_name, fields.email1)
     return true
 end)
