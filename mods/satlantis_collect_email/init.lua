@@ -2,8 +2,6 @@ satlantis_collect_email = {}
 
 local storage = core.get_mod_storage()
 
-local register_url = "https://satlantis.net/register"
-
 local get_email_form_name = "satlantis_collect_email:get_email_form"
 local confirmation_form_name = "satlantis_collect_email:confirmation_form"
 
@@ -40,16 +38,14 @@ function satlantis_collect_email.get_email_formspec(error_msg)
   end
 end
 
-function satlantis_collect_email.get_confirmation_formspec()
-  local instructions = "You must now register using the same e-mail at our website.\nClick the 'Register' button below to be redirected."
+function satlantis_collect_email.get_confirmation_formspec(email)
+  local instructions = "The e-mail " .. email .. " has been associated with your account."
 
   local formspec = {
     "formspec_version[4]",
-    "size[7.650,3]",
-
+    "size[8,3]",
     "label[0.375,0.5;", core.formspec_escape(instructions), "]",
-    "button_exit[0.675,1.8;2.875,0.8;cancel;Cancel]",
-    "button_url[4.1,1.8;2.875,0.8;register;Register;", core.formspec_escape(register_url), "]"
+    "button_exit[2.5,1.5;3,0.8;ok;OK]",
   }
   return table.concat(formspec, "")
 end
@@ -58,8 +54,8 @@ function satlantis_collect_email.show_collect_email_form(p_name, error_msg)
   core.show_formspec(p_name, get_email_form_name, satlantis_collect_email.get_email_formspec(error_msg))
 end
 
-function satlantis_collect_email.show_confirmation_form(p_name)
-  core.show_formspec(p_name, confirmation_form_name, satlantis_collect_email.get_confirmation_formspec())
+function satlantis_collect_email.show_confirmation_form(p_name, email)
+  core.show_formspec(p_name, confirmation_form_name, satlantis_collect_email.get_confirmation_formspec(email))
 end
 
 function satlantis_collect_email.get_player_email(p_name)
@@ -155,8 +151,8 @@ function satlantis_collect_email.handle_email_form(player, fields)
     return true
   end
 
-  satlantis_collect_email.set_player_email(p_name, fields.email1)
-  satlantis_collect_email.show_confirmation_form(p_name)
+  satlantis_collect_email.set_player_email(p_name, email)
+  satlantis_collect_email.show_confirmation_form(p_name, email)
   return true
 end
 
